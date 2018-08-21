@@ -9,18 +9,13 @@ No code examples yet.
 ## Motivation
 
 The purpose of this project is to explore the potential of blockchain technology in the area of public and private messaging through the development of a blockchain forum application involving:
-    * The implementation of a blockchain suited for decentralized management and distribution of forum transactions. 
-    * A serverless design to capitalise on the privacy afforded by a decentralised blockchain.
-    * A cohesive and streamlined interface for interacting with the forum.
-
+* The implementation of a blockchain suited for decentralized management and distribution of forum transactions. 
+* A serverless design to capitalise on the privacy afforded by a decentralised blockchain.
+* A cohesive and streamlined interface for interacting with the forum.
 
 ## Installation
 
 No installation guides yet.
-
-## API Reference
-
-Depending on the size of the project, if it is small and simple enough the reference docs can be added to the README. For medium size to larger projects it is important to at least provide a link to where the API reference docs live.
 
 ## Tests
 
