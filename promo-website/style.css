@@ -1,0 +1,92 @@
+* {
+  font-family: 'Do Hyeon', sans-serif;
+}
+
+body {
+  background-color : white;
+  margin : 0;
+  padding : 0;
+  font-family: 'Do Hyeon', sans-serif;
+  background-image : url("img/circles-light.png");
+}
+
+.header > h1 {
+  margin-bottom : 15px;
+  margin-top : 15px;
+}
+
+.title {
+  font-size : 250%;
+}
+
+.pitchblock-header > h2 {
+  margin : 0;
+  padding : 5px;
+}
+
+.pitchblock-body > p {
+  margin : 0;
+  padding : 5px;
+}
+
+.header {
+  background-color : black;
+  color : white;
+  padding : 20px;
+  height : auto;
+  display : flex;
+  align-items : center;
+  justify-content : space-between;
+}
+
+.header-nav {
+  display : flex;
+}
+
+.header-nav > div {
+  padding : 10px;
+}
+
+.header-nav a {
+  color : white;
+}
+
+.content {
+  padding : 20px;
+  height : auto;
+}
+
+.centre {
+  width : 80%;
+  margin : auto;
+}
+.pitchblockcontainer {
+  display : flex;
+  flex-direction : row;
+  flex-wrap : wrap;
+}
+
+.pitchblock {
+  border-color : black;
+  border-style : solid;
+  background-color : black;
+  margin : 20px;
+  width : 25%;
+}
+
+.pitchblock-header {
+  background-color : white;
+  color : black;
+  margin : 0;
+}
+
+.pitchblock-body {
+  background-color : black;
+  color : white;
+  height : auto;
+}
+
+footer {
+  position : absolute;
+  bottom : 0;
+}
