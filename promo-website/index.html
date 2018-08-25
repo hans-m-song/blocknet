@@ -2,7 +2,10 @@
 <html>
 <head>
     <link href="https://fonts.googleapis.com/css?family=Do+Hyeon" rel="stylesheet"> 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="css/style.css">
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/script.js" async></script>
     <title>Message Blocks</title>
 </head>
 <body>
@@ -19,38 +22,94 @@
     </div>
     <!--Will try to do some fancy scrolling, and adding 'links' to make a chain, etc with this stuff-->
     <div class="content centre">
-        <div class="pitchblockcontainer">
-            <div class="pitchblock">
-                <div class="pitchblock-header">
-                    <h2>True peer to peer online messaging</h2>
+        <div class="pitch-container">
+            <h2>Why Message Blocks?</h2>
+            <div class="pitch-panels">
+                <div id="pitch-scroll-left" class="pitch-scroll-button">
+                    <i class="material-icons scroll-icon">chevron_left</i>
                 </div>
-                <div class="pitchblock-body">
-                    <p>Imagine being able to talk <strong>directly</strong> to your friends online without a middle man</p>
-                    <p>> Message blocks offers decentralised messaging through the blockchain</p>
+                <div class="pitch-scroller">
+                    <div class="pitchblockcontainer">
+                        <div class="pitchblock">
+                            <div class="pitch-content">
+                                <div class="pitchblock-header">
+                                    <h2>True peer to peer online messaging</h2>
+                                </div>
+                                <div class="pitchblock-body">
+                                    <p>Imagine being able to talk <strong>directly</strong> to your friends online without a middle man</p>
+                                    <p>> Message blocks offers decentralised p2p messaging through the blockchain</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="block-arrow">
+                            <img src="img/right_arrow.png" height="32px" width="80px">
+                        </div>
+                        <div class="pitchblock">
+                            <div class="pitchblock-header">
+                                <h2>Shared rooms for group conversations</h2>
+                            </div>
+                            <div class="pitchblock-body">
+                                <p>Chat with a bunch of your friends together in private rooms where only those invited can participate</p>
+                                <p>> Like Discord (but it's cooler on blockchain)</p>
+                            </div>
+                        </div>
+                        <div class="block-arrow">
+                                <img src="img/right_arrow.png" height="32px" width="80px">
+                        </div>
+                        <div class="pitchblock">
+                            <div class="pitchblock-header">
+                                <h2>True peer to peer online messaging</h2>
+                            </div>
+                            <div class="pitchblock-body">
+                                <p>Imagine being able to talk <strong>directly</strong> to your friends online without a middle man</p>
+                                <p>> Message blocks offers decentralised messaging through the blockchain</p>
+                            </div>
+                        </div>
+                        <div class="block-arrow">
+                                <img src="img/right_arrow.png" height="32px" width="80px">
+                        </div>
+                        <div class="pitchblock">
+                            <div class="pitchblock-header">
+                                <h2>Shared rooms for group conversations</h2>
+                            </div>
+                            <div class="pitchblock-body">
+                                <p>Chat with a bunch of your friends together in private rooms where only those invited can participate</p>
+                                <p>> Like Discord (but it's cooler on blockchain)</p>
+                            </div>
+                        </div>
+                        <div class="block-arrow">
+                                <img src="img/right_arrow.png" height="32px" width="80px">
+                        </div>
+                        <div class="pitchblock">
+                            <div class="pitchblock-header">
+                                <h2>True peer to peer online messaging</h2>
+                            </div>
+                            <div class="pitchblock-body">
+                                <p>Imagine being able to talk <strong>directly</strong> to your friends online without a middle man</p>
+                                <p>> Message blocks offers decentralised messaging through the blockchain</p>
+                            </div>
+                        </div>
+                        <div class="block-arrow">
+                                <img src="img/right_arrow.png" height="32px" width="80px">
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="pitchblock">
-                <div class="pitchblock-header">
-                    <h2>Shared rooms for group conversations</h2>
-                </div>
-                <div class="pitchblock-body">
-                    <p>Chat with a bunch of your friends together in private rooms where only those invited can participate</p>
-                    <p>> Like Discord (but it's cooler on blockchain)</p>
-                </div>
-            </div>
-            <div class="pitchblock">
-                <div class="pitchblock-header">
-                    <h2>True peer to peer online messaging</h2>
-                </div>
-                <div class="pitchblock-body">
-                    <p>Imagine being able to talk <strong>directly</strong> to your friends online without a middle man</p>
-                    <p>> Message blocks offers decentralised messaging through the blockchain</p>
+                <div id="pitch-scroll-right" class="pitch-scroll-button">
+                    <i class="material-icons scroll-icon">chevron_right</i>
                 </div>
             </div>
         </div>
+        <div class="mvp-video">
+            <h2>Demonstration</h2>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/wClNhFjZcjg" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+        <div class="express-interest">
+            <h2>Express Your Interest</h2>
+            Could have a fun 'add your name to the block of interested users' - a form for interested people to fill in their details and we show a scrollable 'blockchain' of all the people who have put their name down as interested. That's interactive.
+        </div>
     </div>
     <footer class="centre">
-        </p>8 Hearts 1 Beat 2018 | <a href="https://github.com/">Github</a></p>
+        <p>8 Hearts 1 Beat, 2018 | <a href="https://github.com/">Github</a></p>
     </footer>
 </body>
 </html>

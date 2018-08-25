@@ -7,7 +7,7 @@ body {
   margin : 0;
   padding : 0;
   font-family: 'Do Hyeon', sans-serif;
-  background-image : url("img/circles-light.png");
+  background-image : url("../img/circles-light.png");
 }
 
 .header > h1 {
@@ -60,33 +60,79 @@ body {
   width : 80%;
   margin : auto;
 }
+
+.pitch-panels {
+  display : flex;
+  align-items : center;
+}
+
+.pitch-panels > button {
+  padding : 10px;
+  margin-left : 10px;
+  margin-right : 10px;
+}
+
+#pitch-scroll-left {
+  margin-right : 5px;
+}
+
+#pitch-scroll-right {
+  margin-left : 5px;
+}
+
+.pitch-scroll-button {
+  padding : 5px;
+}
+
+.pitch-scroll-button:hover {
+  cursor : pointer;
+  background-color : black;
+  color : white;
+}
+
+.scroll-icon {
+  font-size : 300%;
+}
+
+.pitch-scroller {
+  overflow-x : hidden;
+  overflow-y : auto;
+  height : 300px; 
+}
+
 .pitchblockcontainer {
   display : flex;
   flex-direction : row;
-  flex-wrap : wrap;
+  flex-basis : 50%;
+  flex-grow : 0;
 }
 
 .pitchblock {
   border-color : black;
   border-style : solid;
   background-color : black;
-  margin : 20px;
-  width : 25%;
+  margin-top : 20px;
+  margin-bottom : 20px;
+  width : 250px;
 }
 
 .pitchblock-header {
   background-color : white;
   color : black;
   margin : 0;
+  width : 250px;
 }
 
 .pitchblock-body {
   background-color : black;
   color : white;
-  height : auto;
+  width : 250px;
+}
+
+.block-arrow {
+  align-self : center;
 }
 
 footer {
-  position : absolute;
-  bottom : 0;
+  
 }
