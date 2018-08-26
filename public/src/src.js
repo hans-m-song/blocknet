@@ -1,0 +1,1 @@
+const bootstrap = require('bootstrap');

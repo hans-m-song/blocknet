@@ -1,0 +1,19 @@
+{
+  "name": "deco3801-8hearts1beat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://source.eait.uq.edu.au/git/deco3801-8hearts1beat"
+  },
+  "keywords": [
+    "blockchain"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {}
+}
