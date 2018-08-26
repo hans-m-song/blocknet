@@ -1,3 +1,7 @@
+#compiled js
+src/compiled/*
+src/bundle.js
+
 # Logs
 logs
 *.log

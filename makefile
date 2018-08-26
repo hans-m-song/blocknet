@@ -1,10 +1,12 @@
-OUT = src/bundle.js
-JS = src/block.js src/message.js src/bundle.js
+CC = browserify
+DIR = src/
+OUT = src/compiled/
+JS = message.js # block.js contract.js deploy.js
 
 .PHONY: all
 
-all: 
-		browserify $(JS) > $(OUT)
+all: $(JS)
+		$(CC) $(DIR)$(JS) > $(DIR)$(OUT)
 
-watch: 
-		watchify $(JS) -o $(OUT)
+%.js: %.js
+		$(CC) $(DIR)$< -o $(OUT)$@

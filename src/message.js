@@ -1,4 +1,6 @@
 var moment = require('moment');
+const {secret, hash} = require('./block');
+console.log(secret + '|' + hash);
 
 var log = [];
 var index = 0;

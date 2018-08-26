@@ -26885,7 +26885,12 @@ exports.createContext = Script.createContext = function (context) {
 })));
 
 },{}],155:[function(require,module,exports){
-const crypto = require('crypto');
+let crypto;
+try {
+    const crypto = require('crypto');
+} catch(err) {
+    console.log('crypto support is disabled');
+}
 
 const secret = 'test'; // need to set this somehow
 const hash = crypto.createHmac('sha256', secret).update('test2').digest('hex');
@@ -26896,9 +26901,9 @@ module.exports = {
     hash
 }
 },{"crypto":55}],156:[function(require,module,exports){
-arguments[4][18][0].apply(exports,arguments)
-},{"dup":18}],157:[function(require,module,exports){
 var moment = require('moment');
+const {secret, hash} = require('./block');
+console.log(secret + '|' + hash);
 
 var log = [];
 var index = 0;
@@ -26922,4 +26927,4 @@ document.getElementById('send').onclick = function(e) {
     $('#history').append(msg_toElem(msg));
     index++;
 }
-},{"moment":154}]},{},[155,157,156]);
+},{"./block":155,"moment":154}]},{},[156]);
