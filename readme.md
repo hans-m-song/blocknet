@@ -1,11 +1,10 @@
 ## Installation
 
-`npm install -g ganache-cli`
+`[npm install -g ganache-cli]` (not yet)
 
 `npm install`
 
 `node compile.js`
 
-`ganache-cli`
+`[ganache-cli]` (not yet)
 
-Then open index.html
