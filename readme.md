@@ -18,7 +18,7 @@ The purpose of this project is to explore the potential of blockchain technology
 
 `npm install -g ganache-cli
 npm install
-make
+node compile.js | make
 ganache-cli`
 Then open index.html
 
