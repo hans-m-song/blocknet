@@ -16,7 +16,10 @@ The purpose of this project is to explore the potential of blockchain technology
 
 ## Installation
 
-No installation guides yet.
+`npm install -g ganache-cli
+npm install
+ganache-cli`
+Then open index.html
 
 ## Tests
 

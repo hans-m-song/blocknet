@@ -12,7 +12,7 @@
         <div class="container-fluid">
             <div class="row">
                 <!-- input field -->
-                <div class="col-md-3">
+                <div class="col-md-6">
 
                     <h3>Message</h3>
 
@@ -23,16 +23,22 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="messageInput">Enter message</label>
-                            <textarea type="text" class="form-control" id="messageInput" placeholder="Enter message" rows="3"></textarea>
+                            <label for="textInput">Enter message</label>
+                            <textarea type="text" class="form-control" id="textInput" placeholder="Enter message" rows="3"></textarea>
                         </div>
 
                         <button type="submit" class="btn" id="send">Send message</button>
                     </form>
 
+                    <br/>
+
+                    <h3>History</h3>
+                    
+                    <div id="history"></div>
+
                 </div>
                 <!-- log field -->
-                <div class="col-md-9">
+                <div class="col-md-6">
 
                     <div id="log">
 

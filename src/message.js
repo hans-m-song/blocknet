@@ -3,29 +3,22 @@ var moment = require('moment');
 var log = [];
 var index = 0;
 
-// message constructor
-function Message(time, name, message) {
-    this.time = time;
-    this.name = name;
-    this.message = message;
-}
-
 function msg_toString(message) {
-    return time + '|' + name + '|' + message;
+    return message.time + '|' + message.name + '|' + message.message;
 }
 
-function log_toString() {
-    for(var i = 0; i < index; i++) {
-        console.log(msg_toString(log[i]));
-    }
+function msg_toElem(message) {
+    return '<div class="card pending-msg"><span class="badge">' + message.time + '</span><h5>' + message.name + '</h5><p>' + message.text + '</div>'
 }
 
 // on message submission
 document.getElementById('send').onclick = function(e) {
-    var time = moment().format('YYYY-MM-DD-HH-mm-ss Z');
-    var name = document.getElementById('nameInput').value;
-    var message = document.getElementById('messageInput').value;
-    console.log('New message:' + msg_toString(message));
-    log.push(Message(time, name, message));
+    var msg = {
+        time: moment().format('YYYY-MM-DD|HH:mm:ss'),
+        name: document.getElementById('nameInput').value,
+        text: document.getElementById('textInput').value
+    };
+    console.log(msg_toString(msg));
+    $('#history').append(msg_toElem(msg));
     index++;
 }

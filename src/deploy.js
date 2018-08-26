@@ -1,6 +1,6 @@
 const Web3 = require('web3');
 
-var dest = 'http://127.0.0.1:4242'; // should make this changeable
+var dest = 'http://127.0.0.1:8545'; // should make this changeable
 const web3 = new Web3(dest);
 
 const deploy = async() => {
@@ -9,4 +9,4 @@ const deploy = async() => {
     const result = null;
 };
 
-deploy();
+//deploy();
