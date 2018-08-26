@@ -23,24 +23,24 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="textInput">Enter message</label>
+                            <label for="textInput">Enter message <span id="submit-warn-text"class="warning hidden">Cannot send empty message</span></label>
                             <textarea type="text" class="form-control" id="textInput" placeholder="Enter message" rows="3"></textarea>
                         </div>
-
                         <button type="submit" class="btn" id="send">Send message</button>
+                        
                     </form>
 
                     <br/>
 
-                    <h3>History</h3>
+                    <h3>Pending</h3>
                     
-                    <div id="history"></div>
+                    <div id="pending"></div>
 
                 </div>
                 <!-- log field -->
                 <div class="col-md-6">
 
-                    <div id="log">
+                    <div id="log-pane">
 
                         <h3>Log</h3>
 
@@ -59,6 +59,7 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
         <!-- source -->
-        <script src="src/bundle.js"></script>
+        <!-- for final compilation <script src="src/compiled/bundle.js"></script> -->
+        <script src="src/compiled/message.js"></script>
     </body>
 </html>

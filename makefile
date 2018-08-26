@@ -1,12 +1,14 @@
 CC = browserify
-DIR = src/
 OUT = src/compiled/
-JS = message.js # block.js contract.js deploy.js
+JS = src/message.js # src/contract.js src/deploy.js
 
-.PHONY: all
+.PHONY: msg
 
-all: $(JS)
-		$(CC) $(DIR)$(JS) > $(DIR)$(OUT)
+all: 
+		$(CC) $(JS) > $(OUT)bundle.js
 
-%.js: %.js
-		$(CC) $(DIR)$< -o $(OUT)$@
+msg:
+		$(CC) src/message.js > $(OUT)message.js
+
+clean:
+		rm -rf $(OUT)*
