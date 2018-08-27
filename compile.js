@@ -3,7 +3,7 @@ var browserify = require('browserify');
 //var watchify = require('watchify');
 
 var b = browserify({
-    entries: ['src/message.js'], //'src/contract.js', 'src/deploy.js'],
+    entries: ['src/message.js', 'src/deploy.js'], //'src/contract.js'],
     cache: {},
     packageCache: {},
     plugin: []//[watchify]

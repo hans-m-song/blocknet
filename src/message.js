@@ -4,8 +4,6 @@ var Block = require('./block');
 var index = 0;
 var chain = Block.init_chain();
 
-console.log(chain);
-
 function msg_toString(message) {
     return message.time + '|' + message.name + '|' + message.text;
 }
@@ -19,22 +17,25 @@ function block_toElem(block) {
 }
 
 // on message submission
-document.getElementById('send').onclick = function(e) {
-    if(!$('#textInput').val()) {
-        $('#submit-warn-text').removeClass('hidden');
+document.getElementById('send').onclick = function(e) { 
+    if($('#connect').attr('connected') == 'disconnected') {
+        $('#submit-warn').text('Must connect first');
+        return;
+    } else if(!$('#textInput').val()) {
+        $('#submit-warn').text('Cannot send empty message');
         return;
     }
-    $('#submit-warn-text', '#submit-warn-name').addClass('hidden');
+    $('#submit-warn').text('');
     var msg = {
         time: moment().format('YYYY-MM-DD|HH:mm:ss'),
         name: (!$('#nameInput').val()) ? 'anon' : $('#nameInput').val(),
         text: $('#textInput').val()
     };
-    console.log(msg_toString(msg));
+    console.log('got message:', msg_toString(msg));
     $('#pending').append(msg_toElem(msg));
     index++;
     var block = Block.generate_block(chain, msg);
-    console.log(block);
+    console.log('got block: ', block);
     $('#log').append(block_toElem(block));
     $('#textInput').val("");
 }

@@ -14,6 +14,15 @@
                 <!-- input field -->
                 <div class="col-md-6">
 
+                    <h3>Status</h3>
+                    <form>
+                        <div class="form-group">
+                            <label for="ipInput">Connect to <span id='connect-warn' class="warning"></span></label>
+                            <input type="text" class="form-control" id="ipInput" placeholder="Enter IP">
+                        </div>
+                        <button type="submit" class="btn" id="connect" connected="disconnected">Connect</button><br/>
+                    </form>
+
                     <h3>Message</h3>
 
                     <form>
@@ -23,7 +32,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="textInput">Enter message <span id="submit-warn-text"class="warning hidden">Cannot send empty message</span></label>
+                            <label for="textInput">Enter message <span id="submit-warn"class="warning"></span></label>
                             <textarea type="text" class="form-control" id="textInput" placeholder="Enter message" rows="3"></textarea>
                         </div>
                         <button type="submit" class="btn" id="send">Send message</button>
@@ -61,5 +70,6 @@
         <!-- source -->
         <!-- for final compilation <script src="src/compiled/bundle.js"></script> -->
         <script src="src/compiled/message.js"></script>
+        <script src="src/compiled/deploy.js"></script>
     </body>
 </html>
