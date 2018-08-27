@@ -2,7 +2,7 @@ var moment = require('moment');
 var Block = require('./block');
 
 var index = 0;
-var chain = Block.init_chain();
+var localChain = Block.init_chain(); 
 
 function msg_toString(message) {
     return message.time + '|' + message.name + '|' + message.text;
@@ -34,7 +34,7 @@ document.getElementById('send').onclick = function(e) {
     console.log('got message:', msg_toString(msg));
     $('#pending').append(msg_toElem(msg));
     index++;
-    var block = Block.generate_block(chain, msg);
+    var block = Block.generate_block(localChain, msg);
     console.log('got block: ', block);
     $('#log').append(block_toElem(block));
     $('#textInput').val("");
