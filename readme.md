@@ -10,5 +10,5 @@ loosely based off [this implementation](https://lhartikk.github.io/jekyll/update
 
 `node compile.js`
 
-`[ganache-cli]` (not yet)
+`[ganache-cli]`
 
