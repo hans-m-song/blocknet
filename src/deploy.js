@@ -23,10 +23,14 @@ function handle_connect() {
         $('#connect-warn').text('Using IP: ', dest);
     }
     console.log('attempting to connnect to: ', dest);
-    if(connect(dest)) {
+    try {
+        connect(dest); 
+    } catch(err) {// if connect failed
         $('#ipInput').prop('disabled', true);
         $('#connect').text('disconnect');
+        return;
     }
+    console.log('connected to: ', dest);
     $('#connect').attr('connected', 'connected');
     $('#submit-warn').text('');
 }
