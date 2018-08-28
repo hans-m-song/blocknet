@@ -25,13 +25,13 @@ function handle_connect() {
     }
     console.log('attempting to connnect to: ', dest);
     try {
-        connect(dest);
-    } catch(err) {
-        $('#connect-warn').text('Failed to connect to IP: ', dest);
+        connect(dest); 
+    } catch(err) {// if connect failed
+        $('#ipInput').prop('disabled', true);
+        $('#connect').text('disconnect');
         return;
     }
-    $('#ipInput').prop('disabled', true);
-    $('#connect').text('disconnect');
+    console.log('connected to: ', dest);
     $('#connect').attr('connected', 'connected');
     $('#submit-warn').text('');
 }
