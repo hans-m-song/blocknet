@@ -9,11 +9,19 @@ function msg_toString(message) {
 }
 
 function msg_toElem(message) {
-    return '<div class="card msg'+ index + '"><span class="badge">' + message.time + '</span><h5>' + message.name + '</h5><p>' + message.text + '</div>';
+    return ('<div class="card msg'+ index + '">\
+                <span class="badge">' + message.time + '</span>\
+                <h5>' + message.name + '</h5>\
+                <p>' + message.text + '</p>\
+            </div>');
 }
 
 function block_toElem(block) {
-    return '<div class="card block'+ block.index + '"><span class="badge">' + block.time + '</span><h5>' + block.hash + '</h5><p>' + msg_toElem(block.data) + '</div>';
+    return ('<div class="card block'+ block.index + '">\
+                <span class="badge">' + block.time + '</span>\
+                <h5>' + block.hash + '</h5>\
+                <p>' + msg_toElem(block.data) + '</p>\
+            </div>');
 }
 
 // on message submission

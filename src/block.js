@@ -25,7 +25,7 @@ function Block(index, prevHash, data) {
         index: index,
         prevHash: prevHash,
         time: moment().format('YYYY-MM-DD|HH:mm:ss'), 
-        data:data,
+        data: data,
     }
     block.hash = get_hash(block)
     return block;

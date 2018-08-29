@@ -4,7 +4,7 @@ loosely based off [this implementation](https://lhartikk.github.io/jekyll/update
 
 ## Installation
 
-`[npm install -g ganache-cli]` (not yet)
+`[npm install -g ganache-cli]`
 
 `npm install`
 
