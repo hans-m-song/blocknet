@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 
 import getWeb3 from './getWeb3'
-import abi from './src/compiled/abi.json'
+import abi from './compiled/abi.json'
 
-const ContractAddress = '' // TODO get this key
+const ContractAddress = '0xe5d161ba85cc0fde5e40fd96902fd0d9713db40a' // TODO get this key
 
 class App extends Component {
     state = {
@@ -27,9 +27,10 @@ class App extends Component {
             const accounts = await web3.eth.getAccounts()
             const contract = new web3.eth.Contract(abi, ContractAddress)
             contract.setProvider(web3.currentProvider)
-            const networkType = await web3.eth.net.getNetworktype()
+            const networkType = await web3.eth.net.getNetworkType()
             const web3InvalidNetwork = networkType !== 'rinkeby'
-            this.setState({web3, accounts, contract, web3InvalidNetwork}, this.syncDappData(), 1000)
+            this.setState({web3, accounts, contract, web3InvalidNetwork}, this.syncDappData)
+            this.interval = setInterval(() => this.syncDappData(), 1000)
         } catch(error) {
             alert('Failed to initialize connection, check console for specifics')
             this.setState({web3GetError: true})
@@ -52,13 +53,13 @@ class App extends Component {
         const messageHistory = await contract.methods
             .getMessageHistory(from).call()
         const blocksTilClaim = await contract.methods
-            .getBlocksTIllClaimable(from).call
+            .getBlocksTillClaimable(from).call
         const claimableTokens = await contract.methods
             .getClaimableTokens(from).call()
         const blocksPerClaim = await contract.methods
             .getBlocksPerClaim().call()
-        const tokensPerMessage = await contracts.methods
-            .getTokensPerMessage(from).call()
+        const tokensPerMessage = await contract.methods
+            .getTokensPerMessage().call()
         const dailyTokensNo = await contract.methods
             .getDailyTokensNo().call
         const latestBlockNo = await web3.eth.getBlockNumber()

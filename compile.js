@@ -29,7 +29,7 @@ if(!fs.existsSync(compiledPath)) {
 }
 
 const mainContract = compiled.contracts['MessageToken.sol:MessageToken']
-console.log(mainContract)
+
 writeCompiled('abi.json', mainContract.interface)
 
 module.exports = {
