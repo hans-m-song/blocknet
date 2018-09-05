@@ -6,6 +6,7 @@ import abi from './compiled/abi.json'
 const ContractAddress = '0xe5d161ba85cc0fde5e40fd96902fd0d9713db40a' // TODO get this key
 
 class App extends Component {
+    // global vars for the current session state
     state = {
         web3GetError: false,
         web3InvalidNetwork: false,
@@ -38,12 +39,12 @@ class App extends Component {
         }
     }
 
+    // exit
     componentWillUnmount = () => {
         clearInterval(this.interval)
     }
 
-    // TODO write this after contracts
-    // Constructor for current session
+    // get info from deployed dapp and sync with session state
     syncDappData = async () => {
         const {web3, accounts, contract, selectedAccountIndex} = this.state
         const from = accounts[selectedAccountIndex]
@@ -77,6 +78,7 @@ class App extends Component {
     }
 
     // TODO determine gas cost
+    // get tokens to use to send messages
     claimMessageTokens = () => {
         const {accounts, contract, selectedAccountIndex} = this.state
         const from = accounts[selectedAccountIndex]
@@ -85,6 +87,7 @@ class App extends Component {
             .then((x) => {this.syncDappData()})
     }
 
+    // send message
     sendMessage = () => {
         const {accounts, contract, selectedAccountIndex} = this.state
         const from = accounts[selectedAccountIndex]
@@ -132,7 +135,19 @@ class App extends Component {
         }
 
         return (
-            <p></p>
+            <div>
+                <p>address: {address}</p>
+                <p>claimableTokens: {claimableTokens}</p>
+                <p>latestBlockNo: {latestBlockNo}</p>
+                <p>tokensPerMessage: {tokensPerMessage}</p>
+                <p>dailyTokensNo: {dailyTokensNo}</p>
+                <p>blocksPerClaim: {blocksPerClaim}</p>
+                <p>balance: {balance}</p>
+                <p>messageHistory: {messageHistory}</p>
+                <p>blocksTilClaim: {blocksTilClaim}</p>
+                <button onClick={this.sendMessage}>Send</button>
+                <button onClick={this.claimMessageTokens}>Claim Tokens</button>  
+            </div>
         )
     }
 }

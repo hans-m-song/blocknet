@@ -5,7 +5,7 @@ const getWeb3 = () =>
         window.addEventListener('load', () => {
             let web3 = window.web3
 
-            if(typeof web3 !== 'undfined') {
+            if(typeof web3 !== 'undefined') {
                 web3 = new Web3(web3.currentProvider)
                 console.log('Injected web3 instance detected')
                 resolve(web3)
