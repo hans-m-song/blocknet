@@ -15,7 +15,7 @@ contract MessageToken is BaseToken {
     string public version = "MSG";
     address owner;
     uint256 public dailyTokens = 12;
-    uint256 public tokensPerMsg = 3;
+    uint256 public tokensPerMessage = 3;
     mapping (address => uint) lastClaimed;
     mapping (address => uint[]) messageHistory;
     uint public blocksPerClaim = 100;

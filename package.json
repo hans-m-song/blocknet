@@ -4,7 +4,10 @@
   "description": "message blocks",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "react-scripts start",
+    "build": "react-scripts build && mv build ../docs",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "eject": "react-scripts eject"
   },
   "repository": {
     "type": "git",
@@ -16,9 +19,16 @@
   "dependencies": {
     "ganache-cli": "^6.1.8",
     "react": "^16.4.2",
+    "react-dom": "^16.4.2",
     "react-scripts": "^1.1.5",
     "solc": "^0.4.24",
     "truffle-hdwallet-provider": "0.0.6",
     "web3": "^1.0.0-beta.35"
+  },
+  "standard": {
+    "parser": "babel-eslint"
+  },
+  "devDependencies": {
+    "babel-eslint": "^9.0.0"
   }
 }
