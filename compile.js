@@ -15,7 +15,10 @@ const writeCompiled = (x, data) => {
 
 // put contracts here
 const input = {
-    'MessageToken.sol': resolveSol('MessageToken.sol')
+    'BaseToken.sol': resolveSol('BaseToken.sol'),
+    'MessageToken.sol': resolveSol('MessageToken.sol'),
+    'SafeMath.sol': resolveSol('SafeMath.sol'),
+    'Token.sol': resolveSol('Token.sol')
 }
 
 const compiled = solc.compile({sources: input}, 1)
@@ -26,7 +29,7 @@ if(!fs.existsSync(compiledPath)) {
 }
 
 const mainContract = compiled.contracts['MessageToken.sol:MessageToken']
-
+console.log(mainContract)
 writeCompiled('abi.json', mainContract.interface)
 
 module.exports = {

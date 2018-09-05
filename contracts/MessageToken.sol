@@ -17,7 +17,7 @@ contract MessageToken is BaseToken {
     uint256 public dailyTokens = 12;
     uint256 public tokensPerMsg = 3;
     mapping (address => uint) lastClaimed;
-    mapping (address => uint[]) msgHistory;
+    mapping (address => uint[]) messageHistory;
     uint public blocksPerClaim = 100;
 
     event sendEvent(address addr);
@@ -59,16 +59,16 @@ contract MessageToken is BaseToken {
         return lastClaimed[addr];
     }
 
-    function getMsgHistory(address addr) public view returns (uint[]) {
-        return msgHistory[addr];
+    function getMessageHistory(address addr) public view returns (uint[]) {
+        return messageHistory[addr];
     }
 
     function getBlocksPerClaim() public view returns (uint) {
         return blocksPerClaim;
     }
 
-    function getTokensPerMsg() public view returns (uint) {
-        return tokensPerMsg;
+    function getTokensPerMessage() public view returns (uint) {
+        return tokensPerMessage;
     }
 
     function getDailyTokensNo() public view returns (uint) {
@@ -108,12 +108,12 @@ contract MessageToken is BaseToken {
         return true;
     }
 
-    function sendMsg() public {
-        require(balances[msg.sender] >= tokensPerMsg);
-        msgHistory[msg.sender].push(block.number - 1);
+    function sendMessage() public {
+        require(balances[msg.sender] >= tokensPerMessage);
+        messageHistory[msg.sender].push(block.number - 1);
 
-        balances[msg.sender] -= tokensPerMsg;
-        balances[this] += tokensPerMsg;
+        balances[msg.sender] -= tokensPerMessage;
+        balances[this] += tokensPerMessage;
 
         emit sendEvent(msg.sender);
     }
