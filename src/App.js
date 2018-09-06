@@ -1,15 +1,15 @@
 import React, {Component} from 'react'
 
-import getWeb3 from './getWeb3'
+import getWeb3 from './utils/getWeb3'
+import getIPFS from './utils/getIPFS'
 import abi from './compiled/abi.json'
-import {contractAddress} from './LocalAddresses'
-
-const ContractAddress = contractAddress // TODO get this key
+import {contractAddress} from './utils/getAddress'
 
 class App extends Component {
     // global vars for the current session state
     state = {
         web3GetError: false,
+        ipfsGetError: false,
         web3InvalidNetwork: false,
         accounts: [],
         claimableTokens: 0,
@@ -27,7 +27,7 @@ class App extends Component {
         try {
             const web3 = await getWeb3()
             const accounts = await web3.eth.getAccounts()
-            const contract = new web3.eth.Contract(abi, ContractAddress)
+            const contract = new web3.eth.Contract(abi, contractAddress)
             contract.setProvider(web3.currentProvider)
             const networkType = await web3.eth.net.getNetworkType()
             const web3InvalidNetwork = networkType !== 'rinkeby'
@@ -38,6 +38,18 @@ class App extends Component {
             this.setState({web3GetError: true})
             console.log(error)
         }
+        /*
+        try {
+            const ipfs = await getIPFS()
+            const ipfsContract = new this.state.web3.eth.Contract(abiIPFS, ipfsContractAddress)
+            ipfsContract.setProvider(this.state.web3.currentProvider)
+            this.setState({ipfsContract}, this.syncDappData)
+        } catch(error) {
+            alert('Failed to initalize IPFS, check console for specifics')
+            this.setState({ipfsGetError: true})
+            console.log(error)
+        }
+        */
     }
 
     // exit
@@ -90,9 +102,12 @@ class App extends Component {
 
     // send message
     sendMessage = () => {
-        console.log('attempting to send', this.messageInput.value, 'to', this.addressInput.value) 
         const {accounts, contract, selectedAccountIndex} = this.state
         const from = accounts[selectedAccountIndex]
+        var to = this.addressInput.value
+        var message = this.messageInput.value
+        console.log('attempting to send from:', from, 
+            '\nto', to, '\nmessage:', message)
 
         contract.methods.sendMessage().send({gas: '2352262', from})
             .then((x) => {this.syncDappData()})
@@ -101,6 +116,7 @@ class App extends Component {
     render () {
         const {
             web3GetError, 
+            ipfsGetError,
             web3InvalidNetwork, 
             claimableTokens,
             latestBlockNo,
@@ -115,7 +131,7 @@ class App extends Component {
         } = this.state
         const address = accounts[selectedAccountIndex]
 
-        if(accounts.length <= 0 && !web3GetError && !web3InvalidNetwork) {
+        if(accounts.length <= 0 && !web3GetError && !web3InvalidNetwork && !ipfsGetError) {
             console.log('loading components')
             return (
                 <p>loading components</p>
@@ -126,6 +142,13 @@ class App extends Component {
             console.log('unable to load web3, make sure metamask is installed or use brave')
             return (
                 <p>unable to load web3, make sure metamask is installed or use brave</p>
+            )
+        }
+
+        if(ipfsGetError) {
+            console.log('unable to load ipfs, i dont know how to fix this yet')
+            return (
+                <p>unable to load ipfs, i dont know how to fix this yet</p>
             )
         }
 
@@ -152,7 +175,7 @@ class App extends Component {
                 <p>blocksTilClaim: {blocksTilClaim}</p>
                 <button onClick={this.claimMessageTokens}>Claim Tokens</button>  
                 <br /><br />
-                <p>to: </p>
+                <p>address: </p>
                 <input latype="text" ref={(input) => this.addressInput = input}/>
                 <br /><br />
                 <p>message: </p>

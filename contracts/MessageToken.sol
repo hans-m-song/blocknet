@@ -19,6 +19,7 @@ contract MessageToken is BaseToken {
     mapping (address => uint) lastClaimed;
     mapping (address => uint[]) messageHistory;
     uint public blocksPerClaim = 100;
+    string public ipfsHash;
 
     event sendEvent(address addr);
 
@@ -116,5 +117,13 @@ contract MessageToken is BaseToken {
         balances[this] += tokensPerMessage;
 
         emit sendEvent(msg.sender);
+    }
+
+    function sendHash(string _hash) public {
+        ipfsHash = _hash;
+    }
+
+    function getHash() public view returns (string _hash) {
+        return ipfsHash;
     }
 }

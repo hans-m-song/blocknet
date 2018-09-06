@@ -23,13 +23,14 @@ const input = {
 
 const compiled = solc.compile({sources: input}, 1)
 
+//console.log(compiled)
+
 // check if compile destination exists
 if(!fs.existsSync(compiledPath)) {
     fs.mkdirSync(compiledPath)
 }
 
 const mainContract = compiled.contracts['MessageToken.sol:MessageToken']
-
 writeCompiled('abi.json', mainContract.interface)
 
 module.exports = {
