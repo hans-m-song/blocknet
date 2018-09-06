@@ -1,10 +1,10 @@
 ## Synopsis
 
-Promotional website for this project.
+Prototype of the front-end of the Blockchain Forum application.
 
 ## Motivation
 
-The intent of this website is to display information to prospective users as well as to guage public interest in the project and acquire feedback.
+This prototype will be developed on and improved to form the final version of the front-end of the blockchain forum.
 
 ## Contributors
 
