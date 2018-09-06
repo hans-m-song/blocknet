@@ -2,8 +2,9 @@ import React, {Component} from 'react'
 
 import getWeb3 from './getWeb3'
 import abi from './compiled/abi.json'
+import {contractAddress} from './LocalAddresses'
 
-const ContractAddress = '0xe5d161ba85cc0fde5e40fd96902fd0d9713db40a' // TODO get this key
+const ContractAddress = contractAddress // TODO get this key
 
 class App extends Component {
     // global vars for the current session state
@@ -89,6 +90,7 @@ class App extends Component {
 
     // send message
     sendMessage = () => {
+        console.log('attempting to send', this.messageInput.value, 'to', this.addressInput.value) 
         const {accounts, contract, selectedAccountIndex} = this.state
         const from = accounts[selectedAccountIndex]
 
@@ -135,7 +137,10 @@ class App extends Component {
         }
 
         return (
-            <div>
+            <div className="App">
+                <header className="App-header">
+                    <h1>eth/ipfs example</h1>
+                </header>
                 <p>address: {address}</p>
                 <p>claimableTokens: {claimableTokens}</p>
                 <p>latestBlockNo: {latestBlockNo}</p>
@@ -145,8 +150,14 @@ class App extends Component {
                 <p>balance: {balance}</p>
                 <p>messageHistory: {messageHistory}</p>
                 <p>blocksTilClaim: {blocksTilClaim}</p>
-                <button onClick={this.sendMessage}>Send</button>
                 <button onClick={this.claimMessageTokens}>Claim Tokens</button>  
+                <br /><br />
+                <p>to: </p>
+                <input latype="text" ref={(input) => this.addressInput = input}/>
+                <br /><br />
+                <p>message: </p>
+                <input type="text" ref={(input) => this.messageInput = input}/>
+                <button onClick={this.sendMessage}>Send</button>
             </div>
         )
     }
