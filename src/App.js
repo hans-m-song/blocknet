@@ -4,6 +4,7 @@ import getWeb3 from './utils/getWeb3'
 //import getIPFS from './utils/getIPFS'
 import abi from './compiled/abi.json'
 import {contractAddress} from './utils/getAddress'
+import './App.css'
 
 class App extends Component {
     // global vars for the current session state
@@ -161,9 +162,71 @@ class App extends Component {
 
         return (
             <div className="App">
-                <header className="App-header">
-                    <h1>eth/ipfs example</h1>
-                </header>
+                <Header/>
+                <MainPage/>
+                <Footer/>
+                <BackendStuff/>
+            </div>
+        )
+    }
+}
+
+class Header extends Component {
+    render() {
+        return (
+            <header className="header">
+                <h1>Message Blocks</h1>
+            </header>
+        );
+    }
+}
+
+class MainPage extends Component {
+    render() {
+        return (
+            <div>
+                <Content/>
+                <Console/>
+            </div>
+        );
+    }
+}
+
+/*This is where the message / room screens will live */
+class Content extends Component {
+    render() {
+        return (
+            <div className="content">
+                content
+            </div>
+        );
+    }
+}
+
+class Console extends Component {
+    render() {
+        return(
+            <div className="console">
+                console
+            </div>
+        );
+    }
+}
+
+class Footer extends Component {
+    render() {
+        return(
+            <footer>
+                footer
+            </footer>
+        );
+    }
+}
+
+class BackendStuff extends Component {
+    render() {
+        return (
+/*            <div class="backend-stuff">
                 <p>address: {address}</p>
                 <p>claimableTokens: {claimableTokens}</p>
                 <p>latestBlockNo: {latestBlockNo}</p>
@@ -181,8 +244,9 @@ class App extends Component {
                 <p>message: </p>
                 <input type="text" ref={(input) => this.messageInput = input}/>
                 <button onClick={this.sendMessage}>Send</button>
-            </div>
-        )
+            </div>*/
+            <div></div>
+        );
     }
 }
 

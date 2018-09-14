@@ -1,4 +1,10 @@
 body {
-    padding-top: 30px;
-  }
-  
+  background-color : black;
+  margin : 0;
+  padding : 0;
+  font-family: 'Do Hyeon', sans-serif;
+}
+
+h1 {
+  color : white;
+}
