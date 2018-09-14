@@ -6,6 +6,7 @@ Include the (not yet implemented) interface.
 2. Make an account on MetaMask and switch to the Rinkeby network
 3. Run the following commands in the repo directory:
 `npm install`
+`node compile.js`
 `npm run build`
 `npm start`
 
