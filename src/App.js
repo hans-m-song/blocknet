@@ -164,8 +164,7 @@ class App extends Component {
             <div className="App">
                 <Header/>
                 <MainPage/>
-                <Footer/>
-                <BackendStuff/>
+                <Console/>
             </div>
         )
     }
@@ -174,9 +173,17 @@ class App extends Component {
 class Header extends Component {
     render() {
         return (
-            <header className="header">
-                <h1>Message Blocks</h1>
-            </header>
+            <div className="header">
+                <h1 className="title">Message Blocks</h1>
+                <nav className="header-nav">
+                    <div>
+                        <a href="#">Dev Blog</a>
+                    </div>
+                    <div>
+                        <a href="#">About Us</a>
+                    </div>
+                </nav>
+            </div>
         );
     }
 }
@@ -184,10 +191,38 @@ class Header extends Component {
 class MainPage extends Component {
     render() {
         return (
-            <div>
-                <Content/>
-                <Console/>
+            <div className="main-page">
+                <div className="main-screen">
+                    <LeftPanel/>
+                    <Content/>
+                    <RightPanel/>
+                </div>
             </div>
+        );
+    }
+}
+
+/*Links to major sections of the app live here*/
+class LeftPanel extends Component {
+    render() {
+        return (
+            <div className="left-panel">
+                <SectionButton sectionName="Rooms"/>
+                <SectionButton sectionName="Messages"/>
+                <SectionButton sectionName="History"/>
+                <SectionButton sectionName="Settings"/>
+            </div>
+        )
+    }
+}
+
+class SectionButton extends Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (
+            <div className="section-button">{this.props.sectionName}</div>
         );
     }
 }
@@ -197,17 +232,35 @@ class Content extends Component {
     render() {
         return (
             <div className="content">
-                content
+                A large gaping hole.
             </div>
         );
     }
 }
 
+/*Placeholder for now... more or less just a border*/
+class RightPanel extends Component {
+    render() {
+        return (
+            <div className="right-panel">
+            
+            </div>
+        )
+    }
+}
+
+/*Draggable sliding panel for console. Need to find out how to be implement*/
 class Console extends Component {
     render() {
         return(
             <div className="console">
-                console
+                <div className="console-header">
+                    <p>Console</p>
+                </div>
+                <div className="console-content">
+                    Console content goes here.
+                    To be drag-able / slide-able by the header bar above.
+                </div>
             </div>
         );
     }
@@ -216,9 +269,9 @@ class Console extends Component {
 class Footer extends Component {
     render() {
         return(
-            <footer>
+            <div className="footer">
                 footer
-            </footer>
+            </div>
         );
     }
 }
