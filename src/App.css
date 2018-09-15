@@ -96,12 +96,15 @@ h1 {
 
 .content {
   flex-grow : 1;
+  flex-basis: 80%;
   background-color : black;
   color : white;
 
   border: 1px solid white;
 
-  margin : 5px
+  margin : 5px;
+
+  position: relative;
 }
 
 .right-panel {
@@ -135,4 +138,78 @@ h1 {
 
 .footer {
   float:left;
+}
+
+/******Room Related CSS******/
+.room-nav ul{
+	list-style-type: none;
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+}
+
+.room-nav li {
+	display: inline;
+	border-right: 1px solid;
+	padding: 5%;
+}
+
+.room-nav li a {
+    color: white;
+    text-align: center;
+    text-decoration: none;
+}
+
+/******Message Box Related CSS******/
+.message {
+	border: solid;
+	border-width: 1px;
+}
+
+.message-username {
+	float: left;
+	overflow: auto;
+	margin: 10px;
+}
+
+.message-time {
+	float:right;
+	overflow: auto;
+	margin: 10px;
+}
+
+.message-content {
+	display:inline-block;
+	margin: 20px;
+	margin-top: 0px;
+	overflow: auto;
+}
+
+/******Chat Box CSS******/
+.chat-box {
+	width: 100%;
+}
+
+.chat-box textarea {
+	resize: none;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 95%;
+	height: 6%;
+	padding: 12px 20px;
+	margin: 0px;
+	box-sizing: border-box;
+}
+
+.chat-box button {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	width: 5%;
+	height: 6%;
+	padding: 12px 20px;
+	margin: 0px;
+	cursor: pointer;
 }
