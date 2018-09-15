@@ -1,11 +1,13 @@
 * {
-  font-family : 'Do Hyeon', sans-serif;
+  /*font-family : 'Do Hyeon', sans-serif;*/
+  font-family: 'Do Hyeon', sans-serif;
 }
 
 body {
   background-color : white;
   margin : 0;
   padding : 0;
+
 }
 
 h1 {
@@ -15,18 +17,21 @@ h1 {
 .header {
   background-color : black;
   color : white;
-  padding-left : 20px;
+  padding-left : 10px;
   padding-right : 20px;
-  padding-top : 5px;
-  padding-bottom : 5px;
+  padding-top : 0px;
+  padding-bottom : 0px;
   display : flex;
   align-items : center;
   justify-content : space-between;
 }
 
 .header > h1 {
-  margin-bottom : 5px;
+  margin-bottom : 0px;
   margin-top : 5px;
+  font-family : 'Do Hyeon', sans-serif;
+  font-size : 2.25em;
+  margin-left : 1px;
 }
 
 .header-nav {
@@ -67,30 +72,31 @@ h1 {
 
 /*Styling of left panel section links*/
 .section-button {
+  /*color*/
   background-color : black;
   color : white;
-
+  /*border*/
   border : white;
   border-width : 1px;
   border-style : solid;
+  /*padding*/
+  padding : 5px 5px 5px 5px;
+  margin : 5px 5px 10px 5px;
+  /*font*/
+  text-align : left;
+  font-size : 1.5em;
 
-  padding-top : 10px;
-  padding-bottom : 10px;
-  padding-left : 10px;
-  padding-right : 10px;
-  margin : 5px;
-
-  text-align : center;
 }
 
 .section-button:hover {
+  /*color*/
   background-color : white;
   color : black;
-
+  /*border*/
   border : white;
   border-width : 1px;
   border-style : solid;
-
+  /*interaction*/
   cursor : pointer;
 }
 
