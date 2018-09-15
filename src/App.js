@@ -188,6 +188,7 @@ class Header extends Component {
     }
 }
 
+/*This is where the main components will live*/
 class MainPage extends Component {
     render() {
         return (
@@ -232,7 +233,36 @@ class Content extends Component {
     render() {
         return (
             <div className="content">
-                A large gaping hole.
+                <div className="room-nav">
+                    <ul>
+                        <li><a href="#room1">Room 1</a></li>
+                        <li><a href="#room2">Room 2</a></li>
+                        <li><a href="#room3">Room 3</a></li>
+                        <li><a href="#room4">Room 4</a></li>
+                        <li><a href="#room5">Room 5</a></li>
+                    </ul>
+                </div>
+                <div className="message">
+                    <div className="message-body">
+                        <h3 className="message-username">Anon #123321</h3>
+                        <h3 className="message-time">Jan 1, 12:33 PM</h3>
+                        <p className="message-content">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+                            sed do eiusmod tempor incididunt ut labore et dolore magna 
+                            aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
+                            ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+                            sed do eiusmod tempor incididunt ut labore et dolore magna 
+                            aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
+                            ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+                        </p>
+                    </div>
+                </div>
+                <div className="chat-box">
+                    <textarea cols="1" type="text" placeholder="Enter message...">
+                    </textarea>
+                    <button>Send</button>
+                </div>
             </div>
         );
     }
@@ -250,6 +280,14 @@ class RightPanel extends Component {
 }
 
 /*Draggable sliding panel for console. Need to find out how to be implement*/
+/*
+class Message extends Component {
+    render() {
+        return (
+            
+        );
+    }
+}*/
 class Console extends Component {
     render() {
         return(
