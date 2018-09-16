@@ -4,7 +4,7 @@
   "description": "message blocks",
   "main": "index.js",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node compile.js & react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
@@ -25,6 +25,7 @@
     "react-dom": "^16.4.2",
     "react-scripts": "^1.1.5",
     "solc": "^0.4.24",
+    "stream-buffers": "^3.0.2",
     "truffle": "^4.1.14",
     "truffle-hdwallet-provider": "0.0.6",
     "web3": "^1.0.0-beta.35"

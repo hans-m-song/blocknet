@@ -1,21 +1,19 @@
 import React, {Component} from 'react'
 
-import getWeb3 from './utils/getWeb3'
-//import getIPFS from './utils/getIPFS'
 import abi from './compiled/abi.json'
-<<<<<<< HEAD
+import getWeb3 from './utils/getWeb3'
+import getIPFS from './utils/getIPFS'
 import {contractAddress} from './utils/getAddress'
-import './App.css'
-=======
-import {contractAddress, ipfsHash} from './utils/getAddress'
->>>>>>> e2fa6b2
+
+let ipfs
+let Buffer
 
 class App extends Component {
     // global vars for the current session state
     state = {
+        ipfsHash: null,
         web3GetError: false,
         ipfsGetError: false,
-        ipfsNode: null,
         web3InvalidNetwork: false,
         accounts: [],
         claimableTokens: 0,
@@ -33,6 +31,7 @@ class App extends Component {
         try {
             const web3 = await getWeb3()
             const accounts = await web3.eth.getAccounts()
+            console.log("using address", contractAddress)
             const contract = new web3.eth.Contract(abi, contractAddress)
             contract.setProvider(web3.currentProvider)
             const networkType = await web3.eth.net.getNetworkType()
@@ -46,14 +45,27 @@ class App extends Component {
         }
         
         try {
-            const ipfs = await getIPFS()
-            this.setState({ipfsNode: ipfs})
-            ipfs.on('ready', () => {
-                console.log("ipfs node ready")
+            ipfs = await getIPFS()
+            Buffer = ipfs.types.Buffer
+            ipfs.once('start', async () => {
+                const version = await ipfs.version()
+                const info = await ipfs.id()
+                const ipfsHash = info.id
+                console.log("IPFS version", version.version, "initalized\nat:", ipfsHash)
+                this.setState({ipfsHash})
+                // in case you're getting websock 502, its a known issue: https://github.com/ipfs/js-ipfs/issues/941
+                //setInterval(refreshPeerList, 1000)
+                //setInterval(sendFileList, 10000)
+                /*const filesAdded = await ipfs.files.add({
+                    path: 'hello',
+                    content: Buffer.from('hello ipfs')
+                })
+                console.log('added file:', filesAdded[0].path, filesAdded[0].hash)
+            
+                const fileBuffer = await ipfs.files.cat(filesAdded[0].hash)
+                console.log('added file contents:', fileBuffer.toString())*/
             })
-            //const ipfsContract = new this.state.web3.eth.Contract(abiIPFS, ipfsContractAddress)
-            //ipfsContract.setProvider(this.state.web3.currentProvider)
-            //this.setState({ipfsContract}, this.syncDappData)
+            
         } catch(error) {
             alert('Failed to initalize IPFS, check console for specifics')
             this.setState({ipfsGetError: true})
@@ -64,9 +76,11 @@ class App extends Component {
     // exit
     componentWillUnmount = () => {
         clearInterval(this.interval)
-        this.state.ipfsNode.stop(() => {
-            console.log("shutting down ipfs node")
-        })
+        ipfs.stop()
+    }
+
+    getIPFSHash = async (ipfs) => {
+        return ipfs.id().id
     }
 
     // get info from deployed dapp and sync with session state
@@ -128,6 +142,7 @@ class App extends Component {
         const {
             web3GetError, 
             ipfsGetError,
+            ipfsHash,
             web3InvalidNetwork, 
             claimableTokens,
             latestBlockNo,
@@ -142,7 +157,7 @@ class App extends Component {
         } = this.state
         const address = accounts[selectedAccountIndex]
 
-        if(accounts.length <= 0 && !web3GetError && !web3InvalidNetwork && !ipfsGetError) {
+        if(accounts.length <= 0 && !web3GetError && !web3InvalidNetwork && !ipfsGetError && !ipfsHash) {
             console.log('loading components')
             return (
                 <p>loading components</p>
@@ -150,9 +165,9 @@ class App extends Component {
         }
 
         if(web3GetError) {
-            console.log('unable to load web3, make sure metamask is installed or use brave')
+            console.log('unable to load web3, make sure metamask is installed')
             return (
-                <p>unable to load web3, make sure metamask is installed or use brave</p>
+                <p>unable to load web3, make sure metamask is installed</p>
             )
         }
 
@@ -172,209 +187,11 @@ class App extends Component {
 
         return (
             <div className="App">
-<<<<<<< HEAD
-                <Header/>
-                <MainPage/>
-                <Console/>
-            </div>
-        )
-    }
-}
-
-class Header extends Component {
-    render() {
-        return (
-            <div className="header">
-                <h1 className="title">Message Blocks</h1>
-                <nav className="header-nav">
-                    <div>
-                        <a href="#">Dev Blog</a>
-                    </div>
-                    <div>
-                        <a href="#">About Us</a>
-                    </div>
-                </nav>
-            </div>
-        );
-    }
-}
-
-/*This is where the main components will live*/
-class MainPage extends Component {
-    render() {
-        return (
-            <div className="main-page">
-                <div className="main-screen">
-                    <LeftPanel/>
-                    <Content/>
-                    <RightPanel/>
-                </div>
-            </div>
-        );
-    }
-}
-
-/*Links to major sections of the app live here*/
-class LeftPanel extends Component {
-    render() {
-        return (
-            <div className="left-panel">
-                <SectionButton sectionName="Rooms"/>
-                <SectionButton sectionName="Messages"/>
-                <SectionButton sectionName="History"/>
-                <SectionButton sectionName="Settings"/>
-            </div>
-        )
-    }
-}
-
-class SectionButton extends Component {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
-            <div className="section-button">{this.props.sectionName}</div>
-        );
-    }
-}
-
-/*This is where the message / room screens will live */
-class Content extends Component {
-    render() {
-        return (
-            <div className="content">
-                <div className="room-nav">
-                    <ul>
-                        <li><a href="#room1">Room 1</a></li>
-                        <li><a href="#room2">Room 2</a></li>
-                        <li><a href="#room3">Room 3</a></li>
-                        <li><a href="#room4">Room 4</a></li>
-                        <li><a href="#room5">Room 5</a></li>
-                    </ul>
-                </div>
-                <div className="message">
-                    <Message />
-                </div>
-                <div className="chat-box">
-                    <ChatBox />          
-                </div>
-            </div>
-        );
-    }
-}
-
-class Message extends Component {
-    render() {
-        return (
-            <div className="message-body">
-                <h3 className="message-username">Anon #123321</h3>
-                <h3 className="message-time">Jan 1, 12:33 PM</h3>
-                <p className="message-content">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                    sed do eiusmod tempor incididunt ut labore et dolore magna 
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                    sed do eiusmod tempor incididunt ut labore et dolore magna 
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                </p>
-            </div>
-        );
-    }
-}
-
-/*Chat box for sending a message*/
-class ChatBox extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            value: ''
-        };
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    handleChange(event) {
-        this.setState({value: event.target.value});
-    }
-
-    handleSubmit(event) {
-        event.preventDefault();
-    }
-
-    render() {
-        return (
-            <form onSubmit={this.handleSubmit}>
-                <textarea cols="1" placeholder="Enter message..." 
-                    value={this.state.value} 
-                    onChange={this.handleChange} />
-                <input className="chat-box-send" type="submit" value="Send"/>
-            </form>
-        );
-    }
-}
-
-/*Placeholder for now... more or less just a border*/
-class RightPanel extends Component {
-    render() {
-        return (
-            <div className="right-panel">
-            
-            </div>
-        )
-    }
-}
-
-/*Draggable sliding panel for console. Need to find out how to be implement*/
-/*
-class Message extends Component {
-    render() {
-        return (
-            
-        );
-    }
-}*/
-class Console extends Component {
-    render() {
-        return(
-            <div className="console">
-                <div className="console-header">
-                    <p>Console</p>
-                </div>
-                <div className="console-content">
-                    Console content goes here.
-                    To be drag-able / slide-able by the header bar above.
-                </div>
-            </div>
-        );
-    }
-}
-
-class Footer extends Component {
-    render() {
-        return(
-            <div className="footer">
-                footer
-            </div>
-        );
-    }
-}
-
-class BackendStuff extends Component {
-    render() {
-        return (
-/*            <div class="backend-stuff">
-                <p>address: {address}</p>
-=======
                 <header className="App-header">
                     <h1>eth/ipfs example</h1>
                 </header>
                 <p>account address: {address}</p>
                 <p>ipfs hash: {ipfsHash}</p>
->>>>>>> e2fa6b2
                 <p>claimableTokens: {claimableTokens}</p>
                 <p>latestBlockNo: {latestBlockNo}</p>
                 <p>tokensPerMessage: {tokensPerMessage}</p>
@@ -391,8 +208,7 @@ class BackendStuff extends Component {
                 <p>message: </p>
                 <input type="text" ref={(input) => this.messageInput = input}/>
                 <button onClick={this.sendMessage}>Send</button>
-            </div>*/
-            <div></div>
+            </div>
         );
     }
 }
