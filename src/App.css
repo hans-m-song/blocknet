@@ -85,7 +85,14 @@ h1 {
   /*font*/
   text-align : left;
   font-size : 1.5em;
+}
 
+.text-unselectable {
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  user-select: none;
 }
 
 .section-button:hover {

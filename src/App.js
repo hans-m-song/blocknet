@@ -247,13 +247,12 @@ class SectionButton extends Component {
     }
     render() {
         let selectedStatus = "unselected";
-        console.log("active: {" + this.props.activeSection + "}| this: {" + this.props.sectionName + "}");
+        //console.log("active: {" + this.props.activeSection + "}| this: {" + this.props.sectionName + "}");
         if (this.props.activeSection == this.props.sectionName) {
-            console.log("EQUALITY");
             selectedStatus = "selected";
         }
-        var classes = `${selectedStatus} section-button`;
-        
+        var classes = `${selectedStatus} section-button text-unselectable`;
+
         return (
             <div className={classes} onClick={(e) => this.handleClick(e)}>{this.props.sectionName}</div>
         );
