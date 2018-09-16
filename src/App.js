@@ -6,12 +6,13 @@ import getIPFS from './utils/getIPFS'
 import {contractAddress} from './utils/getAddress'
 
 let ipfs
-let Buffer
+//let Buffer
 
 class App extends Component {
     // global vars for the current session state
     state = {
         ipfsHash: null,
+        ipfsAddr: null,
         web3GetError: false,
         ipfsGetError: false,
         web3InvalidNetwork: false,
@@ -37,7 +38,7 @@ class App extends Component {
             const networkType = await web3.eth.net.getNetworkType()
             const web3InvalidNetwork = networkType !== 'rinkeby'
             this.setState({web3, accounts, contract, web3InvalidNetwork}, this.syncDappData)
-            this.interval = setInterval(() => this.syncDappData(), 1000)
+            this.interval = setInterval(() => this.syncData(), 1000)
         } catch(error) {
             alert('Failed to initialize connection, check console for specifics')
             this.setState({web3GetError: true})
@@ -46,13 +47,12 @@ class App extends Component {
         
         try {
             ipfs = await getIPFS()
-            Buffer = ipfs.types.Buffer
+            //Buffer = ipfs.types.Buffer
             ipfs.once('start', async () => {
                 const version = await ipfs.version()
                 const info = await ipfs.id()
                 const ipfsHash = info.id
                 console.log("IPFS version", version.version, "initalized\nat:", ipfsHash)
-                this.setState({ipfsHash})
                 // in case you're getting websock 502, its a known issue: https://github.com/ipfs/js-ipfs/issues/941
                 //setInterval(refreshPeerList, 1000)
                 //setInterval(sendFileList, 10000)
@@ -79,12 +79,32 @@ class App extends Component {
         ipfs.stop()
     }
 
-    getIPFSHash = async (ipfs) => {
-        return ipfs.id().id
+    async refreshPeerList() {
+        var peersAsHtml
+        try {
+            const peers = await ipfs.swarm.peers()
+            peersAsHtml = peers.reverse()
+                .map((peer) => {
+                    if(peer.addr) {
+                        const addr = peer.addr.toString()
+                        if(addr.indexOf('ipfs') >= 0) {
+                            return addr
+                        } else {
+                            return addr + peer.peer.id.toB58String()
+                        }
+                    }
+                })
+                .map((addr) => {
+                    return `<li>${addr}</li>`
+                }).join('')
+        } catch(err) {
+            console.log(err)
+        }
+        return peersAsHtml
     }
 
     // get info from deployed dapp and sync with session state
-    syncDappData = async () => {
+    syncData = async () => {
         const {web3, accounts, contract, selectedAccountIndex} = this.state
         const from = accounts[selectedAccountIndex]
 
@@ -104,7 +124,16 @@ class App extends Component {
             .getDailyTokensNo().call
         const latestBlockNo = await web3.eth.getBlockNumber()
 
+        const ipfsInfo = await ipfs.id()
+        const ipfsHash = ipfsInfo.id
+        const ipfsAddr = ipfsInfo.addresses
+        const peers = await this.refreshPeerList()
+        const ipfsPeers = {__html: peers}
+
         this.setState({
+            ipfsHash,
+            ipfsAddr,
+            ipfsPeers,
             balance,
             messageHistory,
             blocksTilClaim,
@@ -143,6 +172,8 @@ class App extends Component {
             web3GetError, 
             ipfsGetError,
             ipfsHash,
+            ipfsAddr,
+            ipfsPeers,
             web3InvalidNetwork, 
             claimableTokens,
             latestBlockNo,
@@ -192,6 +223,7 @@ class App extends Component {
                 </header>
                 <p>account address: {address}</p>
                 <p>ipfs hash: {ipfsHash}</p>
+                <p>ipfs swarm address: {ipfsAddr}</p>
                 <p>claimableTokens: {claimableTokens}</p>
                 <p>latestBlockNo: {latestBlockNo}</p>
                 <p>tokensPerMessage: {tokensPerMessage}</p>
@@ -208,8 +240,11 @@ class App extends Component {
                 <p>message: </p>
                 <input type="text" ref={(input) => this.messageInput = input}/>
                 <button onClick={this.sendMessage}>Send</button>
+
+                <p>ipfs peerlist: </p>
+                <ul dangerouslySetInnerHTML={ipfsPeers}></ul>
             </div>
-        );
+        )
     }
 }
 
