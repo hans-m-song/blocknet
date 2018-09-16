@@ -243,27 +243,65 @@ class Content extends Component {
                     </ul>
                 </div>
                 <div className="message">
-                    <div className="message-body">
-                        <h3 className="message-username">Anon #123321</h3>
-                        <h3 className="message-time">Jan 1, 12:33 PM</h3>
-                        <p className="message-content">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                            sed do eiusmod tempor incididunt ut labore et dolore magna 
-                            aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
-                            ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                            sed do eiusmod tempor incididunt ut labore et dolore magna 
-                            aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
-                            ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                        </p>
-                    </div>
+                    <Message />
                 </div>
                 <div className="chat-box">
-                    <textarea cols="1" type="text" placeholder="Enter message...">
-                    </textarea>
-                    <button>Send</button>
+                    <ChatBox />          
                 </div>
             </div>
+        );
+    }
+}
+
+class Message extends Component {
+    render() {
+        return (
+            <div className="message-body">
+                <h3 className="message-username">Anon #123321</h3>
+                <h3 className="message-time">Jan 1, 12:33 PM</h3>
+                <p className="message-content">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+                    sed do eiusmod tempor incididunt ut labore et dolore magna 
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+                    sed do eiusmod tempor incididunt ut labore et dolore magna 
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+                </p>
+            </div>
+        );
+    }
+}
+
+/*Chat box for sending a message*/
+class ChatBox extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: ''
+        };
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleChange(event) {
+        this.setState({value: event.target.value});
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+    }
+
+    render() {
+        return (
+            <form onSubmit={this.handleSubmit}>
+                <textarea cols="1" placeholder="Enter message..." 
+                    value={this.state.value} 
+                    onChange={this.handleChange} />
+                <input className="chat-box-send" type="submit" value="Send"/>
+            </form>
         );
     }
 }
