@@ -147,35 +147,6 @@ h1 {
 }
 
 /******Room Related CSS******/
-/*.room-nav {
-	height: 6%;
-	width: 100%;
-	border-bottom: solid 1px;
-}
-
-.room-nav ul{
-	list-style-type: none;
-	margin: 0px;
-	padding: 0px;
-	overflow: hidden;
-}
-
-.room-nav li {
-	float: left;
-	border-right: 1px solid;
-	border-bottom: 1px solid;
-	width: 10%;
-	height: 6%;
-}
-
-.room-nav li a {
-	display: block;
-    color: white;
-    padding: 6%;
-    text-align: center;
-    text-decoration: none;
-}*/
-
 .room-nav ul {
 	list-style: none;
 	margin: 0;
