@@ -19,6 +19,7 @@
   "dependencies": {
     "ajv": "^6.5.3",
     "ganache-cli": "^6.1.8",
+    "ipfs": "^0.32.0",
     "ipfs-api": "^24.0.1",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",

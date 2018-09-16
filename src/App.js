@@ -3,14 +3,19 @@ import React, {Component} from 'react'
 import getWeb3 from './utils/getWeb3'
 //import getIPFS from './utils/getIPFS'
 import abi from './compiled/abi.json'
+<<<<<<< HEAD
 import {contractAddress} from './utils/getAddress'
 import './App.css'
+=======
+import {contractAddress, ipfsHash} from './utils/getAddress'
+>>>>>>> e2fa6b2
 
 class App extends Component {
     // global vars for the current session state
     state = {
         web3GetError: false,
         ipfsGetError: false,
+        ipfsNode: null,
         web3InvalidNetwork: false,
         accounts: [],
         claimableTokens: 0,
@@ -39,23 +44,29 @@ class App extends Component {
             this.setState({web3GetError: true})
             console.log(error)
         }
-        /*
+        
         try {
             const ipfs = await getIPFS()
-            const ipfsContract = new this.state.web3.eth.Contract(abiIPFS, ipfsContractAddress)
-            ipfsContract.setProvider(this.state.web3.currentProvider)
-            this.setState({ipfsContract}, this.syncDappData)
+            this.setState({ipfsNode: ipfs})
+            ipfs.on('ready', () => {
+                console.log("ipfs node ready")
+            })
+            //const ipfsContract = new this.state.web3.eth.Contract(abiIPFS, ipfsContractAddress)
+            //ipfsContract.setProvider(this.state.web3.currentProvider)
+            //this.setState({ipfsContract}, this.syncDappData)
         } catch(error) {
             alert('Failed to initalize IPFS, check console for specifics')
             this.setState({ipfsGetError: true})
             console.log(error)
         }
-        */
     }
 
     // exit
     componentWillUnmount = () => {
         clearInterval(this.interval)
+        this.state.ipfsNode.stop(() => {
+            console.log("shutting down ipfs node")
+        })
     }
 
     // get info from deployed dapp and sync with session state
@@ -107,8 +118,7 @@ class App extends Component {
         const from = accounts[selectedAccountIndex]
         var to = this.addressInput.value
         var message = this.messageInput.value
-        console.log('attempting to send from:', from, 
-            '\nto', to, '\nmessage:', message)
+        console.log('attempting to send from:', from, '\nto', to, '\nmessage:', message)
 
         contract.methods.sendMessage().send({gas: '2352262', from})
             .then((x) => {this.syncDappData()})
@@ -162,6 +172,7 @@ class App extends Component {
 
         return (
             <div className="App">
+<<<<<<< HEAD
                 <Header/>
                 <MainPage/>
                 <Console/>
@@ -357,13 +368,20 @@ class BackendStuff extends Component {
         return (
 /*            <div class="backend-stuff">
                 <p>address: {address}</p>
+=======
+                <header className="App-header">
+                    <h1>eth/ipfs example</h1>
+                </header>
+                <p>account address: {address}</p>
+                <p>ipfs hash: {ipfsHash}</p>
+>>>>>>> e2fa6b2
                 <p>claimableTokens: {claimableTokens}</p>
                 <p>latestBlockNo: {latestBlockNo}</p>
                 <p>tokensPerMessage: {tokensPerMessage}</p>
                 <p>dailyTokensNo: {dailyTokensNo}</p>
                 <p>blocksPerClaim: {blocksPerClaim}</p>
                 <p>balance: {balance}</p>
-                <p>messageHistory: {messageHistory}</p>
+                <p>messageHistory: {messageHistory[messageHistory.length - 1]}</p>
                 <p>blocksTilClaim: {blocksTilClaim}</p>
                 <button onClick={this.claimMessageTokens}>Claim Tokens</button>  
                 <br /><br />
