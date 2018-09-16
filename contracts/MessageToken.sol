@@ -20,8 +20,10 @@ contract MessageToken is BaseToken {
     mapping (address => uint[]) messageHistory;
     uint public blocksPerClaim = 100;
     string public ipfsHash;
+    string public latestMessage;
 
-    event sendEvent(address addr);
+    event sendEvent(address addr, string latestMessage);
+    event hashUpdate(address addr, string ipfsHash);
 
     function UsableToken(
         uint256 _initialAmount,
@@ -109,18 +111,20 @@ contract MessageToken is BaseToken {
         return true;
     }
 
-    function sendMessage() public {
+    function sendMessage(string message) public {
         require(balances[msg.sender] >= tokensPerMessage);
         messageHistory[msg.sender].push(block.number - 1);
 
         balances[msg.sender] -= tokensPerMessage;
         balances[this] += tokensPerMessage;
 
-        emit sendEvent(msg.sender);
+        latestMessage = message;
+        emit sendEvent(msg.sender, latestMessage);
     }
 
     function sendHash(string _hash) public {
         ipfsHash = _hash;
+        emit hashUpdate(msg.sender, ipfsHash);
     }
 
     function getHash() public view returns (string _hash) {
