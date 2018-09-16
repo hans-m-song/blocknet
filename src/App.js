@@ -170,6 +170,9 @@ class App extends Component {
     }
 }
 
+/*
+ * Main Screen and Panels
+ * */
 class Header extends Component {
     render() {
         return (
@@ -190,12 +193,20 @@ class Header extends Component {
 
 /*This is where the main components will live*/
 class MainPage extends Component {
+    constructor(props) {
+        super(props);
+        this.activateSection = this.activateSection.bind(this);
+        this.state = {activeSection: "Rooms"};
+    }
+    activateSection(sectionName) {
+        this.setState({activeSection : sectionName});
+    }
     render() {
         return (
             <div className="main-page">
                 <div className="main-screen">
-                    <LeftPanel/>
-                    <Content/>
+                    <LeftPanel onSectionClick={this.activateSection} activeSection={this.state.activeSection}/>
+                    <Content section={this.state.activeSection}/>
                     <RightPanel/>
                 </div>
             </div>
@@ -205,31 +216,83 @@ class MainPage extends Component {
 
 /*Links to major sections of the app live here*/
 class LeftPanel extends Component {
+    constructor(props) {
+        super(props);
+        this.activateSection = this.activateSection.bind(this);
+    }
+    activateSection(sectionName) {
+        this.props.onSectionClick(sectionName);
+    }
     render() {
         return (
             <div className="left-panel">
-                <SectionButton sectionName="Rooms"/>
-                <SectionButton sectionName="Messages"/>
-                <SectionButton sectionName="History"/>
-                <SectionButton sectionName="Settings"/>
+                <SectionButton sectionName="Rooms" onSectionClick={this.activateSection} activeSection={this.props.activeSection}/>
+                <SectionButton sectionName="Messages" onSectionClick={this.activateSection} activeSection={this.props.activeSection}/>
+                <SectionButton sectionName="History" onSectionClick={this.activateSection} activeSection={this.props.activeSection}/>
+                <SectionButton sectionName="Settings" onSectionClick={this.activateSection} activeSection={this.props.activeSection}/>
             </div>
         )
     }
 }
 
 class SectionButton extends Component {
-    constructor(props) {
+    constructor(props){
         super(props);
+        this.handleClick = this.handleClick.bind(this);
+        this.prop
+    }
+    handleClick() {
+        console.log(this.props.sectionName + " was clicked.")
+        this.props.onSectionClick(this.props.sectionName);
     }
     render() {
+        let selectedStatus = "unselected";
+        console.log("active: {" + this.props.activeSection + "}| this: {" + this.props.sectionName + "}");
+        if (this.props.activeSection == this.props.sectionName) {
+            console.log("EQUALITY");
+            selectedStatus = "selected";
+        }
+        var classes = `${selectedStatus} section-button`;
+        
         return (
-            <div className="section-button">{this.props.sectionName}</div>
+            <div className={classes} onClick={(e) => this.handleClick(e)}>{this.props.sectionName}</div>
         );
     }
 }
 
-/*This is where the message / room screens will live */
+/*Placeholder for now... more or less just a border*/
+class RightPanel extends Component {
+    render() {
+        return (
+            <div className="right-panel">
+            
+            </div>
+        )
+    }
+}
+
+/**
+ * Rooms and Messages
+ * */
 class Content extends Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        switch (this.props.section) {
+            case "Rooms":
+                return (<RoomScreen/>);
+            case "Messages":
+                return (<PrivateChatsScreen/>);
+            case "History":
+                return (<HistoryScreen/>);
+            case "Settings":
+                return (<SettingsScreen/>);
+        }
+    }
+}
+
+class RoomScreen extends Component {
     render() {
         return (
             <div className="content">
@@ -306,17 +369,6 @@ class ChatBox extends Component {
     }
 }
 
-/*Placeholder for now... more or less just a border*/
-class RightPanel extends Component {
-    render() {
-        return (
-            <div className="right-panel">
-            
-            </div>
-        )
-    }
-}
-
 /*Draggable sliding panel for console. Need to find out how to be implement*/
 /*
 class Message extends Component {
@@ -326,6 +378,49 @@ class Message extends Component {
         );
     }
 }*/
+
+/**
+ * Private Messages
+ */
+class PrivateChatsScreen extends Component {
+    render() {
+        return(
+            <div className="private-messages-screen content">
+                <p>Private messaging is a work in progress.</p>
+            </div>
+        );
+    }
+}
+
+/**
+ * History
+ */
+class HistoryScreen extends Component {
+    render() {
+        return(
+            <div className="history-screen content">
+                <p>History is a work in progress.</p>
+            </div>
+        );
+    }
+}
+
+/**
+ * Settings
+ */
+class SettingsScreen extends Component {
+    render() {
+        return(
+            <div className="settings-screen content">
+                <p>Settings is a work in progress.</p>
+            </div>
+        );
+    }
+}
+
+/**
+ * Console
+ */
 class Console extends Component {
     render() {
         return(

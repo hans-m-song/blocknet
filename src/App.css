@@ -100,6 +100,38 @@ h1 {
   cursor : pointer;
 }
 
+.section-button:active {
+  /*color*/
+  background-color : black;
+  color : white;
+  /*border*/
+  border : white;
+  border-width : 1px;
+  border-style : solid;
+  /*interaction*/
+  cursor : pointer;
+}
+
+.selected {
+  /*color*/
+  background-color : white;
+  color : black;
+  /*border*/
+  border : white;
+  border-width : 1px;
+  border-style : solid;
+}
+
+.unselected {
+  /*color*/
+  background-color : black;
+  color : white;
+  /*border*/
+  border : white;
+  border-width : 1px;
+  border-style : solid;
+}
+
 .content {
   flex-grow : 1;
   flex-basis: 80%;
