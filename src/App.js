@@ -174,7 +174,7 @@ class Header extends Component {
     render() {
         return (
             <div className="header">
-                <h1 className="title">Message Blocks</h1>
+                <h1 className="title">BLOCK NET >></h1>
                 <nav className="header-nav">
                     <div>
                         <a href="#">Dev Blog</a>
