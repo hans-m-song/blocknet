@@ -141,7 +141,7 @@ h1 {
 }
 
 /******Room Related CSS******/
-.room-nav {
+/*.room-nav {
 	height: 6%;
 	width: 100%;
 	border-bottom: solid 1px;
@@ -168,11 +168,52 @@ h1 {
     padding: 6%;
     text-align: center;
     text-decoration: none;
+}*/
+
+.room-nav ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: flex-start;
+	border-bottom: solid 1px;
 }
 
-.room-nav li a:hover {
-  background-color : white;
-  color : black;
+.room-nav li {
+	width: 12.5%;
+}
+
+.room-nav a {
+	text-decoration: none;
+	text-align: center;
+	color: white;
+	display: block;
+	padding: 0.5em 2em;
+	border-right: solid 1px;
+}
+
+.room-nav a:hover {
+  	background-color : white;
+  	color : black;
+}
+
+@media all and (max-width: 800px) {
+	.room-nav ul {
+		flex-flow: column wrap;
+		padding: 0;
+	}
+
+	.room-nav li {
+		width: 100%;
+	}
+
+	.room-nav a {
+		text-align: center;
+		padding: 10px;
+		border-top: solid 1px;
+		border-bottom: solid 1px;
+	}
 }
 
 /******Message Box Related CSS******/
