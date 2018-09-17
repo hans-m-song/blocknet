@@ -116,7 +116,7 @@ class App extends Component {
     const messageHistory = await contract.methods
       .getMessageHistory(from).call()
     const blocksTilClaim = await contract.methods
-      .getBlocksTillClaimable(from).call
+      .getBlocksTillClaimable(from).call()
     const claimableTokens = await contract.methods
       .getClaimableTokens(from).call()
     const blocksPerClaim = await contract.methods
@@ -173,23 +173,41 @@ class App extends Component {
     var to = this.addressInput.value
     var message = this.messageInput.value
     console.log('attempting to send from:', from, '\nto', to, '\nmessage:', message)
-
-    /*if(this.state.ipfsHash) {
-      contract.methods.sendHash(this.state.ipfsHash).send({gas: '2352262', from})
-        .then((x) => {this.syncData()})
-      const returnHash = await contract.methods.getHash().call()
-      console.log(returnHash)
-    }*/
     try {
-      await contract.methods.sendMessage(message).send({gas: '2352262', from})
-      this.syncData()
-      this.addressInput.value = ''
-      this.messageInput.value = ''
+        if (this.state.ipfsHash) {
+            const filesAdded = await ipfs.files.add({
+                path: 'testipfs',
+                content: Buffer.from(message)
+            })
+            console.log('added file:', filesAdded[0].path, filesAdded[0].hash)
+            await contract.methods.sendMessage(filesAdded[0].hash).send({ gas: '2352262', from })
+            console.log('sent hash');
+        }
+        this.syncData()
+        this.addressInput.value = ''
+        this.messageInput.value = ''
     } catch(err) {
       alert('transaction rejected, console for details')
       console.log(err)
     }
   }
+
+    readHash = async () => {
+        const { contract } = this.state
+        var latestMessage = await contract.methods.getMessage().call()
+        console.log('attempting to read file at: ', latestMessage)
+        try {
+            const hashBuffer = await ipfs.files.cat(latestMessage)
+            console.log('read file contents:\n', hashBuffer.toString())
+            var hashContents = hashBuffer.toString()
+
+            this.setState({hashContents})
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+
 
   render () {
     const {
@@ -210,6 +228,7 @@ class App extends Component {
       messageHistory,
       blocksTilClaim,
       latestMessage,
+      hashContents,
       accounts,
       selectedAccountIndex
     } = this.state
@@ -261,6 +280,8 @@ class App extends Component {
         <p>messageHistory: {messageHistory[messageHistory.length - 1]}</p>
         <p>blocksTilClaim: {blocksTilClaim}</p>
         <p>latestMessage: {latestMessage}</p>
+        <button onClick={this.readHash}>Read from Hash</button>
+        <p>Contents from Hash: {hashContents}</p>
         <button onClick={this.claimMessageTokens}>Claim Tokens</button>
         <br /><br />
         <p>address: </p>

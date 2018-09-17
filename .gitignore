@@ -77,3 +77,5 @@ node_modules
 .vscode
 src/compiled/*
 build
+.vs/ProjectSettings.json
+.vs/VSWorkspaceState.json
