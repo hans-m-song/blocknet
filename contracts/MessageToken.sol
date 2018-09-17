@@ -22,8 +22,8 @@ contract MessageToken is BaseToken {
     string public ipfsHash;
     string public latestMessage;
 
-    event sendEvent(address addr, string latestMessage);
-    event hashUpdate(address addr, string ipfsHash);
+    //event sendEvent(address addr, string latestMessage);
+    //event hashUpdate(address addr, string ipfsHash);
 
     function UsableToken(
         uint256 _initialAmount,
@@ -119,12 +119,16 @@ contract MessageToken is BaseToken {
         balances[this] += tokensPerMessage;
 
         latestMessage = message;
-        emit sendEvent(msg.sender, latestMessage);
+        //emit sendEvent(msg.sender, latestMessage);
+    }
+
+    function getMessage() public view returns (string _message) {
+        return latestMessage;
     }
 
     function sendHash(string _hash) public {
         ipfsHash = _hash;
-        emit hashUpdate(msg.sender, ipfsHash);
+        //emit hashUpdate(msg.sender, ipfsHash);
     }
 
     function getHash() public view returns (string _hash) {

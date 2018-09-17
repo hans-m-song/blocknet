@@ -130,10 +130,13 @@ class App extends Component {
     const ipfsInfo = await ipfs.id()
     const ipfsHash = ipfsInfo.id
     const ipfsAddr = ipfsInfo.addresses
-    var ipfsPeers = null
+    var ipfsPeers = {__html: ''}
     if(this.state.ipfsIsOnline) {
       ipfsPeers = {__html: await this.refreshPeerList()}
     }
+
+    var latestMessage = await contract.methods.getMessage().call()
+    
     const contractIPFSHash = await contract.methods.getHash().call()
 
     this.setState({
@@ -148,7 +151,8 @@ class App extends Component {
       blocksPerClaim,
       tokensPerMessage,
       dailyTokensNo,
-      latestBlockNo
+      latestBlockNo,
+      latestMessage
     })
   }
 
@@ -176,15 +180,22 @@ class App extends Component {
       const returnHash = await contract.methods.getHash().call()
       console.log(returnHash)
     }*/
-
-    contract.methods.sendMessage().send({gas: '2352262', from})
-      .then((x) => {this.syncData()})
+    try {
+      await contract.methods.sendMessage(message).send({gas: '2352262', from})
+      this.syncData()
+      this.addressInput.value = ''
+      this.messageInput.value = ''
+    } catch(err) {
+      alert('transaction rejected, console for details')
+      console.log(err)
+    }
   }
 
   render () {
     const {
       web3GetError,
       ipfsGetError,
+      ipfsIsOnline,
       ipfsHash,
       contractIPFSHash,
       ipfsAddr,
@@ -198,12 +209,13 @@ class App extends Component {
       balance,
       messageHistory,
       blocksTilClaim,
+      latestMessage,
       accounts,
       selectedAccountIndex
     } = this.state
     const address = accounts[selectedAccountIndex]
 
-    if(accounts.length <= 0 && !web3GetError && !web3InvalidNetwork && !ipfsGetError && !ipfsHash) {
+    if(accounts.length <= 0 && !web3GetError && !web3InvalidNetwork && !ipfsGetError && !ipfsHash && !ipfsIsOnline) {
       console.log('loading components')
       return (
         <p>loading components</p>
@@ -248,6 +260,7 @@ class App extends Component {
         <p>balance: {balance}</p>
         <p>messageHistory: {messageHistory[messageHistory.length - 1]}</p>
         <p>blocksTilClaim: {blocksTilClaim}</p>
+        <p>latestMessage: {latestMessage}</p>
         <button onClick={this.claimMessageTokens}>Claim Tokens</button>
         <br /><br />
         <p>address: </p>
