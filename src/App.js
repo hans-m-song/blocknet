@@ -161,7 +161,7 @@ class App extends Component {
                 <p>please change to the rinkeby network and refresh</p>
             )
         }
-
+        /* Hiding this for testing design*//*
         return (
             <div className="App">
                 <Header/>
@@ -169,6 +169,13 @@ class App extends Component {
                 <Console/>
             </div>
         )
+        */
+       return (
+           <div className="App">
+            <Header/>
+            <MainPage/>
+           </div>
+       )
     }
 }
 
@@ -179,7 +186,7 @@ class Header extends Component {
     render() {
         return (
             <div className="header">
-                <h1 className="title">BLOCK NET >></h1>
+                <h1 className="title text-unselectable hover-cursor">BLOCK NET >></h1>
                 <nav className="header-nav">
                     <div>
                         <a href="#">Dev Blog</a>
@@ -316,7 +323,7 @@ class RoomScreen extends Component {
         return (
             <div className="room-screen">
                 <div className="room-nav">
-                    <ul>
+                    <ul className=".text-unselectable">
                         <li><a href="#room1">Room 1</a></li>
                         <li><a href="#room2">Room 2</a></li>
                         <li><a href="#room3">Room 3</a></li>
@@ -425,7 +432,7 @@ class Message extends Component {
 class PrivateChatsScreen extends Component {
     render() {
         return(
-            <div className="private-messages-screen content">
+            <div className="private-messages-screen">
                 <p>Private messaging is a work in progress.</p>
             </div>
         );
@@ -438,7 +445,7 @@ class PrivateChatsScreen extends Component {
 class HistoryScreen extends Component {
     render() {
         return(
-            <div className="history-screen content">
+            <div className="history-screen">
                 <p>History is a work in progress.</p>
             </div>
         );

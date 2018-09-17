@@ -1,13 +1,25 @@
 * {
   /*font-family : 'Do Hyeon', sans-serif;*/
   font-family: 'Do Hyeon', sans-serif;
+  font-size : 1em;
+}
+
+/************   Text selection colour    **********/
+::selection {
+  background: blue; /* WebKit/Blink Browsers */
+}
+::-moz-selection {
+  background: blue; /* Gecko Browsers */
+}
+
+.hover-cursor {
+  cursor : default;
 }
 
 body {
-  background-color : white;
+  background-color : black;
   margin : 0;
   padding : 0;
-
 }
 
 h1 {
@@ -16,11 +28,16 @@ h1 {
 
 .header {
   background-color : black;
+  border-bottom: 1px solid #1f1f20;
   color : white;
+
   padding-left : 10px;
   padding-right : 20px;
   padding-top : 0px;
   padding-bottom : 0px;
+
+  margin-bottom : 8px;
+
   display : flex;
   align-items : center;
   justify-content : space-between;
@@ -52,21 +69,23 @@ h1 {
 
 /*Main Page Stuff (Panel and Content screens)*/
 .main-page {
-  height: calc(100vh - 100px); /*100% of viewport heigh - 100px*/
+  height: calc(100vh - 70px); /*100% of viewport heigh - 100px*/
   /*adding margin here resolved the overlap of the console and footer*/
 }
 
 .main-screen {
   display : flex;
   height : 100%;
-  background-color : black;
+  padding : 0px;
+  margin : 0px;
+
 }
 
 /*Left panel holds links to different sections of the site*/
 .left-panel {
   flex : 0;
   flex-basis : 12%;
-
+  padding : 0px;
   background-color : black;
 }
 
@@ -81,7 +100,7 @@ h1 {
   border-style : solid;
   /*padding*/
   padding : 5px 5px 5px 5px;
-  margin : 5px 5px 10px 5px;
+  margin : 0px 10px 10px 10px;
   /*font*/
   text-align : left;
   font-size : 1.5em;
@@ -98,7 +117,7 @@ h1 {
 .section-button:hover {
   /*color*/
   background-color : white;
-  color : black;
+  color : #02024d;
   /*border*/
   border : white;
   border-width : 1px;
@@ -109,7 +128,7 @@ h1 {
 
 .section-button:active {
   /*color*/
-  background-color : black;
+  background-color : #02024d;
   color : white;
   /*border*/
   border : white;
@@ -144,7 +163,7 @@ h1 {
   flex-basis: 85%;
   overflow : auto;
 
-  background-color : black;
+  background-color : #02024d;
   color : white;
 
   border: 1px solid white;
@@ -180,7 +199,6 @@ h1 {
 }
 
 .console-content {
-  background-color : black;
   color : white;
 }
 
@@ -193,21 +211,23 @@ h1 {
   display : flex;
   flex-direction : column;
   justify-content : flex-start;
+  flex-shrink : 0;
 
   background-color : black;
   color : white;
 
-  border: 1px solid white;
+  border: 1px none white;
 
-  margin : 5px;
+  margin-top : 0px;
 
   width : calc(80vw);
 }
 
 .room-nav ul {
 	list-style: none;
-	margin: 0;
+  margin: 0;
   padding: 0;
+  padding-bottom: 6px;
   border-bottom: solid 1px;
   
   display: flex;
@@ -216,8 +236,9 @@ h1 {
 }
 
 .room-nav {
-  overflow-x : auto;
+  /*overflow-x : auto;
   overflow-y : auto;
+  */
 }
 
 .room-nav li {
@@ -257,16 +278,22 @@ h1 {
 }
 
 /******Message Box Related CSS******/
+.message {
+  overflow: hidden;
+}
 
 /*Container for all messages*/
 .message-container {
   height : 100%;
+  /*overflow-y : auto;*/
   overflow-y : auto;
   overflow-x : hidden;
+  margin-bottom : 5px;
+  margin-top : 5px;
 }
 
 .message-body {
-	border-bottom: solid 1px;
+  border-bottom: solid 1px;
 }
 
 .message-username {
@@ -291,19 +318,32 @@ h1 {
 /******Chat Box CSS******/
 .chat-box {
   margin-top : auto;
+  padding : 5px 5px 0px 5px;
 }
 
 .chat-box form {
   display : flex;
   justify-content : space-between;
+  height : 75px;
 }
 
+/*Not sure about the colour scheme with this*/
 .chat-box textarea {
-  flex-basis : 95%;
+  flex-basis : 90%;
+  background-color : black;
+  border-top: 1px solid white;
+  border-right: 1px none white;
+  border-left: 1px none white;
+  border-bottom: 1px solid white;
+  border-left: 1px solid white;
+  color : white;
 }
 
 .chat-box-send {
   flex-grow : 0;
-  flex-basis : 5%;
-	cursor: pointer;
+  flex-basis : 10%;
+  cursor: pointer;
+  border : 1px dashed back;
+  background-color : white;
+  color : black;
 }
