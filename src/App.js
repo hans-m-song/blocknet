@@ -280,13 +280,27 @@ class Content extends Component {
     render() {
         switch (this.props.section) {
             case "Rooms":
-                return (<RoomScreen/>);
+                return (
+                    <RoomScreen/>
+                );
             case "Messages":
-                return (<PrivateChatsScreen/>);
+                return (
+                    <div className="content">
+                        <PrivateChatsScreen/>
+                    </div>
+                );
             case "History":
-                return (<HistoryScreen/>);
+                return (
+                    <div className="content">
+                        <HistoryScreen/>
+                    </div>
+                );
             case "Settings":
-                return (<SettingsScreen/>);
+                return (
+                    <div className="content">
+                        <SettingsScreen/>
+                    </div>
+                );
         }
     }
 }
@@ -294,7 +308,7 @@ class Content extends Component {
 class RoomScreen extends Component {
     render() {
         return (
-            <div className="content">
+            <div className="room-screen">
                 <div className="room-nav">
                     <ul>
                         <li><a href="#room1">Room 1</a></li>
@@ -304,12 +318,23 @@ class RoomScreen extends Component {
                         <li><a href="#room5">Room 5</a></li>
                     </ul>
                 </div>
-                <div className="message">
-                    <Message />
-                </div>
-                <div className="chat-box">
-                    <ChatBox />          
-                </div>
+                <MessageContainer/>
+                <ChatBox />          
+            </div>
+        );
+    }
+}
+
+class MessageContainer extends Component {
+    render() {
+        return (
+            <div className="message-container">
+                <Message/>
+                <Message/>
+                <Message/>
+                <Message/>
+                <Message/>
+                <Message/>
             </div>
         );
     }
@@ -318,19 +343,21 @@ class RoomScreen extends Component {
 class Message extends Component {
     render() {
         return (
-            <div className="message-body">
-                <h3 className="message-username">Anon #123321</h3>
-                <h3 className="message-time">Jan 1, 12:33 PM</h3>
-                <p className="message-content">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                    sed do eiusmod tempor incididunt ut labore et dolore magna 
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                    sed do eiusmod tempor incididunt ut labore et dolore magna 
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                </p>
+            <div className="message">
+                <div className="message-body">
+                    <h3 className="message-username">Anon #123321</h3>
+                    <h3 className="message-time">Jan 1, 12:33 PM</h3>
+                    <p className="message-content">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+                        sed do eiusmod tempor incididunt ut labore et dolore magna 
+                        aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
+                        ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+                        sed do eiusmod tempor incididunt ut labore et dolore magna 
+                        aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
+                        ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+                    </p>
+                </div>
             </div>
         );
     }
@@ -358,12 +385,14 @@ class ChatBox extends Component {
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
-                <textarea cols="1" placeholder="Enter message..." 
-                    value={this.state.value} 
-                    onChange={this.handleChange} />
-                <input className="chat-box-send" type="submit" value="Send"/>
-            </form>
+            <div className="chat-box">
+                <form onSubmit={this.handleSubmit}>
+                    <textarea cols="1" placeholder="Enter message..." 
+                        value={this.state.value} 
+                        onChange={this.handleChange} />
+                    <input className="chat-box-send" type="submit" value="Send"/>
+                </form>
+            </div>
         );
     }
 }
@@ -429,7 +458,6 @@ class Console extends Component {
                 </div>
                 <div className="console-content">
                     Console content goes here.
-                    To be drag-able / slide-able by the header bar above.
                 </div>
             </div>
         );
