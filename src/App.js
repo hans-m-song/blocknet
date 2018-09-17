@@ -6,6 +6,8 @@ import abi from './compiled/abi.json'
 import {contractAddress} from './utils/getAddress'
 import './App.css'
 
+
+
 class App extends Component {
     // global vars for the current session state
     state = {
@@ -230,7 +232,9 @@ class LeftPanel extends Component {
                 <SectionButton sectionName="Messages" onSectionClick={this.activateSection} activeSection={this.props.activeSection}/>
                 <SectionButton sectionName="History" onSectionClick={this.activateSection} activeSection={this.props.activeSection}/>
                 <SectionButton sectionName="Settings" onSectionClick={this.activateSection} activeSection={this.props.activeSection}/>
+                <SectionButton sectionName="Invitates" onSectionClick={this.activateSection} activeSection={this.props.activeSection}/>
             </div>
+
         )
     }
 }
@@ -287,6 +291,9 @@ class Content extends Component {
                 return (<HistoryScreen/>);
             case "Settings":
                 return (<SettingsScreen/>);
+            case "Invitates":
+                return (<InvitationScreen/>);
+               
         }
     }
 }
@@ -315,11 +322,17 @@ class RoomScreen extends Component {
     }
 }
 
+
+
+
+
 class Message extends Component {
     render() {
         return (
             <div className="message-body">
                 <h3 className="message-username">Anon #123321</h3>
+                <button className="message-username"> Invite </button>
+
                 <h3 className="message-time">Jan 1, 12:33 PM</h3>
                 <p className="message-content">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
@@ -417,6 +430,18 @@ class SettingsScreen extends Component {
     }
 }
 
+/**
+ * Invitation Screen
+ */
+class InvitationScreen extends Component {
+    render() {
+        return (
+            <div className="content">
+               
+            </div>
+        );
+    }
+}
 /**
  * Console
  */
