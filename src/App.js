@@ -385,10 +385,10 @@ class Menu extends Component {
       super();
       
       this.state = {
-
+          
         showMenu: false,
       };
-      
+
       this.showMenu = this.showMenu.bind(this);
       this.closeMenu = this.closeMenu.bind(this);
     }
