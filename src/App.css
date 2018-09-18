@@ -138,7 +138,7 @@ button{
 .section-button:hover {
   /*color*/
   background-color : white;
-  color : #02024d;
+  color : black;
   /*border*/
   border : white;
   border-width : 1px;
@@ -149,7 +149,7 @@ button{
 
 .section-button:active {
   /*color*/
-  background-color : #02024d;
+  background-color : black;
   color : white;
   /*border*/
   border : white;
@@ -159,7 +159,7 @@ button{
   cursor : pointer;
 }
 
-.selected {
+.selected-section {
   /*color*/
   background-color : white;
   color : black;
@@ -169,7 +169,7 @@ button{
   border-style : solid;
 }
 
-.unselected {
+.unselected-section {
   /*color*/
   background-color : black;
   color : white;
@@ -184,7 +184,7 @@ button{
   flex-basis: 85%;
   overflow : auto;
 
-  background-color : #02024d;
+  background-color : black;
   color : white;
 
   border: 1px solid white;
@@ -231,10 +231,8 @@ button{
 .room-screen {
   display : flex;
   flex-direction : column;
-  justify-content : flex-start;
   flex-shrink : 0;
 
-  background-color : black;
   color : white;
 
   border: 1px none white;
@@ -244,42 +242,39 @@ button{
   width : calc(80vw);
 }
 
-.room-nav ul {
-	list-style: none;
-  margin: 0;
-  padding: 0;
-  padding-bottom: 6px;
-  border-bottom: solid 1px;
-  
-  display: flex;
-	flex-flow: row nowrap;
-  justify-content: flex-start;
-}
-
 .room-nav {
   /*overflow-x : auto;
   overflow-y : auto;
   */
-}
-
-.room-nav li {
-  /*width: 12.5%;*/
-  flex-grow : 0;
+  display : flex;
+  flex-direction : row;
+  border-bottom : 1px solid white;
   flex-shrink : 0;
-  border-right: solid 1px;
 }
 
-.room-nav a {
-	text-decoration: none;
-	text-align: center;
-	color: white;
-	display: block;
-	padding: 0.25em 2em;
+.room-nav div {
+  padding : 11px 15px 10px 15px;
 }
 
-.room-nav a:hover {
-  	background-color : white;
-  	color : black;
+
+.room-nav div:hover {
+  background-color : white;
+  color : black;
+  cursor : pointer;
+}
+
+.room-nav div:active {
+  background-color : black;
+  color : white;
+}
+
+.selected-room-button {
+  background-color: white;
+  color: black;
+}
+
+.unselected-room-button {
+  
 }
 
 @media all and (max-width: 800px) {
@@ -302,15 +297,17 @@ button{
 
 .scroll-container {
   position : relative;
-  overflow : hidden;
+  height : 69vh;
   margin-top : 3px;
+  flex-shrink : 0;
+  overflow : hidden;
 }
 
 /*Container for all messages*/
 .message-container {
   margin-bottom : 0px;
   margin-top : 0px;
-  height : 35vh;
+  height : 50%;
 }
 
 .message {

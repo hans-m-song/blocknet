@@ -21,11 +21,9 @@ export class Header extends Component {
   }
 }
 
-/*Page body High level elements of the page body, including:
-    - Left panel
-    - Content body
-    - Right panel
-*/
+/**
+ * Page body High level elements of the page body, i.e. the left and right panels and selected content.
+ */
 export class MainPage extends Component {
   constructor(props) {
     super(props);
@@ -62,31 +60,30 @@ export class LeftPanel extends Component {
       <div className="left-panel">
         <SectionButton sectionName="Rooms" onSectionClick={this.activateSection} activeSection={this.props.activeSection} />
         <SectionButton sectionName="Messages" onSectionClick={this.activateSection} activeSection={this.props.activeSection} />
-        <SectionButton sectionName="History" onSectionClick={this.activateSection} activeSection={this.props.activeSection} />
+        <SectionButton sectionName="Console" onSectionClick={this.activateSection} activeSection={this.props.activeSection} />
         <SectionButton sectionName="Settings" onSectionClick={this.activateSection} activeSection={this.props.activeSection} />
       </div>
     )
   }
-  //<SectionButton sectionName="Invitates" onSectionClick={this.activateSection} activeSection={this.props.activeSection}/>
-
 }
 
-/*Button that links to the main sections of the site*/
+/**
+ * Button in side panel that routes to the main sections of the site
+ */
 export class SectionButton extends Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
-    this.prop
   }
   handleClick() {
     console.log(this.props.sectionName + " was clicked.")
     this.props.onSectionClick(this.props.sectionName);
   }
   render() {
-    let selectedStatus = "unselected";
+    let selectedStatus = "unselected-section";
     //console.log("active: {" + this.props.activeSection + "}| this: {" + this.props.sectionName + "}");
     if (this.props.activeSection === this.props.sectionName) {
-      selectedStatus = "selected";
+      selectedStatus = "selected-section";
     }
     var classes = `${selectedStatus} section-button text-unselectable`;
 
@@ -128,40 +125,87 @@ export class Content extends Component {
             <PrivateChatsScreen />
           </div>
         );
-      case "History":
-        return (
-          <div className="content">
-            <HistoryScreen />
-          </div>
-        );
       case "Settings":
         return (
           <div className="content">
             <SettingsScreen />
           </div>
         );
-      case "Invitates":
-        return (<InvitationScreen />);
+      case "Console":
+        return (
+          <div className="content">
+            <Console/>
+          </div>
+        );
     }
   }
 }
 
+/**
+ * Main room screen containing the room navigation menu, message list and chat box
+ */
 export class RoomScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.activateRoom = this.activateRoom.bind(this);
+    this.state = { activeRoom: "Block Net" };
+  }
+  /*This is the point where we will want to give the to-be-activated room name to the backend for it to send back messages*/
+  activateRoom(roomName) {
+    this.setState({ activeRoom: roomName });
+  }  
   render() {
     return (
       <div className="room-screen">
-        <div className="room-nav">
-          <ul>
-            <li><a href="#room1">Room 1</a></li>
-            <li><a href="#room2">Room 2</a></li>
-            <li><a href="#room3">Room 3</a></li>
-            <li><a href="#room4">Room 4</a></li>
-            <li><a href="#room5">Room 5</a></li>
-          </ul>
-        </div>
+        <RoomNav onRoomButtonClick={this.activateRoom} activeRoom={this.state.activeRoom}/>
         <MessageContainer />
         <ChatBox />
       </div>
+    );
+  }
+}
+
+export class RoomNav extends Component {
+  constructor(props) {
+    super(props);
+    this.activateRoom = this.activateRoom.bind(this);
+  }
+  activateRoom(roomName) {
+    this.props.onRoomButtonClick(roomName);
+  }
+  render() {
+    return(
+      <div className="room-nav text-unselectable">
+        <RoomButton roomName="Block Net" onRoomButtonClick={this.activateRoom} activeRoom={this.props.activeRoom}/>
+        <RoomButton roomName="Programming" onRoomButtonClick={this.activateRoom} activeRoom={this.props.activeRoom}/>
+        <RoomButton roomName="Gaming" onRoomButtonClick={this.activateRoom} activeRoom={this.props.activeRoom}/>
+        <RoomButton roomName="Work" onRoomButtonClick={this.activateRoom} activeRoom={this.props.activeRoom}/>
+        <RoomButton roomName="Lifestyle" onRoomButtonClick={this.activateRoom} activeRoom={this.props.activeRoom}/>
+      </div>
+    );
+  }
+}
+
+/**
+ * Button for rooms. Changes colour according to whether selected or not 
+ */
+export class RoomButton extends Component {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
+  handleClick() {
+    this.props.onRoomButtonClick(this.props.roomName)
+  }
+  render() {
+    let selectedStatus = "unselected-room-button";
+    console.log("this: " + this.props.roomName + "| active: " + this.props.activeRoom)
+    if (this.props.activeRoom === this.props.roomName) {
+      selectedStatus = "selected-room-button";
+    }
+    let classes = `${selectedStatus}`
+    return(
+      <div className={classes} onClick={(e) => this.handleClick(e)}>{this.props.roomName}</div>
     );
   }
 }
@@ -175,7 +219,6 @@ export class MessageContainer extends Component {
 
     });
   }
-
   render() {
     return (
       <div className="scroll-container">
@@ -346,19 +389,6 @@ export class PrivateChatsScreen extends Component {
 }
 
 /**
- * History
- */
-export class HistoryScreen extends Component {
-  render() {
-    return (
-      <div className="history-screen">
-        <p>History is a work in progress.</p>
-      </div>
-    );
-  }
-}
-
-/**
  * Settings
  */
 export class SettingsScreen extends Component {
@@ -371,18 +401,6 @@ export class SettingsScreen extends Component {
   }
 }
 
-/**
- * Invitation Screen
- */
-export class InvitationScreen extends Component {
-  render() {
-    return (
-      <div className="content">
-
-      </div>
-    );
-  }
-}
 /**
  * Console
  */
