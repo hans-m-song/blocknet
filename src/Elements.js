@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PerfectScrollbar from 'perfect-scrollbar'
 
 /********** Main Screen and Panels ************/
-
 /*Header navigation bar*/
 export class Header extends Component {
   render() {

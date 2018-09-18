@@ -38,6 +38,6 @@
     "parser": "babel-eslint"
   },
   "devDependencies": {
-    "babel-eslint": "^9.0.0"
+    "babel-eslint": "^7.2.3"
   }
 }
