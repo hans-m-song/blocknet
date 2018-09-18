@@ -5,6 +5,7 @@ import getWeb3 from './utils/getWeb3'
 import abi from './compiled/abi.json'
 import {contractAddress} from './utils/getAddress'
 import './App.css'
+import PerfectScrollbar from 'perfect-scrollbar'
 
 
 
@@ -323,7 +324,7 @@ class RoomScreen extends Component {
         return (
             <div className="room-screen">
                 <div className="room-nav">
-                    <ul className=".text-unselectable">
+                    <ul>
                         <li><a href="#room1">Room 1</a></li>
                         <li><a href="#room2">Room 2</a></li>
                         <li><a href="#room3">Room 3</a></li>
@@ -339,45 +340,76 @@ class RoomScreen extends Component {
 }
 
 class MessageContainer extends Component {
+    constructor(props) {
+        super(props);
+    }
+    componentDidMount() {
+        this.mountScrollbar();
+    }
+
+    mountScrollbar() {
+        const container = document.querySelector('.scroll-container');
+        const scrollbar = new PerfectScrollbar(container, {
+            wheelSpeed: 2,
+            wheelPropagation: true,
+
+        });
+    }
+
     render() {
         return (
-            <div className="message-container">
-                <Message/>
-                <Message/>
-                <Message/>
-                <Message/>
-                <Message/>
-                <Message/>
+            <div className="scroll-container">
+                <div className="message-container">
+                    <Message/>
+                    <Message/>
+                    <Message/>
+                    <Message/>
+                    <Message/>
+                </div>
             </div>
+            
         );
     }
 }
-
-
-
-
 
 class Message extends Component {
     render() {
         return (
             <div className="message">
-                <div className="message-body">
-                    <h3 className="message-username">Anon #123321</h3>
-                    <button className="message-username"> Invite </button>
-
-                    <h3 className="message-time">Jan 1, 12:33 PM</h3>
-                    <p className="message-content">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                        sed do eiusmod tempor incididunt ut labore et dolore magna 
-                        aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
-                        ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                        sed do eiusmod tempor incididunt ut labore et dolore magna 
-                        aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
-                        ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                    </p>
-                </div>
+                    <MessageHeader/>
+                    <MessageContent/>
             </div>
+        );
+    }
+}
+
+class MessageHeader extends Component {
+    render() {
+        return (
+            <div className="message-header">
+                <div className="composer">
+                    <h3 className="message-username hover-hand">Anon #123321</h3>
+                    <button className="invite-button hover-cursor"> Invite </button>
+                </div>
+                <h3 className="message-time hover-cursor">Jan 1, 12:33 PM</h3>
+            </div>
+        );
+    }
+}
+
+class MessageContent extends Component {
+    render () {
+        return (
+            <p className="message-content hover-cursor">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+                sed do eiusmod tempor incididunt ut labore et dolore magna 
+                aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
+                ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+                sed do eiusmod tempor incididunt ut labore et dolore magna 
+                aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
+                ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+            </p>
         );
     }
 }

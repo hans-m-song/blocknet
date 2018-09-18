@@ -16,6 +16,10 @@
   cursor : default;
 }
 
+.hover-hand {
+  cursor : pointer;
+}
+
 body {
   background-color : black;
   margin : 0;
@@ -253,7 +257,7 @@ h1 {
 	text-align: center;
 	color: white;
 	display: block;
-	padding: 0.5em 2em;
+	padding: 0.25em 2em;
 }
 
 .room-nav a:hover {
@@ -279,31 +283,46 @@ h1 {
 
 /******Message Box Related CSS******/
 .message {
-  overflow: hidden;
+  border-bottom: solid white 1px;
+  padding-top : 5px;
+}
+
+.scroll-container {
+  position : relative;
+  overflow : hidden;
 }
 
 /*Container for all messages*/
 .message-container {
-  height : 100%;
-  /*overflow-y : auto;*/
-  overflow-y : auto;
-  overflow-x : hidden;
   margin-bottom : 5px;
   margin-top : 5px;
+  height : 35vh;
 }
 
-.message-body {
-  border-bottom: solid 1px;
+.message-header {
+  display : flex;
+  flex-direction : row;
+  justify-content : space-between;
+  align-items : center;
+}
+
+.composer {
+  display : flex;
+  align-items : center;
 }
 
 .message-username {
-	float: left;
 	overflow: auto;
 	margin: 10px;
 }
 
+.invite-button {
+  height : 25px;
+  background-color : black;
+  color : white;
+}
+
 .message-time {
-	float:right;
 	overflow: auto;
 	margin: 10px;
 }
