@@ -340,14 +340,7 @@ class RoomScreen extends Component {
 }
 
 class MessageContainer extends Component {
-    constructor(props) {
-        super(props);
-    }
     componentDidMount() {
-        this.mountScrollbar();
-    }
-
-    mountScrollbar() {
         const container = document.querySelector('.scroll-container');
         const scrollbar = new PerfectScrollbar(container, {
             wheelSpeed: 2,

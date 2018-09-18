@@ -40,6 +40,7 @@ h1 {
   padding-top : 0px;
   padding-bottom : 0px;
 
+  margin-top : 3px;
   margin-bottom : 8px;
 
   display : flex;
@@ -49,7 +50,7 @@ h1 {
 
 .header > h1 {
   margin-bottom : 0px;
-  margin-top : 5px;
+  margin-top : 0px;
   font-family : 'Do Hyeon', sans-serif;
   font-size : 2.25em;
   margin-left : 1px;
@@ -282,21 +283,24 @@ h1 {
 }
 
 /******Message Box Related CSS******/
-.message {
-  border-bottom: solid white 1px;
-  padding-top : 5px;
-}
 
 .scroll-container {
   position : relative;
   overflow : hidden;
+  margin-top : 3px;
 }
 
 /*Container for all messages*/
 .message-container {
-  margin-bottom : 5px;
-  margin-top : 5px;
+  margin-bottom : 0px;
+  margin-top : 0px;
   height : 35vh;
+}
+
+.message {
+  border-bottom: solid white 1px;
+  padding-bottom : 15px;
+  padding-top : 5px;
 }
 
 .message-header {
@@ -328,16 +332,18 @@ h1 {
 }
 
 .message-content {
-	display:inline-block;
-	margin: 20px;
-	margin-top: 0px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 0px;
+  margin-bottom : 0px;
+  padding-top : 10px;
 	overflow: auto;
 }
 
 /******Chat Box CSS******/
 .chat-box {
   margin-top : auto;
-  padding : 5px 5px 0px 5px;
+  padding : 3px 0px 0px 0px;
 }
 
 .chat-box form {
