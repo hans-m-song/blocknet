@@ -24,6 +24,7 @@
     "ipfs-name": "0.0.1",
     "ipns": "^0.1.6",
     "moment": "^2.22.2",
+    "perfect-scrollbar": "^1.4.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-scripts": "^1.1.5",
