@@ -1,7 +1,8 @@
 import Web3 from 'web3'
 
 /*
-* Checks if there is a web3 instance and deploys to it, otherwise uses localhost (ganache-cli required)
+* Function that checks if there is a web3 instance and deploys to it, otherwise uses localhost (ganache-cli required
+* returns web3 A web3 instance
 */
 const getWeb3 = () =>
     new Promise((resolve, reject) => {
