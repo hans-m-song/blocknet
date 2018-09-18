@@ -12,6 +12,10 @@ const options = {
     }
 }
 
+/* 
+* Instantiates an IPFS given the options constant
+* @returns IPFS(options) An IPFS instance with aforementioned options
+*/
 async function getIPFS() {
     return await new IPFS(options)
 }
