@@ -380,13 +380,68 @@ class Message extends Component {
     }
 }
 
-class MessageHeader extends Component {
+class Menu extends Component {
+    constructor() {
+      super();
+      
+      this.state = {
+
+        showMenu: false,
+      };
+      
+      this.showMenu = this.showMenu.bind(this);
+      this.closeMenu = this.closeMenu.bind(this);
+    }
+    
+    showMenu(event) {
+      event.preventDefault();
+      
+      this.setState({ showMenu: true }, () => {
+        document.addEventListener('click', this.closeMenu);
+      });
+    }
+    
+    closeMenu(event) {
+      
+      if (!this.dropdownMenu.contains(event.target)) {
+        
+        this.setState({ showMenu: false }, () => {
+          document.removeEventListener('click', this.closeMenu);
+        });  
+        
+      }
+    }
+}
+
+class MessageHeader extends Menu {
     render() {
         return (
             <div className="message-header">
-                <div className="composer">
-                    <h3 className="message-username hover-hand">Anon #123321</h3>
-                    <button className="invite-button hover-cursor"> Invite </button>
+                <div className="composer" onClick={this.showMenu}>
+                    <h3 className="message-username hover-hand hover-cursor"> #123321</h3>
+                        {/* <!-- <button className="invite-button hover-cursor"> Invite </button> -->*/}
+
+                    <div className="invite-menu hover-hand hover-cursor">
+
+                        {
+                            this.state.showMenu
+                            ? (
+                                <div
+                               
+                                ref={(element) => {
+                                    this.dropdownMenu = element;
+                                }}
+                                >
+                                <button className="inner-invite-menu"n> Invite to private chat  </button>
+                                <button className="inner-invite-menu"> Invite Someone to this room </button>
+                                <button className="inner-invite-menu"> Mute  </button>
+                                </div>
+                            )
+                            : (
+                                null
+                            )
+                        }
+                    </div>
                 </div>
                 <h3 className="message-time hover-cursor">Jan 1, 12:33 PM</h3>
             </div>

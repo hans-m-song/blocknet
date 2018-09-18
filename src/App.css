@@ -20,6 +20,7 @@
   cursor : pointer;
 }
 
+
 body {
   background-color : black;
   margin : 0;
@@ -29,6 +30,15 @@ body {
 h1 {
   color : white;
 }
+
+button{
+  border: 3px solid black;
+  background-color: black;
+  font-family: 'Courier New', Courier, monospace 10px solid;
+  color: aliceblue;
+
+}
+
 
 .header {
   background-color : black;
@@ -54,6 +64,12 @@ h1 {
   font-family : 'Do Hyeon', sans-serif;
   font-size : 2.25em;
   margin-left : 1px;
+}
+
+.header > h3{
+
+    border:1px solid white;
+    
 }
 
 .header-nav {
@@ -313,6 +329,7 @@ h1 {
 .composer {
   display : flex;
   align-items : center;
+
 }
 
 .message-username {
@@ -320,8 +337,16 @@ h1 {
 	margin: 10px;
 }
 
+.invite-menu {
+
+}
+
+.inner-invite-menu{
+  border: 1px solid white;
+}
+
 .invite-button {
-  height : 25px;
+
   background-color : black;
   color : white;
 }
