@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 
-// backend
+// Imports the backend components
 import abi from './compiled/abi.json'
 import getTime from './utils/getTime'
 import getWeb3 from './utils/getWeb3'
 import getIPFS from './utils/getIPFS'
 import { contractAddress } from './utils/getAddress'
 
-// frontend
+// Imports the frontend components
 import './App.css'
 import {
   Header,
@@ -153,7 +153,7 @@ class Backend extends Component {
     }
   }
 
-  // get info from deployed dapp and sync with session state
+  // get info from deployed decentralised application (dapp) and sync with session state
   syncData = async () => {
     const { web3, accounts, contract, selectedAccountIndex } = this.state
     const from = accounts[selectedAccountIndex]
