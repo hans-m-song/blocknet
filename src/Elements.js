@@ -147,7 +147,28 @@ export class Content extends Component {
   }
 }
 
+/*
+ * The main component for storing the components for a room
+ */
 export class RoomScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.child = React.createRef();
+    this.state = {
+      lastMessage: ''
+    };
+
+    this.updateMessage = this.updateMessage.bind(this);
+  };
+
+  //Calls the addMessage function from MessageContainer
+  updateMessage(msg) {
+    this.setState({ lastMessage: msg });
+    this.child.current.addMessage(msg);
+  }
+
+  //Bind message container to this.child so that the addMessage
+  //function from MessageContainer can be accessed in updateMessage()
   render() {
     return (
       <div className="room-screen">
@@ -160,14 +181,26 @@ export class RoomScreen extends Component {
             <li><a href="#room5">Room 5</a></li>
           </ul>
         </div>
-        <MessageContainer />
-        <ChatBox />
+        <MessageContainer ref={this.child} />
+        <ChatBox updateMessage={(e)=>this.updateMessage(e)} />
       </div>
     );
   }
 }
 
+/*
+ * Contains all the messages
+ */
 export class MessageContainer extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      messages: []
+    };
+
+    this.addMessage = this.addMessage.bind(this);
+  };
+
   componentDidMount() {
     const container = document.querySelector('.scroll-container');
     const scrollbar = new PerfectScrollbar(container, {
@@ -177,15 +210,33 @@ export class MessageContainer extends Component {
     });
   }
 
+  //Create a new variable containing the message and a unique key
+  //and add it to the messages list
+  addMessage(message) {
+    var newMessage = {
+      data: message,
+      key: Date.now()
+    };
+
+    this.setState((prevState) => {
+      return {
+        messages: prevState.messages.concat(newMessage)
+      };
+    });
+  }
+
+  //Helper method for render to render every value in the messages list
+  renderMessages() {
+    return this.state.messages.map(message => {
+      return <Message key={message.key} msg={message.data}/>
+    });
+  }
+
   render() {
     return (
       <div className="scroll-container">
         <div className="message-container">
-          <Message />
-          <Message />
-          <Message />
-          <Message />
-          <Message />
+          {this.renderMessages()}
         </div>
       </div>
 
@@ -193,12 +244,22 @@ export class MessageContainer extends Component {
   }
 }
 
+/*
+ * Renders the header of the message, containing the username
+ * and sent time, and the content, which contains the actual message
+ */
 export class Message extends Component {
+  constructor(props){
+    super(props);
+
+    console.log(this.props)
+  };
+
   render() {
     return (
       <div className="message">
         <MessageHeader />
-        <MessageContent />
+        <MessageContent msg={this.props.msg} />
       </div>
     );
   }
@@ -273,24 +334,27 @@ export class MessageHeader extends Menu {
   }
 }
 
+/*
+ * Contains the text for the messages
+ */
 export class MessageContent extends Component {
+  constructor(props){
+    super(props);
+  };
+
   render() {
+    console.log(this.props);
     return (
       <p className="message-content hover-cursor">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-        sed do eiusmod tempor incididunt ut labore et dolore magna
-        aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-        ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-        sed do eiusmod tempor incididunt ut labore et dolore magna
-        aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-        ullamco laboris nisi ut aliquip ex ea commodo consequat.
-              </p>
+        {this.props.msg}
+      </p>
     );
   }
 }
 
-/*Chat box for sending a message*/
+/*
+ * ChatBox for typing and sending message
+ */
 export class ChatBox extends Component {
   constructor(props) {
     super(props);
@@ -301,18 +365,23 @@ export class ChatBox extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(event) {
-    this.setState({ value: event.target.value });
+  //Update value when ever it is changed in the textarea
+  handleChange(e) {
+    this.setState({ value: e.target.value });
   }
 
-  handleSubmit(event) {
-    event.preventDefault();
+  //Send message to the parent component, RoomScreen, and reset value to ''
+  handleSubmit(e) {
+    e.preventDefault();
+    var thisMessage = this.state.value;
+    this.props.updateMessage(thisMessage);
+    this.setState({ value: '' });
   }
 
   render() {
     return (
       <div className="chat-box">
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={(e)=>this.handleSubmit(e)}>
           <textarea cols="1" placeholder="Enter message..."
             value={this.state.value}
             onChange={this.handleChange} />
