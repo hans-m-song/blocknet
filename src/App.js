@@ -1,13 +1,10 @@
 import React, {Component} from 'react'
-
 import getWeb3 from './utils/getWeb3'
 //import getIPFS from './utils/getIPFS'
 import abi from './compiled/abi.json'
 import {contractAddress} from './utils/getAddress'
 import './App.css'
 import PerfectScrollbar from 'perfect-scrollbar'
-
-
 
 class App extends Component {
     // global vars for the current session state
@@ -180,9 +177,9 @@ class App extends Component {
     }
 }
 
-/*
- * Main Screen and Panels
- * */
+/********** Main Screen and Panels ************/
+
+/*Header navigation bar*/
 class Header extends Component {
     render() {
         return (
@@ -201,7 +198,11 @@ class Header extends Component {
     }
 }
 
-/*This is where the main components will live*/
+/*Page body High level elements of the page body, including:
+    - Left panel
+    - Content body
+    - Right panel
+*/
 class MainPage extends Component {
     constructor(props) {
         super(props);
@@ -224,7 +225,7 @@ class MainPage extends Component {
     }
 }
 
-/*Links to major sections of the app live here*/
+/*Left panel containing sections for main sections of application*/
 class LeftPanel extends Component {
     constructor(props) {
         super(props);
@@ -240,13 +241,14 @@ class LeftPanel extends Component {
                 <SectionButton sectionName="Messages" onSectionClick={this.activateSection} activeSection={this.props.activeSection}/>
                 <SectionButton sectionName="History" onSectionClick={this.activateSection} activeSection={this.props.activeSection}/>
                 <SectionButton sectionName="Settings" onSectionClick={this.activateSection} activeSection={this.props.activeSection}/>
-                <SectionButton sectionName="Invitates" onSectionClick={this.activateSection} activeSection={this.props.activeSection}/>
             </div>
-
         )
     }
+    //<SectionButton sectionName="Invitates" onSectionClick={this.activateSection} activeSection={this.props.activeSection}/>
+
 }
 
+/*Button that links to the main sections of the site*/
 class SectionButton extends Component {
     constructor(props){
         super(props);
@@ -271,7 +273,9 @@ class SectionButton extends Component {
     }
 }
 
-/*Placeholder for now... more or less just a border*/
+/*Right panel, for stylistic purposes (acting as a border for now)
+    -content: unsure for now, icons could potentially be added
+*/
 class RightPanel extends Component {
     render() {
         return (
@@ -414,7 +418,6 @@ class ChatBox extends Component {
         this.state = {
             value: ''
         };
-
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -515,16 +518,6 @@ class Console extends Component {
                 <div className="console-content">
                     Console content goes here.
                 </div>
-            </div>
-        );
-    }
-}
-
-class Footer extends Component {
-    render() {
-        return(
-            <div className="footer">
-                footer
             </div>
         );
     }
