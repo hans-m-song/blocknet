@@ -6,6 +6,7 @@ import getTime from './utils/getTime'
 import getWeb3 from './utils/getWeb3'
 import getIPFS from './utils/getIPFS'
 import { contractAddress } from './utils/getAddress'
+import { Msg, msg2str } from './Message'
 
 // Imports the frontend components
 import './App.css'
@@ -239,17 +240,15 @@ class Backend extends Component {
    * of this new file is added to the contract
    * 
    */
-    sendMessage = async () => {
-    // Retrieve necessary information from the local saved state
-    const { accounts, contract, selectedAccountIndex } = this.state
-    const from = accounts[selectedAccountIndex]
-    //const to = this.addressInput.value
-    //var message = `${getTime()}|${this.messageInput.value}\n`
-    var message = "yo test from front end";
-    //console.log(this.state.hashContents)
-    // Add message to current room messages
+    sendMessage = async (message) => {
+      // Retrieve necessary information from the local saved state
+      const { accounts, contract, selectedAccountIndex } = this.state
+      const from = accounts[selectedAccountIndex]
+      //const to = this.addressInput.value
+      //console.log(this.state.hashContents)
+      // Add message to current room messages
     if (this.state.hashContents) {
-      message = `${message}${this.state.hashContents}`
+      message.message = `${message.message}${this.state.hashContents}`
     }
     //console.log('attempting to send from:', from, '\nto', to, '\nmessage:', message)
     try {
@@ -257,7 +256,7 @@ class Backend extends Component {
         // Create a new file on ipfs with new message
         const filesAdded = await ipfs.files.add({
           path: 'testipfs',
-          content: Buffer.from(message)
+          content: Buffer.from(message.message)
         })
         // Send the new hash through the contract
         console.log('added file:', filesAdded[0].path, filesAdded[0].hash)

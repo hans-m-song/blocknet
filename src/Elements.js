@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PerfectScrollbar from 'perfect-scrollbar'
+import { Msg, msg2str } from './Message'
 
 /********** Main Screen and Panels ************/
 /*Header navigation bar*/
@@ -36,8 +37,8 @@ export class MainPage extends Component {
     this.setState({ activeSection: sectionName });
   }
 
-  sendMessage(message, activeRoom, date) {
-    this.props.sendMessage(message, activeRoom, date);
+  sendMessage(message) {
+    this.props.sendMessage(message);
   }
 
   render() {
@@ -121,8 +122,8 @@ export class Content extends Component {
     this.sendMessage = this.sendMessage.bind(this);
   }
 
-  sendMessage(message, activeRoom, date) {
-    this.props.sendMessage(message, activeRoom, date);
+  sendMessage(message) {
+    this.props.sendMessage(message);
   }
 
   render() {
@@ -177,11 +178,11 @@ export class RoomScreen extends Component {
   updateMessage(msg) {
     this.setState({ lastMessage: msg });
     this.child.current.addMessage(msg);
-    this.sendMessageToBlock();
+    this.sendMessageToBlock(msg);
   }
 
-  sendMessageToBlock() {
-    this.props.sendMessage(this.state.lastMessage, this.state.activeRoom, Date.now());
+  sendMessageToBlock(msg) {
+    this.props.sendMessage(msg);
   }
 
   //Bind message container to this.child so that the addMessage
@@ -268,10 +269,10 @@ export class MessageContainer extends Component {
   //and add it to the messages list
   addMessage(message) {
     var newMessage = {
-      data: message,
+      data: message.message,
       key: Date.now()
-    };
-
+    }
+    
     this.setState((prevState) => {
       return {
         messages: prevState.messages.concat(newMessage)
@@ -282,6 +283,7 @@ export class MessageContainer extends Component {
   //Helper method for render to render every value in the messages list
   renderMessages() {
     return this.state.messages.map(message => {
+      //return <Message key={message.key} msg={message.data}/>
       return <Message key={message.key} msg={message.data}/>
     });
   }
@@ -293,7 +295,6 @@ export class MessageContainer extends Component {
           {this.renderMessages()}
         </div>
       </div>
-
     );
   }
 }
@@ -427,7 +428,8 @@ export class ChatBox extends Component {
   //Send message to the parent component, RoomScreen, and reset value to ''
   handleSubmit(e) {
     e.preventDefault();
-    var thisMessage = this.state.value;
+    //var thisMessage = this.state.value;
+    var thisMessage = Msg("", this.state.value);
     this.props.updateMessage(thisMessage);
     this.setState({ value: '' });
   }
