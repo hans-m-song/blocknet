@@ -310,16 +310,6 @@ class Backend extends Component {
         <p>please change to the rinkeby network and refresh</p>
       )
     }
-    /* Hiding this for testing design*//*
-    return (
-
-        <div className="App">
-            <Header/>
-            <MainPage/>
-            <Console/>
-        </div>
-    )
-    */
     
     // backend stuff not yet implemented
     return (
