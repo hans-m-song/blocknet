@@ -359,7 +359,8 @@ button{
   margin-top: 0px;
   margin-bottom : 0px;
   padding-top : 10px;
-	overflow: auto;
+  overflow: auto;
+  white-space: pre-line;
 }
 
 /******Chat Box CSS******/

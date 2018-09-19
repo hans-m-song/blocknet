@@ -401,6 +401,7 @@ export class ChatBox extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onEnterPress = this.onEnterPress.bind(this);
   }
 
   //Update value when ever it is changed in the textarea
@@ -416,13 +417,22 @@ export class ChatBox extends Component {
     this.setState({ value: '' });
   }
 
+  onEnterPress(e){
+    if(e.keyCode == 13 && e.shiftKey == false) {
+      e.preventDefault();
+      this.handleSubmit(e);
+    }
+  }
+
   render() {
     return (
       <div className="chat-box">
-        <form onSubmit={(e)=>this.handleSubmit(e)}>
+        <form onSubmit={(e)=>this.handleSubmit(e)}
+        ref={formRef => this.myFormRef = formRef}>
           <textarea cols="1" placeholder="Enter message..."
             value={this.state.value}
-            onChange={this.handleChange} />
+            onChange={this.handleChange}
+            onKeyDown={(e)=>this.onEnterPress(e)} />
           <input className="chat-box-send" type="submit" value="Send" />
         </form>
       </div>
