@@ -138,8 +138,14 @@ class Backend extends Component {
     return peersAsHtml
   }
 
+
+  /*
+   * Reads the hash of the selected room and retrieve the messages stored
+   * in the file at that location to var hashContents
+   */
   readHash = async () => {
     const { contract } = this.state
+    // Read the latest message (hash)
     var latestMessage = await contract.methods.getMessage().call()
     //console.log('attempting to read file at: ', latestMessage)
     try {
@@ -220,23 +226,34 @@ class Backend extends Component {
       .then((x) => { this.syncData() })
   }
 
-  // send message
-  sendMessage = async () => {
+  /*
+   * Function that sends a message
+   * Message is read from the message field and appended to the current contents
+   * of the selected rooms (unimplented) hash file
+   * This is then saved as a new file to ipfs and the hash location
+   * of this new file is added to the contract
+   * 
+   */
+    sendMessage = async () => {
+    // Retrieve necessary information from the local saved state
     const { accounts, contract, selectedAccountIndex } = this.state
     const from = accounts[selectedAccountIndex]
     const to = this.addressInput.value
     var message = `${getTime()}|${this.messageInput.value}\n`
     console.log(this.state.hashContents)
+    // Add message to current room messages
     if (this.state.hashContents) {
       message = `${message}${this.state.hashContents}`
     }
     console.log('attempting to send from:', from, '\nto', to, '\nmessage:', message)
     try {
       if (this.state.ipfsHash) {
+        // Create a new file on ipfs with new message
         const filesAdded = await ipfs.files.add({
           path: 'testipfs',
           content: Buffer.from(message)
         })
+        // Send the new hash through the contract
         console.log('added file:', filesAdded[0].path, filesAdded[0].hash)
         await contract.methods.sendMessage(filesAdded[0].hash).send({ gas: '2352262', from })
         console.log('sent hash');
