@@ -413,10 +413,13 @@ export class ChatBox extends Component {
   handleSubmit(e) {
     e.preventDefault();
     var thisMessage = this.state.value;
-    this.props.updateMessage(thisMessage);
-    this.setState({ value: '' });
+    if (thisMessage !== '') {
+      this.props.updateMessage(thisMessage);
+      this.setState({ value: '' });
+    }
   }
 
+  //Send message if enter is pressed and shift is not pressed
   onEnterPress(e){
     if(e.keyCode == 13 && e.shiftKey == false) {
       e.preventDefault();
