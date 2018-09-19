@@ -28,17 +28,24 @@ export class MainPage extends Component {
   constructor(props) {
     super(props);
     this.activateSection = this.activateSection.bind(this);
+    this.sendMessage = this.sendMessage.bind(this);
     this.state = { activeSection: "Rooms" };
   }
+  
   activateSection(sectionName) {
     this.setState({ activeSection: sectionName });
   }
+
+  sendMessage(message, activeRoom, date) {
+    this.props.sendMessage(message, activeRoom, date);
+  }
+
   render() {
     return (
       <div className="main-page">
         <div className="main-screen">
           <LeftPanel onSectionClick={this.activateSection} activeSection={this.state.activeSection} />
-          <Content section={this.state.activeSection} />
+          <Content section={this.state.activeSection} sendMessage={this.sendMessage}/>
           <RightPanel />
         </div>
       </div>
@@ -76,7 +83,6 @@ export class SectionButton extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
   handleClick() {
-    console.log(this.props.sectionName + " was clicked.")
     this.props.onSectionClick(this.props.sectionName);
   }
   render() {
@@ -112,12 +118,18 @@ export class RightPanel extends Component {
 export class Content extends Component {
   constructor(props) {
     super(props);
+    this.sendMessage = this.sendMessage.bind(this);
   }
+
+  sendMessage(message, activeRoom, date) {
+    this.props.sendMessage(message, activeRoom, date);
+  }
+
   render() {
     switch (this.props.section) {
       case "Rooms":
         return (
-          <RoomScreen />
+          <RoomScreen sendMessage={this.sendMessage}/>
         );
       case "Messages":
         return (
@@ -152,7 +164,6 @@ export class RoomScreen extends Component {
       lastMessage: '',
       activeRoom: "Block Net"
     };
-
     this.updateMessage = this.updateMessage.bind(this);
     this.activateRoom = this.activateRoom.bind(this);
   };
@@ -166,6 +177,11 @@ export class RoomScreen extends Component {
   updateMessage(msg) {
     this.setState({ lastMessage: msg });
     this.child.current.addMessage(msg);
+    this.sendMessageToBlock();
+  }
+
+  sendMessageToBlock() {
+    this.props.sendMessage(this.state.lastMessage, this.state.activeRoom, Date.now());
   }
 
   //Bind message container to this.child so that the addMessage
@@ -218,7 +234,7 @@ export class RoomButton extends Component {
   }
   render() {
     let selectedStatus = "unselected-room-button";
-    console.log("this: " + this.props.roomName + "| active: " + this.props.activeRoom)
+    //console.log("this: " + this.props.roomName + "| active: " + this.props.activeRoom)
     if (this.props.activeRoom === this.props.roomName) {
       selectedStatus = "selected-room-button";
     }
@@ -381,7 +397,6 @@ export class MessageContent extends Component {
   };
 
   render() {
-    console.log(this.props);
     return (
       <p className="message-content hover-cursor">
         {this.props.msg}

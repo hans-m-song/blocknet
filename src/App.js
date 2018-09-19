@@ -35,8 +35,7 @@ class App extends Component {
     // current implementation of the frontend
     return (
       <div className="App">
-        <Header />
-        <MainPage />
+        <Backend/>
       </div>
     )
   }
@@ -45,7 +44,6 @@ class App extends Component {
 let ipfs
 
 class Backend extends Component {
-  // global vars for the current session state
   state = {
     web3GetError: false,
     ipfsGetError: false,
@@ -62,6 +60,13 @@ class Backend extends Component {
     DailyTokensNo: 0,
     latestBlockNo: 0
   }
+
+  constructor(props) {
+    super(props);
+    this.sendMessage = this.sendMessage.bind(this);
+  }
+  // global vars for the current session state
+
 
   // Connection handler for web3
   componentDidMount = async () => {
@@ -238,14 +243,15 @@ class Backend extends Component {
     // Retrieve necessary information from the local saved state
     const { accounts, contract, selectedAccountIndex } = this.state
     const from = accounts[selectedAccountIndex]
-    const to = this.addressInput.value
-    var message = `${getTime()}|${this.messageInput.value}\n`
-    console.log(this.state.hashContents)
+    //const to = this.addressInput.value
+    //var message = `${getTime()}|${this.messageInput.value}\n`
+    var message = "yo test from front end";
+    //console.log(this.state.hashContents)
     // Add message to current room messages
     if (this.state.hashContents) {
       message = `${message}${this.state.hashContents}`
     }
-    console.log('attempting to send from:', from, '\nto', to, '\nmessage:', message)
+    //console.log('attempting to send from:', from, '\nto', to, '\nmessage:', message)
     try {
       if (this.state.ipfsHash) {
         // Create a new file on ipfs with new message
@@ -259,8 +265,8 @@ class Backend extends Component {
         console.log('sent hash');
       }
       this.syncData()
-      this.addressInput.value = ''
-      this.messageInput.value = ''
+      //this.addressInput.value = ''
+      //this.messageInput.value = ''
     } catch (err) {
       alert('transaction rejected, console for details')
       console.log(err)
@@ -328,8 +334,7 @@ class Backend extends Component {
       )
     }
     
-    // backend stuff not yet implemented
-    return (
+ /*   return (
       <div class="Backend">
         <header className="Backend-header">
           <h1>eth/ipfs example</h1>
@@ -361,7 +366,15 @@ class Backend extends Component {
         <p>ipfs peerlist: </p>
         <ul dangerouslySetInnerHTML={ipfsPeers}></ul>
       </div>
-    )
+    )*/
+
+    return (
+      <div className="frontend">
+        <Header />
+        <MainPage sendMessage={this.sendMessage}/>
+      </div>
+    );
+
   }
 }
 
