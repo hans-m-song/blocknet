@@ -227,6 +227,13 @@ button{
   float:left;
 }
 
+.slide-button {
+	margin : 4px auto 4px auto;
+}
+.slide-panel {
+	width : 200px;
+	from : left;
+}
 /******Room Related CSS******/
 .room-screen {
   display : flex;

@@ -413,7 +413,7 @@ export class ChatBox extends Component {
   handleSubmit(e) {
     e.preventDefault();
     var thisMessage = this.state.value;
-    if (thisMessage !== '') {
+    if (thisMessage.trim() != '') {
       this.props.updateMessage(thisMessage);
       this.setState({ value: '' });
     }
@@ -445,10 +445,32 @@ export class ChatBox extends Component {
 
 /*Draggable sliding panel for console. Need to find out how to be implement*/
 /*
-export class Message extends Component {
+export class SlidePanel extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			isPaneOpen: false
+		};
+	}
     render() {
         return (
-            
+			<div className="slide-button">
+				<button onClick= {()=>this.setState({ isPaneOpen: true})}>
+					this is a placeholder button to open the console
+				</button>
+				<SlidingPane
+					className="slide-panel"
+					overlayClassName="slide-panel-overlay"
+					isOpen={ this.state.isPaneOpen }
+					title="Panel title"
+					subtitle="Panel subtitle"
+					onRequestClose={ () => {
+						// triggered on "<" on left top click or on outside click
+						this.setState({ isPaneOpen: false });
+					} }>
+					<div> sliding panel content </div>
+				</SlidingPane>
+			</div>
         );
     }
 }*/
