@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PerfectScrollbar from 'perfect-scrollbar'
 import { Msg, msg2str } from './Message'
+const moment = require('moment')
 
 /********** Main Screen and Panels ************/
 /*Header navigation bar*/
@@ -85,7 +86,7 @@ export class MainPage extends Component {
       <div className="main-page">
         <div className="main-screen">
           <LeftPanel onSectionClick={this.activateSection} activeSection={this.state.activeSection} />
-          <Content section={this.state.activeSection} sendMessage={this.sendMessage}/>
+                <Content section={this.state.activeSection} sendMessage={this.sendMessage} messageHistory={this.props.messageHistory}/>
           <RightPanel />
         </div>
       </div>
@@ -168,8 +169,8 @@ export class Content extends Component {
   render() {
     switch (this.props.section) {
       case "Rooms":
-        return (
-          <RoomScreen sendMessage={this.sendMessage}/>
+            return (
+                <RoomScreen sendMessage={this.sendMessage} messageHistory={this.props.messageHistory} />
         );
       case "Messages":
         return (
@@ -216,7 +217,7 @@ export class RoomScreen extends Component {
   //Calls the addMessage function from MessageContainer
   updateMessage(msg) {
     this.setState({ lastMessage: msg });
-    this.child.current.addMessage(msg);
+    //this.child.current.addMessage(msg, '');
     this.sendMessageToBlock(msg);
   }
 
@@ -230,7 +231,7 @@ export class RoomScreen extends Component {
     return (
       <div className="room-screen">
         <RoomNav onRoomButtonClick={this.activateRoom} activeRoom={this.state.activeRoom}/>
-        <MessageContainer ref={this.child} />
+            <MessageContainer ref={this.child} messageHistory={this.props.messageHistory}/>
         <ChatBox updateMessage={(e)=>this.updateMessage(e)} />
       </div>
     );
@@ -288,11 +289,12 @@ export class RoomButton extends Component {
 export class MessageContainer extends Component {
   constructor(props){
     super(props);
-    this.state = {
+    /*this.state = {
       messages: []
     };
 
     this.addMessage = this.addMessage.bind(this);
+    */
   };
 
   componentDidMount() {
@@ -304,9 +306,9 @@ export class MessageContainer extends Component {
     });
   }
 
-  //Create a new variable containing the message and a unique key
+  /*Create a new variable containing the message and a unique key
   //and add it to the messages list
-  addMessage(message) {
+  addMessage(message, date) {
     var newMessage = {
       data: message.message,
       key: Date.now()
@@ -318,12 +320,13 @@ export class MessageContainer extends Component {
       };
     });
   }
+  */
 
   //Helper method for render to render every value in the messages list
   renderMessages() {
-    return this.state.messages.map(message => {
+    return this.props.messageHistory.map(message => {
       //return <Message key={message.key} msg={message.data}/>
-      return <Message key={message.key} msg={message.data}/>
+        return <Message key={message.date} user={message.user} message={message.message}/>
     });
   }
 
@@ -346,14 +349,14 @@ export class Message extends Component {
   constructor(props){
     super(props);
 
-    console.log(this.props)
+    //console.log(this.props)
   };
 
   render() {
     return (
       <div className="message">
-        <MessageHeader />
-        <MessageContent msg={this.props.msg} />
+        <MessageHeader user={this.props.user} date={this.props.date}/>
+        <MessageContent message={this.props.message} />
       </div>
     );
   }
@@ -397,7 +400,7 @@ export class MessageHeader extends Menu {
     return (
       <div className="message-header">
         <div className="composer" onClick={this.showMenu}>
-          <h3 className="message-username hover-hand hover-cursor"> #123321</h3>
+                <h3 className="message-username hover-hand hover-cursor">{this.props.user}</h3>
           {/* <!-- <button className="invite-button hover-cursor"> Invite </button> -->*/}
 
           <div className="invite-menu hover-hand hover-cursor">
@@ -422,7 +425,7 @@ export class MessageHeader extends Menu {
             }
           </div>
         </div>
-        <h3 className="message-time hover-cursor">Jan 1, 12:33 PM</h3>
+            <h3 className="message-time hover-cursor">{moment(this.props.date).format("HH:mm, Do MMMM YYYY")}</h3>
       </div>
     );
   }
@@ -439,7 +442,7 @@ export class MessageContent extends Component {
   render() {
     return (
       <p className="message-content hover-cursor">
-        {this.props.msg}
+        {this.props.message}
       </p>
     );
   }
@@ -468,7 +471,7 @@ export class ChatBox extends Component {
   handleSubmit(e) {
     e.preventDefault();
     //var thisMessage = this.state.value;
-    var thisMessage = Msg("", this.state.value);
+    var thisMessage = this.state.value;
     this.props.updateMessage(thisMessage);
     this.setState({ value: '' });
   }

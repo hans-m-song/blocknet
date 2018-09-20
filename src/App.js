@@ -157,16 +157,15 @@ class Backend extends Component {
   readHash = async () => {
     const { contract } = this.state
     // Read the latest message (hash)
-    var latestMessage = await contract.methods.getMessage().call()
-    //console.log('attempting to read file at: ', latestMessage)
+    var latestHash = await contract.methods.getMessage().call()
+    console.log('attempting to read file at: ', latestHash)
     try {
-      const hashBuffer = await ipfs.files.cat(latestMessage)
-      //console.log('read file contents:\n', hashBuffer.toString())
-      var hashContents = hashBuffer.toString()
-
-      this.setState({ hashContents })
+        const fileBuffer = await ipfs.files.cat(latestHash + '/BlockNet.json')
+        var messageHistory = JSON.parse(fileBuffer)
+        console.log('read file contents:\n', messageHistory)
+        this.setState({ messageHistory })
     } catch (err) {
-      this.setState({ hashContents: '' })
+      console.error(err)
     }
   }
 
@@ -177,8 +176,8 @@ class Backend extends Component {
 
     const balance = await contract.methods
       .balanceOf(from).call()
-    const messageHistory = await contract.methods
-      .getMessageHistory(from).call()
+    //const blockHistory = await contract.methods
+    //  .getMessageHistory(from).call()
     const blocksTilClaim = await contract.methods
       .getBlocksTillClaimable(from).call()
     const claimableTokens = await contract.methods
@@ -202,10 +201,8 @@ class Backend extends Component {
       ipfsPeers = { __html: await this.refreshPeerList() }
     }
 
-    var latestMessage = await this.readHash()
-    if (!latestMessage) {
-      latestMessage = ''
-    }
+    var latestMesssage = await this.readHash()
+
     //console.log(latestMessage)
 
     this.setState({
@@ -213,14 +210,13 @@ class Backend extends Component {
       ipfsAddr,
       ipfsPeers,
       balance,
-      messageHistory,
+      //messageHistory,
       blocksTilClaim,
       claimableTokens,
       blocksPerClaim,
       tokensPerMessage,
       dailyTokensNo,
-      latestBlockNo,
-      latestMessage
+      latestBlockNo
     })
   }
 
@@ -240,30 +236,37 @@ class Backend extends Component {
    * of the selected rooms (unimplented) hash file
    * This is then saved as a new file to ipfs and the hash location
    * of this new file is added to the contract
-   * 
+   * @param msg -> message to be sent
    */
-  sendMessage = async (message) => {
-      // Retrieve necessary information from the local saved state
-      const { accounts, contract, selectedAccountIndex } = this.state
-      const from = accounts[selectedAccountIndex]
-      //const to = this.addressInput.value
-      //console.log(this.state.hashContents)
-      // Add message to current room messages
-    if (this.state.hashContents) {
-      message.message = `${message.message}${this.state.hashContents}`
-    }
-    //console.log('attempting to send from:', from, '\nto', to, '\nmessage:', message)
+  sendMessage = async (msg) => {
+    // Retrieve necessary information from the local saved state
+    const { accounts, contract, selectedAccountIndex, messageHistory } = this.state
+    const from = accounts[selectedAccountIndex]
+    //const to = this.addressInput.value
+    //console.log(this.state.hashContents)
+    // Add message to current room messages
+    var message = {user: from, date: getTime(), message: msg}
+    console.log('attempting to send from:', from, '\nmessage:', message)
     try {
-      if (this.state.ipfsHash) {
-        // Create a new file on ipfs with new message
-        const filesAdded = await ipfs.files.add({
-          path: 'testipfs',
-          content: Buffer.from(message.message)
-        })
-        // Send the new hash through the contract
-        console.log('added file:', filesAdded[0].path, filesAdded[0].hash)
-        await contract.methods.sendMessage(filesAdded[0].hash).send({ gas: '2352262', from })
-        console.log('sent hash');
+        if (this.state.ipfsHash) {
+            messageHistory.push(message)
+            // Create a new file on ipfs with new message
+            /*fs.writeFileSync('/Rooms/BlockNet.json', JSON.stringify(messageHistory, null, 4), (err) => {
+                if (err) {
+                    console.error(err)
+                    return;
+                }
+                console.log('File Created')
+            })*/
+
+            const filesAdded = await ipfs.files.add({
+                path: '/Rooms/BlockNet.json',
+                content: Buffer.from(JSON.stringify(messageHistory, null, 4))
+            })
+      // Send the new hash through the contract
+      console.log('added file:', filesAdded[0].path, filesAdded[0].hash)
+      await contract.methods.sendMessage(filesAdded[0].hash).send({ gas: '2352262', from })
+      console.log('sent hash')
       }
       this.syncData()
       //this.addressInput.value = ''
@@ -283,7 +286,9 @@ class Backend extends Component {
       ipfsHash,
       web3InvalidNetwork,
       accounts,
-      selectedAccountIndex
+      selectedAccountIndex,
+      balance,
+      messageHistory
       /* Unused variables
       ipfsAddr,
       ipfsPeers,
@@ -292,11 +297,10 @@ class Backend extends Component {
       tokensPerMessage,
       dailyTokensNo,
       blocksPerClaim,
-      balance,
       messageHistory,
-      blocksTilClaim,
-      latestMessage,
       hashContents,
+      blocksTilClaim,
+      latestMessage
       */
     } = this.state
     const address = accounts[selectedAccountIndex]
@@ -372,7 +376,7 @@ class Backend extends Component {
     return (
       <div className="frontend">
         <Header claimTokens={this.claimTokens} state={this.state} />
-        <MainPage sendMessage={this.sendMessage} />
+        <MainPage sendMessage={this.sendMessage} messageHistory={this.state.messageHistory} />
       </div>
     );
 
