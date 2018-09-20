@@ -80,3 +80,4 @@ src/compiled/*
 build
 .vs/ProjectSettings.json
 .vs/VSWorkspaceState.json
+.vs/config/applicationhost.config

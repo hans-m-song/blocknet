@@ -5,7 +5,7 @@ const IPFS = require('ipfs')
 * Constructor for the options constant
 */
 const options = {
-    EXPERIMENTAL: {pubsub: true},
+    EXPERIMENTAL: { pubsub: true },
     repo: 'ipfs-' + Math.random(),
     config: {
         Addresses: {
