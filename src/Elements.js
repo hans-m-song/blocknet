@@ -530,14 +530,11 @@ export class Console extends Component {
   render() {
     return (
       <div className="console">
-        <div className="console-header">
-          <p>Console</p>
-        </div>
-            <div className="console-content">
-                <MessageGraph />
-                <ConsoleLog />
-                <Properties />
-        </div>
+          <div className="console-content">
+              <MessageGraph />
+              <ConsoleLog />
+              <Properties />
+          </div>
       </div>
     );
   }
