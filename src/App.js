@@ -45,6 +45,7 @@ class App extends Component {
 let ipfs
 
 class Backend extends Component {
+  // global vars for the current session state
   state = {
     web3GetError: false,
     ipfsGetError: false,
@@ -59,15 +60,18 @@ class Backend extends Component {
     messageHistory: [],
     tokensPerMessage: 0,
     DailyTokensNo: 0,
-    latestBlockNo: 0
+    latestBlockNo: 0,
+    previousHash: '',
+    latestMessage: '',
+    queuedMessageFlag: false
   }
 
   constructor(props) {
     super(props);
     this.sendMessage = this.sendMessage.bind(this);
+    this.dequeueMessage = this.dequeueMessage.bind(this);
+    this.roomRef = React.createRef();
   }
-  // global vars for the current session state
-
 
   // Connection handler for web3
   componentDidMount = async () => {
@@ -158,12 +162,35 @@ class Backend extends Component {
       const hashBuffer = await ipfs.files.cat(latestMessage)
       //console.log('read file contents:\n', hashBuffer.toString())
       var hashContents = hashBuffer.toString()
-
       this.setState({ hashContents })
+
+      if (this.state.prevHash != hashContents) {
+        this.handleHashChange(hashContents)
+      }
+
     } catch (err) {
       this.setState({ hashContents: '' })
     }
+    this.setState({prevHash: hashContents})
+    return hashContents;
   }
+
+  /*When message file changes update the latest 'hash' or message state to be the latest message*/
+  handleHashChange(thisHash) {
+    if (this.state.prevHash == undefined) {
+      this.setState({ latestMessage : thisHash})
+      this.setState({ prevHash : thisHash })
+    } else { 
+      this.setState({latestMessage : thisHash.substring(0, thisHash.length - this.state.prevHash.length)});
+    }
+    this.setState({queuedMessageFlag: true})
+  }
+
+  /*Function to be called by children to signal they have successfully received and attempted to render message*/
+  dequeueMessage() {
+    this.setState({queuedMessageFlag : false})
+  }
+
 
   // get info from deployed decentralised application (dapp) and sync with session state
   syncData = async () => {
@@ -203,7 +230,6 @@ class Backend extends Component {
     if (!latestMessage) {
       latestMessage = ''
     }
-    //console.log(latestMessage)
 
     this.setState({
       ipfsHash,
@@ -240,13 +266,13 @@ class Backend extends Component {
    * of this new file is added to the contract
    * 
    */
-    sendMessage = async (message) => {
-      // Retrieve necessary information from the local saved state
-      const { accounts, contract, selectedAccountIndex } = this.state
-      const from = accounts[selectedAccountIndex]
-      //const to = this.addressInput.value
-      //console.log(this.state.hashContents)
-      // Add message to current room messages
+  sendMessage = async (message) => {
+    // Retrieve necessary information from the local saved state
+    const { accounts, contract, selectedAccountIndex } = this.state
+    const from = accounts[selectedAccountIndex]
+    //const to = this.addressInput.value
+    //console.log(this.state.hashContents)
+    // Add message to current room messages
     if (this.state.hashContents) {
       message.message = `${message.message}${this.state.hashContents}`
     }
@@ -332,8 +358,8 @@ class Backend extends Component {
         <p>please change to the rinkeby network and refresh</p>
       )
     }
-    
- /*   return (
+    /*
+    return (
       <div class="Backend">
         <header className="Backend-header">
           <h1>eth/ipfs example</h1>
@@ -365,12 +391,19 @@ class Backend extends Component {
         <p>ipfs peerlist: </p>
         <ul dangerouslySetInnerHTML={ipfsPeers}></ul>
       </div>
-    )*/
+    )
+*/
 
     return (
       <div className="frontend">
         <Header />
-        <MainPage sendMessage={this.sendMessage}/>
+        <MainPage 
+          sendMessage={this.sendMessage} 
+          latestMessage={this.state.latestMessage} 
+          queuedMessageFlag={this.state.queuedMessageFlag}
+          dequeueMessage={this.dequeueMessage}
+          ref={this.roomRef}
+        />
       </div>
     );
 

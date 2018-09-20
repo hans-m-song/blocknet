@@ -28,9 +28,10 @@ export class Header extends Component {
 export class MainPage extends Component {
   constructor(props) {
     super(props);
+    this.state = { activeSection: "Rooms" };
     this.activateSection = this.activateSection.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
-    this.state = { activeSection: "Rooms" };
+    this.dequeueMessage = this.dequeueMessage.bind(this);
   }
   
   activateSection(sectionName) {
@@ -41,12 +42,22 @@ export class MainPage extends Component {
     this.props.sendMessage(message);
   }
 
+  dequeueMessage() {
+    this.props.dequeueMessage();
+  }
+
   render() {
     return (
       <div className="main-page">
         <div className="main-screen">
           <LeftPanel onSectionClick={this.activateSection} activeSection={this.state.activeSection} />
-          <Content section={this.state.activeSection} sendMessage={this.sendMessage}/>
+          <Content 
+            section={this.state.activeSection} 
+            sendMessage={this.sendMessage} 
+            latestMessage={this.props.latestMessage} 
+            queuedMessageFlag={this.props.queuedMessageFlag}
+            dequeueMessage={this.props.dequeueMessage}
+          />
           <RightPanel />
         </div>
       </div>
@@ -120,17 +131,27 @@ export class Content extends Component {
   constructor(props) {
     super(props);
     this.sendMessage = this.sendMessage.bind(this);
+    this.dequeueMessage = this.dequeueMessage.bind(this);
   }
 
   sendMessage(message) {
     this.props.sendMessage(message);
   }
 
+  dequeueMessage() {
+    this.props.dequeueMessage();
+  }
+
   render() {
     switch (this.props.section) {
       case "Rooms":
         return (
-          <RoomScreen sendMessage={this.sendMessage}/>
+          <RoomScreen 
+            sendMessage={this.sendMessage}
+            latestMessage={this.props.latestMessage} 
+            queuedMessageFlag={this.props.queuedMessageFlag}
+            dequeueMessage={this.props.dequeueMessage}
+          />
         );
       case "Messages":
         return (
@@ -167,6 +188,7 @@ export class RoomScreen extends Component {
     };
     this.updateMessage = this.updateMessage.bind(this);
     this.activateRoom = this.activateRoom.bind(this);
+    this.dequeueMessage = this.dequeueMessage.bind(this);
   };
 
   /*This is the point where we will want to give the to-be-activated room name to the backend for it to send back messages*/
@@ -176,13 +198,25 @@ export class RoomScreen extends Component {
 
   //Calls the addMessage function from MessageContainer
   updateMessage(msg) {
-    this.setState({ lastMessage: msg });
-    this.child.current.addMessage(msg);
+    //this.setState({ lastMessage: msg });
+    //this.child.current.addMessage(msg);
     this.sendMessageToBlock(msg);
+  }
+
+  componentDidUpdate() {
+    if (this.props.queuedMessageFlag) {
+      this.setState({ lastMessage: this.props.latestMessage});
+      this.child.current.addMessage(this.props.latestMessage);
+      this.dequeueMessage();
+    }
   }
 
   sendMessageToBlock(msg) {
     this.props.sendMessage(msg);
+  }
+
+  dequeueMessage() {
+    this.props.dequeueMessage();
   }
 
   //Bind message container to this.child so that the addMessage
@@ -191,7 +225,12 @@ export class RoomScreen extends Component {
     return (
       <div className="room-screen">
         <RoomNav onRoomButtonClick={this.activateRoom} activeRoom={this.state.activeRoom}/>
-        <MessageContainer ref={this.child} />
+        <MessageContainer 
+          ref={this.child} 
+          atestMessage={this.props.latestMessage} 
+          queuedMessage={this.props.queuedMessage}
+          dequeueMessage={this.props.dequeueMessage}
+        />
         <ChatBox updateMessage={(e)=>this.updateMessage(e)} />
       </div>
     );
@@ -252,7 +291,7 @@ export class MessageContainer extends Component {
     this.state = {
       messages: []
     };
-
+    this.dequeueMessage = this.dequeueMessage.bind(this);
     this.addMessage = this.addMessage.bind(this);
   };
 
@@ -265,11 +304,15 @@ export class MessageContainer extends Component {
     });
   }
 
+  dequeueMessage() {
+    this.props.dequeueMessage();
+  }
+
   //Create a new variable containing the message and a unique key
   //and add it to the messages list
   addMessage(message) {
     var newMessage = {
-      data: message.message,
+      data: message,
       key: Date.now()
     }
     
@@ -456,16 +499,6 @@ export class ChatBox extends Component {
     );
   }
 }
-
-/*Draggable sliding panel for console. Need to find out how to be implement*/
-/*
-export class Message extends Component {
-    render() {
-        return (
-            
-        );
-    }
-}*/
 
 /**
  * Private Messages
