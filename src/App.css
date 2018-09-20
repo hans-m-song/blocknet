@@ -219,6 +219,7 @@ button {
     flex-direction : row;
     justify-content : flex-start;
     align-items : stretch;
+    align-content : stretch;
 }
 
 .console-bottom {
@@ -234,6 +235,7 @@ button {
     display : flex;
     flex-direction : column;
     flex : auto;
+    flex-grow : 1;
     order : 1;
     border: 1px solid white;
     text-align: left;
@@ -252,7 +254,7 @@ button {
     margin-top: 0em;
     margin-bottom: 0em;
     margin-left: 0;
-    margin-right: 0;
+    margin-right: 10px;
 }
 
 .properties-content {
@@ -264,19 +266,10 @@ button {
 .graphbox {
     display : flex;
     flex-direction : column;
-    flex : 1;
+    flex : auto;
+    flex-grow : 1;
     order : 2;
     border: 1px solid white;
-}
-
-.graph {
-    display : flex;
-    flex-direction : row;
-    flex : auto;
-    border : 1px solid white;
-    /*margin : 10px auto 10px auto;*/
-    padding-left : 100px;
-    padding-right : 100px;
 }
 
 .linegraph {
@@ -284,7 +277,6 @@ button {
     flex-direction : row;
     flex : auto;
     border : 1px solid white;
-    /*margin : 10px auto 10px auto;*/
     padding-left : 10px;
     padding-right : 10px;
 }
