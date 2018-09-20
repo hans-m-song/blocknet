@@ -1,361 +1,360 @@
 * {
-  /*font-family : 'Do Hyeon', sans-serif;*/
-  font-family: 'Do Hyeon', sans-serif;
-  font-size : 1em;
+    /*font-family : 'Do Hyeon', sans-serif;*/
+    font-family: 'Do Hyeon', sans-serif;
+    font-size : 1em;
 }
 
-/************   Text selection colour    **********/
+/************     Text selection colour        **********/
 ::selection {
-  background: blue; /* WebKit/Blink Browsers */
+    background: blue; /* WebKit/Blink Browsers */
 }
 ::-moz-selection {
-  background: blue; /* Gecko Browsers */
+    background: blue; /* Gecko Browsers */
 }
 
 .warning-message {
-  color: white;
+    color: white;
 }
 
 .hover-cursor {
-  cursor : default;
+    cursor : default;
 }
 
 .hover-hand {
-  cursor : pointer;
+    cursor : pointer;
 }
 
 
 body {
-  background-color : black;
-  margin : 0;
-  padding : 0;
+    background-color : black;
+    margin : 0;
+    padding : 0;
 }
 
 h1 {
-  color : white;
+    color : white;
 }
 
 button{
-  border: 3px solid black;
-  background-color: black;
-  font-family: 'Courier New', Courier, monospace 10px solid;
-  color: aliceblue;
+    border: 3px solid black;
+    background-color: black;
+    font-family: 'Courier New', Courier, monospace 10px solid;
+    color: aliceblue;
 
 }
 
 
 .header {
-  background-color : black;
-  border-bottom: 1px solid #1f1f20;
-  color : white;
+    background-color : black;
+    border-bottom: 1px solid #1f1f20;
+    color : white;
 
-  padding-left : 10px;
-  padding-right : 20px;
-  padding-top : 0px;
-  padding-bottom : 0px;
+    padding-left : 10px;
+    padding-right : 20px;
+    padding-top : 0px;
+    padding-bottom : 0px;
 
-  margin-top : 3px;
-  margin-bottom : 8px;
+    margin-top : 3px;
+    margin-bottom : 8px;
 
-  display : flex;
-  align-items : center;
-  justify-content : space-between;
+    display : flex;
+    align-items : center;
+    justify-content : space-between;
 }
 
 .header > h1 {
-  margin-bottom : 0px;
-  margin-top : 0px;
-  font-family : 'Do Hyeon', sans-serif;
-  font-size : 2.25em;
-  margin-left : 1px;
+    margin-bottom : 0px;
+    margin-top : 0px;
+    font-family : 'Do Hyeon', sans-serif;
+    font-size : 2.25em;
+    margin-left : 1px;
 }
 
 .header > h3{
 
-    border:1px solid white;
-    
+        border:1px solid white;
+        
 }
 
 .header-nav {
-  display : flex;
+    display : flex;
 }
 
 .header-nav > div {
-  padding : 10px;
+    padding : 10px;
 }
 
 .header-nav a {
-  color : white;
+    color : white;
 }
 
 .title {
-  font-size : 250%;
+    font-size : 250%;
 }
 
 /*Main Page Stuff (Panel and Content screens)*/
 .main-page {
-  height: calc(100vh - 70px); /*100% of viewport heigh - 100px*/
-  /*adding margin here resolved the overlap of the console and footer*/
+    height: calc(100vh - 70px); /*100% of viewport heigh - 100px*/
+    /*adding margin here resolved the overlap of the console and footer*/
 }
 
 .main-screen {
-  display : flex;
-  height : 100%;
-  padding : 0px;
-  margin : 0px;
+    display : flex;
+    height : 100%;
+    padding : 0px;
+    margin : 0px;
 
 }
 
 /*Left panel holds links to different sections of the site*/
 .left-panel {
-  flex : 0;
-  flex-basis : 12%;
-  padding : 0px;
-  background-color : black;
+    flex : 0;
+    flex-basis : 12%;
+    padding : 0px;
+    background-color : black;
 }
 
 /*Styling of left panel section links*/
 .section-button {
-  /*color*/
-  background-color : black;
-  color : white;
-  /*border*/
-  border : white;
-  border-width : 1px;
-  border-style : solid;
-  /*padding*/
-  padding : 5px 5px 5px 5px;
-  margin : 0px 10px 10px 10px;
-  /*font*/
-  text-align : left;
-  font-size : 1.5em;
+    /*color*/
+    background-color : black;
+    color : white;
+    /*border*/
+    border : white;
+    border-width : 1px;
+    border-style : solid;
+    /*padding*/
+    padding : 5px 5px 5px 5px;
+    margin : 0px 10px 10px 10px;
+    /*font*/
+    text-align : left;
+    font-size : 1.5em;
 }
 
 .text-unselectable {
-  -moz-user-select: -moz-none;
-  -khtml-user-select: none;
-  -webkit-user-select: none;
-  -o-user-select: none;
-  user-select: none;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+    user-select: none;
 }
 
 .section-button:hover {
-  /*color*/
-  background-color : white;
-  color : black;
-  /*border*/
-  border : white;
-  border-width : 1px;
-  border-style : solid;
-  /*interaction*/
-  cursor : pointer;
+    /*color*/
+    background-color : white;
+    color : black;
+    /*border*/
+    border : white;
+    border-width : 1px;
+    border-style : solid;
+    /*interaction*/
+    cursor : pointer;
 }
 
 .section-button:active {
-  /*color*/
-  background-color : black;
-  color : white;
-  /*border*/
-  border : white;
-  border-width : 1px;
-  border-style : solid;
-  /*interaction*/
-  cursor : pointer;
+    /*color*/
+    background-color : black;
+    color : white;
+    /*border*/
+    border : white;
+    border-width : 1px;
+    border-style : solid;
+    /*interaction*/
+    cursor : pointer;
 }
 
 .selected-section {
-  /*color*/
-  background-color : white;
-  color : black;
-  /*border*/
-  border : white;
-  border-width : 1px;
-  border-style : solid;
+    /*color*/
+    background-color : white;
+    color : black;
+    /*border*/
+    border : white;
+    border-width : 1px;
+    border-style : solid;
 }
 
 .unselected-section {
-  /*color*/
-  background-color : black;
-  color : white;
-  /*border*/
-  border : white;
-  border-width : 1px;
-  border-style : solid;
+    /*color*/
+    background-color : black;
+    color : white;
+    /*border*/
+    border : white;
+    border-width : 1px;
+    border-style : solid;
 }
 
 .content {
-  flex-grow : 1;
-  flex-basis: 85%;
-  overflow : auto;
+    flex-grow : 1;
+    flex-basis: 85%;
+    overflow : auto;
 
-  background-color : black;
-  color : white;
+    background-color : black;
+    color : white;
 
-  border: 1px solid white;
+    border: 1px solid white;
 
-  margin : 5px;
+    margin : 5px;
 
-  position: relative;
+    position: relative;
 }
 
 
 .right-panel {
-  flex : 0;
-  flex-basis : 10%;
-  background-color : black;
+    flex : 0;
+    flex-basis : 10%;
+    background-color : black;
 }
 
 .console {
-  background-color : black;
-  color : white;
+    background-color : black;
+    color : white;
 }
 
 .console-header {
-  text-align : center;
-  border : white;
-  border-width : 1px;
-  border-bottom-style : solid;
-  border-top-style : solid;
+    text-align : center;
+    border : white;
+    border-width : 1px;
+    border-bottom-style : solid;
+    border-top-style : solid;
 }
 
 .console-header > p {
-  width : 7.5%;
-  margin : 2px auto 2px auto;
+    width : 7.5%;
+    margin : 2px auto 2px auto;
 }
 
 .console-content {
-  color : white;
+    color : white;
 }
 
 .token-manager {
-  display: flex;
-  margin-right: 5px;
-  padding-right: 10px;
+    display: flex;
 }
 
 .token-manager > p {
-  color: white;
-  padding-right: 10px;
+    color: white;
+    padding-right: 10px;
 }
 
 .token-manager > button {
-  border: white;
+    border: white;
 }
 
 .token-manager > button:hover {
-  background-color: white;
-  color: black;
+    background-color: white;
+    color: black;
+    cursor: pointer;
 }
 
 .footer {
-  float:left;
+    float:left;
 }
 
 /******Room Related CSS******/
 .room-screen {
-  display : flex;
-  flex-direction : column;
-  flex-shrink : 0;
+    display : flex;
+    flex-direction : column;
+    flex-shrink : 0;
 
-  color : white;
+    color : white;
 
-  border: 1px none white;
+    border: 1px none white;
 
-  margin-top : 0px;
+    margin-top : 0px;
 
-  width : calc(80vw);
+    width : calc(80vw);
 }
 
 .room-nav {
-  /*overflow-x : auto;
-  overflow-y : auto;
-  */
-  display : flex;
-  flex-direction : row;
-  border-bottom : 1px solid white;
-  flex-shrink : 0;
+    /*overflow-x : auto;
+    overflow-y : auto;
+    */
+    display : flex;
+    flex-direction : row;
+    border-bottom : 1px solid white;
+    flex-shrink : 0;
 }
 
 .room-nav div {
-  padding : 11px 15px 10px 15px;
+    padding : 11px 15px 10px 15px;
 }
 
 
 .room-nav div:hover {
-  background-color : white;
-  color : black;
-  cursor : pointer;
+    background-color : white;
+    color : black;
+    cursor : pointer;
 }
 
 .room-nav div:active {
-  background-color : black;
-  color : white;
+    background-color : black;
+    color : white;
 }
 
 .selected-room-button {
-  background-color: white;
-  color: black;
+    background-color: white;
+    color: black;
 }
 
 .unselected-room-button {
-  
+    
 }
 
 @media all and (max-width: 800px) {
-	.room-nav ul {
+    .room-nav ul {
 
-	}
+    }
 
-	.room-nav li {
-	}
+    .room-nav li {
+    }
 
-	.room-nav a {
-		text-align: center;
-		padding: 10px;
-		border-top: solid 1px;
-		border-bottom: solid 1px;
-	}
+    .room-nav a {
+        text-align: center;
+        padding: 10px;
+        border-top: solid 1px;
+        border-bottom: solid 1px;
+    }
 }
 
 /******Message Box Related CSS******/
 
 .scroll-container {
-  position : relative;
-  height : 69vh;
-  margin-top : 3px;
-  flex-shrink : 0;
-  overflow : hidden;
+    position : relative;
+    height : 69vh;
+    margin-top : 3px;
+    flex-shrink : 0;
+    overflow : hidden;
 }
 
 /*Container for all messages*/
 .message-container {
-  margin-bottom : 0px;
-  margin-top : 0px;
-  height : 50%;
+    margin-bottom : 0px;
+    margin-top : 0px;
+    height : 50%;
 }
 
 .message {
-  border-bottom: solid white 1px;
-  padding-bottom : 15px;
-  padding-top : 5px;
+    border-bottom: solid white 1px;
+    padding-bottom : 15px;
+    padding-top : 5px;
 }
 
 .message-header {
-  display : flex;
-  flex-direction : row;
-  justify-content : space-between;
-  align-items : center;
+    display : flex;
+    flex-direction : row;
+    justify-content : space-between;
+    align-items : center;
 }
 
 .composer {
-  display : flex;
-  align-items : center;
+    display : flex;
+    align-items : center;
 
 }
 
 .message-username {
-	overflow: auto;
-	margin: 10px;
+    overflow: auto;
+    margin: 10px;
 }
 
 .invite-menu {
@@ -363,59 +362,59 @@ button{
 }
 
 .inner-invite-menu{
-  border: 1px solid white;
+    border: 1px solid white;
 }
 
 .invite-button {
 
-  background-color : black;
-  color : white;
+    background-color : black;
+    color : white;
 }
 
 .message-time {
-	overflow: auto;
-	margin: 10px;
+    overflow: auto;
+    margin: 10px;
 }
 
 .message-content {
-  margin-left: 20px;
-  margin-right: 20px;
-  margin-top: 0px;
-  margin-bottom : 0px;
-  padding-top : 10px;
-  overflow: auto;
-  white-space: pre-line;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 0px;
+    margin-bottom : 0px;
+    padding-top : 10px;
+    overflow: auto;
+    white-space: pre-line;
 }
 
 /******Chat Box CSS******/
 .chat-box {
-  margin-top : auto;
-  padding : 3px 0px 0px 0px;
+    margin-top : auto;
+    padding : 3px 0px 0px 0px;
 }
 
 .chat-box form {
-  display : flex;
-  justify-content : space-between;
-  height : 75px;
+    display : flex;
+    justify-content : space-between;
+    height : 75px;
 }
 
 /*Not sure about the colour scheme with this*/
 .chat-box textarea {
-  flex-basis : 90%;
-  background-color : black;
-  border-top: 1px solid white;
-  border-right: 1px none white;
-  border-left: 1px none white;
-  border-bottom: 1px solid white;
-  border-left: 1px solid white;
-  color : white;
+    flex-basis : 90%;
+    background-color : black;
+    border-top: 1px solid white;
+    border-right: 1px none white;
+    border-left: 1px none white;
+    border-bottom: 1px solid white;
+    border-left: 1px solid white;
+    color : white;
 }
 
 .chat-box-send {
-  flex-grow : 0;
-  flex-basis : 10%;
-  cursor: pointer;
-  border : 1px dashed back;
-  background-color : white;
-  color : black;
+    flex-grow : 0;
+    flex-basis : 10%;
+    cursor: pointer;
+    border : 1px dashed back;
+    background-color : white;
+    color : black;
 }
