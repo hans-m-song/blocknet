@@ -14,13 +14,13 @@ The purpose of this project is to explore the potential of blockchain technology
 Include the (not yet implemented) interface.
 
 ## Installation
-1. Install the [MetaMask](http://metamask.io) extention or use the [Brave](https://brave.com/) browser
+1. Install the [MetaMask](http://metamask.io)
 2. Make an account on MetaMask and switch to the Rinkeby network
-3. Run the following commands in the repo directory:
+3. Grab some free ETH [here](https://faucet.rinkeby.io/)
+4. Run the following commands in the repo directory:
 `npm install`
-`node compile.js`
-`npm run build`
 `npm start`
 
-## Credits
+## Credits and Resources
 kudos to [Kendrick](https://github.com/kendricktan) and [Desiree](https://github.com/desireevl/) for their help
+* Ethereum
