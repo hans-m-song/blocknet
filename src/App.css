@@ -204,37 +204,45 @@ button {
     background-color: black;
 }
 
+/*****************Console Related CSS*************************/
 .console {
-  display : flex;
-  flex-direction : column;
+    display : flex;
+    flex-direction : column;
     background-color: black;
     color: white;
 
 }
 
-.console-header {
-    text-align: center;
-    border: white;
-    border-width: 1px;
-    border-bottom-style: solid;
-    border-top-style: solid;
+.console-top {
+    display : flex;
+    flex : auto;
+    flex-direction : row;
+    justify-content : flex-start;
+    align-items : stretch;
 }
 
-.console-header>p {
-    width: 7.5%;
-    margin: 2px auto 2px auto;
+.console-bottom {
+    display : flex;
+    flex : 1;
+    flex-direction : row;
+    justify-content : flex-start;
+    align-items : stretch;
 }
 
-.console-content {
-    color: white;
-}
 
 .properties {
+    display : flex;
+    flex-direction : column;
+    flex : auto;
+    order : 1;
     border: 1px solid white;
     text-align: left;
 }
 
 .properties-title {
+    display: block;
+    margin-top: 0em;
+    margin-bottom: 0em;
     border: 1px solid white;
     text-align: center;
 }
@@ -253,13 +261,32 @@ button {
     padding-left: 5px;
 }
 
+.graphbox {
+    display : flex;
+    flex-direction : column;
+    flex : 1;
+    order : 2;
+    border: 1px solid white;
+}
+
 .graph {
     display : flex;
     flex-direction : row;
-    justify-content : center;
+    flex : auto;
     border : 1px solid white;
-    margin : 10px auto 10px auto;
-    width : 70%;
+    /*margin : 10px auto 10px auto;*/
+    padding-left : 100px;
+    padding-right : 100px;
+}
+
+.linegraph {
+    display : flex;
+    flex-direction : row;
+    flex : auto;
+    border : 1px solid white;
+    /*margin : 10px auto 10px auto;*/
+    padding-left : 10px;
+    padding-right : 10px;
 }
 
 .graph-title {
@@ -268,6 +295,9 @@ button {
 }
 
 .consolelog {
+    display : flex;
+    flex : 1;
+    flex-direction : column;
     border: 1px solid white;
     text-align: left;
 }

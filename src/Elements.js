@@ -596,9 +596,11 @@ export class Console extends Component {
     render() {
         return (
             <div className="console">
-                <div className="console-content">
-              <Properties />
+                <div className="console-top">
+                    <Properties />
                     <MessageGraph />
+                </div>
+                <div className="console-bottom">
                     <ConsoleLog />
                 </div>
             </div>
@@ -620,7 +622,6 @@ export class Properties extends Component {
                     <h4> Properties </h4>
                 </div>
                 <div className="properties-content">
-                    <p>implement me please</p>
                     <p>account address: 0x6c568c66b75259fa8b47853cD56aF396b728FBE5</p>
                     <p>local ipfs hash: QmT4owZoqCLUMyai8qGtAKFYbEjg1su3KfvzqoE8vkDy9U</p>
                     <p>ipfs swarm address: /dns4/ws-star.discovery.libp2p.io/tcp/443/wss/p2p-websocket-star/ipfs/QmT4owZoqCLUMyai8qGtAKFYbEjg1su3KfvzqoE8vkDy9U</p>
@@ -642,6 +643,7 @@ export class MessageGraph extends Component {
     constructor(props) {
         super(props);
         Chart.defaults.global.responsive = true;
+        Chart.defaults.global.scaleStartValue = 0;
         this.state = {
             LineChart: require("react-chartjs").Line,
             data: {
@@ -684,16 +686,15 @@ export class MessageGraph extends Component {
 
     render() {
         return (
-            <div className = "content">
+            <div className = "graphbox">
                 <div className="graph-title">
                     <h2> #No. of Messages sent in last 12 Hours </h2>
                 </div>
-                <div className="graph">
-                    <this.state.LineChart
-                        data={this.state.data}
-                        options={this.state.options}
-                    />
-                </div>
+                <this.state.LineChart
+                    className="linegraph"
+                    data={this.state.data}
+                    options={this.state.options}
+                />
             </div>
         );
     }
