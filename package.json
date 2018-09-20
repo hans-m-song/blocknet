@@ -23,6 +23,7 @@
     "ipfs-api": "^24.0.1",
     "ipfs-name": "0.0.1",
     "ipns": "^0.1.6",
+    "level-js": "^3.0.0",
     "moment": "^2.22.2",
     "perfect-scrollbar": "^1.4.0",
     "react": "^16.4.2",
@@ -38,6 +39,6 @@
     "parser": "babel-eslint"
   },
   "devDependencies": {
-    "babel-eslint": "^9.0.0"
+    "babel-eslint": "^7.2.3"
   }
 }

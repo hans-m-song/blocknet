@@ -6,6 +6,7 @@ import getTime from './utils/getTime'
 import getWeb3 from './utils/getWeb3'
 import getIPFS from './utils/getIPFS'
 import { contractAddress } from './utils/getAddress'
+import { Msg, msg2str } from './Message'
 
 // Imports the frontend components
 import './App.css'
@@ -35,8 +36,7 @@ class App extends Component {
     // current implementation of the frontend
     return (
       <div className="App">
-        <Header />
-        <MainPage />
+        <Backend/>
       </div>
     )
   }
@@ -45,7 +45,6 @@ class App extends Component {
 let ipfs
 
 class Backend extends Component {
-  // global vars for the current session state
   state = {
     web3GetError: false,
     ipfsGetError: false,
@@ -62,6 +61,13 @@ class Backend extends Component {
     DailyTokensNo: 0,
     latestBlockNo: 0
   }
+
+  constructor(props) {
+    super(props);
+    this.sendMessage = this.sendMessage.bind(this);
+  }
+  // global vars for the current session state
+
 
   // Connection handler for web3
   componentDidMount = async () => {
@@ -234,24 +240,23 @@ class Backend extends Component {
    * of this new file is added to the contract
    * 
    */
-    sendMessage = async () => {
-    // Retrieve necessary information from the local saved state
-    const { accounts, contract, selectedAccountIndex } = this.state
-    const from = accounts[selectedAccountIndex]
-    const to = this.addressInput.value
-    var message = `${getTime()}|${this.messageInput.value}\n`
-    console.log(this.state.hashContents)
-    // Add message to current room messages
+    sendMessage = async (message) => {
+      // Retrieve necessary information from the local saved state
+      const { accounts, contract, selectedAccountIndex } = this.state
+      const from = accounts[selectedAccountIndex]
+      //const to = this.addressInput.value
+      //console.log(this.state.hashContents)
+      // Add message to current room messages
     if (this.state.hashContents) {
-      message = `${message}${this.state.hashContents}`
+      message.message = `${message.message}${this.state.hashContents}`
     }
-    console.log('attempting to send from:', from, '\nto', to, '\nmessage:', message)
+    //console.log('attempting to send from:', from, '\nto', to, '\nmessage:', message)
     try {
       if (this.state.ipfsHash) {
         // Create a new file on ipfs with new message
         const filesAdded = await ipfs.files.add({
           path: 'testipfs',
-          content: Buffer.from(message)
+          content: Buffer.from(message.message)
         })
         // Send the new hash through the contract
         console.log('added file:', filesAdded[0].path, filesAdded[0].hash)
@@ -259,8 +264,8 @@ class Backend extends Component {
         console.log('sent hash');
       }
       this.syncData()
-      this.addressInput.value = ''
-      this.messageInput.value = ''
+      //this.addressInput.value = ''
+      //this.messageInput.value = ''
     } catch (err) {
       alert('transaction rejected, console for details')
       console.log(err)
@@ -327,19 +332,8 @@ class Backend extends Component {
         <p>please change to the rinkeby network and refresh</p>
       )
     }
-    /* Hiding this for testing design*//*
-    return (
-
-        <div className="App">
-            <Header/>
-            <MainPage/>
-            <Console/>
-        </div>
-    )
-    */
     
-    // backend stuff not yet implemented
-    return (
+ /*   return (
       <div class="Backend">
         <header className="Backend-header">
           <h1>eth/ipfs example</h1>
@@ -371,7 +365,15 @@ class Backend extends Component {
         <p>ipfs peerlist: </p>
         <ul dangerouslySetInnerHTML={ipfsPeers}></ul>
       </div>
-    )
+    )*/
+
+    return (
+      <div className="frontend">
+        <Header />
+        <MainPage sendMessage={this.sendMessage}/>
+      </div>
+    );
+
   }
 }
 
