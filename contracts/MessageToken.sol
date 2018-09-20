@@ -153,18 +153,12 @@ contract MessageToken is BaseToken {
             return false;
         }
 
-        uint value;
-        if(lastClaimed[msg.sender] == 0) {
-            value = dailyTokens;
-        } else {
-            uint multiples = (block.number - lastClaimed[msg.sender]);
-            value = multiples * dailyTokens;
-        }
+        uint value = getClaimableTokens(msg.sender);
 
         lastClaimed[msg.sender] = block.number - 1;
         balances[msg.sender] += value;
         balances[this] -= value;
-        Transfer(this, msg.sender, value);
+        emit Transfer(this, msg.sender, value);
 
         return true;
     }
