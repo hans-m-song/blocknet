@@ -531,9 +531,9 @@ export class Console extends Component {
     return (
       <div className="console">
           <div className="console-content">
+              <Properties />
               <MessageGraph />
               <ConsoleLog />
-              <Properties />
           </div>
       </div>
     );
@@ -552,6 +552,20 @@ export class Properties extends Component {
             <div className="properties">
                 <div className="properties-title">
                     <h4> Properties </h4>
+                </div>
+                <div className="properties-content">
+                    <p>implement me please</p>
+                    <p>account address: 0x6c568c66b75259fa8b47853cD56aF396b728FBE5</p>
+                    <p>local ipfs hash: QmT4owZoqCLUMyai8qGtAKFYbEjg1su3KfvzqoE8vkDy9U</p>
+                    <p>ipfs swarm address: /dns4/ws-star.discovery.libp2p.io/tcp/443/wss/p2p-websocket-star/ipfs/QmT4owZoqCLUMyai8qGtAKFYbEjg1su3KfvzqoE8vkDy9U</p>
+                    <p>claimableTokens: 96</p>
+                    <p>latestBlockNo: 3021384</p>
+                    <p>tokensPerMessage: 3</p>
+                    <p>dailyTokensNo: 12</p>
+                    <p>blocksPerClaim: 100</p>
+                    <p>balance: 6</p>
+                    <p>messageHistory: 3020577</p>
+                    <p>blocksTilClaim: 0</p>
                 </div>
             </div>
         );
@@ -604,13 +618,16 @@ export class MessageGraph extends Component {
 
     render() {
         return (
-            <div className="graph">
+            <div className = "content">
                 <div className="graph-title">
                     <h2> #No. of Messages sent in last 12 Hours </h2>
                 </div>
-                <this.state.LineChart
-                    data={this.state.data}
-                    options={this.state.options} />
+                <div className="graph">
+                    <this.state.LineChart
+                        data={this.state.data}
+                        options={this.state.options}
+                    />
+                </div>
             </div>
         );
     }

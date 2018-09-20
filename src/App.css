@@ -197,9 +197,11 @@ button{
 /***************Console related CSS************/
 
 .console {
+  display : flex;
+  flex-direction : column;
   background-color : black;
   color : white;
-  overflow : auto;
+
 }
 
 .console-header {
@@ -219,8 +221,23 @@ button{
   color : white;
 }
 
+.properties {
+    border: 1px solid white;
+    text-align: left;
+}
+
+.properties-title {
+    border: 1px solid white;
+    text-align: center;
+}
+
 .graph {
+    display : flex;
+    flex-direction : row;
+    justify-content : center;
     border : 1px solid white;
+    margin : 10px auto 10px auto;
+    width : 70%;
 }
 
 .graph-title {
@@ -237,10 +254,6 @@ button{
 
 }
 
-.properties {
-    border: 1px solid white;
-    text-align: center;
-}
 
 .footer {
   float:left;
