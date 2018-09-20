@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PerfectScrollbar from 'perfect-scrollbar'
+import Chart from 'chart.js'
 
 /********** Main Screen and Panels ************/
 /*Header navigation bar*/
@@ -58,10 +59,26 @@ export class LeftPanel extends Component {
   render() {
     return (
       <div className="left-panel">
-        <SectionButton sectionName="Rooms" onSectionClick={this.activateSection} activeSection={this.props.activeSection} />
-        <SectionButton sectionName="Messages" onSectionClick={this.activateSection} activeSection={this.props.activeSection} />
-        <SectionButton sectionName="Console" onSectionClick={this.activateSection} activeSection={this.props.activeSection} />
-        <SectionButton sectionName="Settings" onSectionClick={this.activateSection} activeSection={this.props.activeSection} />
+            <SectionButton
+                sectionName="Rooms"
+                onSectionClick={this.activateSection}
+                activeSection={this.props.activeSection}
+            />
+            <SectionButton
+                sectionName="Messages"
+                onSectionClick={this.activateSection}
+                activeSection={this.props.activeSection}
+            />
+            <SectionButton
+                sectionName="Console"
+                onSectionClick={this.activateSection}
+                activeSection={this.props.activeSection}
+            />
+            <SectionButton
+                sectionName="Settings"
+                onSectionClick={this.activateSection}
+                activeSection={this.props.activeSection}
+            />
       </div>
     )
   }
@@ -88,7 +105,9 @@ export class SectionButton extends Component {
     var classes = `${selectedStatus} section-button text-unselectable`;
 
     return (
-      <div className={classes} onClick={(e) => this.handleClick(e)}>{this.props.sectionName}</div>
+        <div className={classes}
+            onClick={(e) => this.handleClick(e)}>{this.props.sectionName}
+        </div>
     );
   }
 }
@@ -134,7 +153,7 @@ export class Content extends Component {
       case "Console":
         return (
           <div className="content">
-            <Console/>
+            <Console />
           </div>
         );
     }
@@ -173,9 +192,16 @@ export class RoomScreen extends Component {
   render() {
     return (
       <div className="room-screen">
-        <RoomNav onRoomButtonClick={this.activateRoom} activeRoom={this.state.activeRoom}/>
-        <MessageContainer ref={this.child} />
-        <ChatBox updateMessage={(e)=>this.updateMessage(e)} />
+            <RoomNav
+                onRoomButtonClick={this.activateRoom}
+                activeRoom={this.state.activeRoom}
+            />
+            <MessageContainer
+                ref={this.child}
+            />
+            <ChatBox
+                updateMessage={(e) => this.updateMessage(e)}
+            />
       </div>
     );
   }
@@ -195,11 +221,31 @@ export class RoomNav extends Component {
   render() {
     return(
       <div className="room-nav text-unselectable">
-        <RoomButton roomName="Block Net" onRoomButtonClick={this.activateRoom} activeRoom={this.props.activeRoom}/>
-        <RoomButton roomName="Programming" onRoomButtonClick={this.activateRoom} activeRoom={this.props.activeRoom}/>
-        <RoomButton roomName="Gaming" onRoomButtonClick={this.activateRoom} activeRoom={this.props.activeRoom}/>
-        <RoomButton roomName="Work" onRoomButtonClick={this.activateRoom} activeRoom={this.props.activeRoom}/>
-        <RoomButton roomName="Lifestyle" onRoomButtonClick={this.activateRoom} activeRoom={this.props.activeRoom}/>
+            <RoomButton
+                roomName="Block Net"
+                onRoomButtonClick={this.activateRoom}
+                activeRoom={this.props.activeRoom}
+            />
+            <RoomButton
+                roomName="Programming"
+                onRoomButtonClick={this.activateRoom}
+                activeRoom={this.props.activeRoom}
+            />
+            <RoomButton
+                roomName="Gaming"
+                onRoomButtonClick={this.activateRoom}
+                activeRoom={this.props.activeRoom}
+            />
+            <RoomButton
+                roomName="Work"
+                onRoomButtonClick={this.activateRoom}
+                activeRoom={this.props.activeRoom}
+            />
+            <RoomButton
+                roomName="Lifestyle"
+                onRoomButtonClick={this.activateRoom}
+                activeRoom={this.props.activeRoom}
+            />
       </div>
     );
   }
@@ -224,7 +270,9 @@ export class RoomButton extends Component {
     }
     let classes = `${selectedStatus}`
     return(
-      <div className={classes} onClick={(e) => this.handleClick(e)}>{this.props.roomName}</div>
+        <div className={classes}
+            onClick={(e) => this.handleClick(e)}>{this.props.roomName}
+        </div>
     );
   }
 }
@@ -235,7 +283,7 @@ export class MessageContainer extends Component {
     this.state = {
       messages: []
     };
-
+   
     this.addMessage = this.addMessage.bind(this);
   };
 
@@ -253,7 +301,7 @@ export class MessageContainer extends Component {
   addMessage(message) {
     var newMessage = {
       data: message,
-      key: Date.now()
+      key: Date.now(),
     };
 
     this.setState((prevState) => {
@@ -266,7 +314,10 @@ export class MessageContainer extends Component {
   //Helper method for render to render every value in the messages list
   renderMessages() {
     return this.state.messages.map(message => {
-      return <Message key={message.key} msg={message.data}/>
+        return <Message
+            key={message.key}
+            msg={message.data}
+        />
     });
   }
 
@@ -297,7 +348,9 @@ export class Message extends Component {
     return (
       <div className="message">
         <MessageHeader />
-        <MessageContent msg={this.props.msg} />
+            <MessageContent
+                msg={this.props.msg}
+            />
       </div>
     );
   }
@@ -511,10 +564,107 @@ export class Console extends Component {
         <div className="console-header">
           <p>Console</p>
         </div>
-        <div className="console-content">
-          Console content goes here.
+            <div className="console-content">
+                <MessageGraph />
+                <ConsoleLog />
+                <Properties />
         </div>
       </div>
     );
   }
+}
+
+export class Properties extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+        }
+    }
+
+    render() {
+        return (
+            <div className="properties">
+                <div className="properties-title">
+                    <h4> Properties </h4>
+                </div>
+            </div>
+        );
+    }
+}
+
+export class MessageGraph extends Component {
+    constructor(props) {
+        super(props);
+        Chart.defaults.global.responsive = true;
+        this.state = {
+            LineChart: require("react-chartjs").Line,
+            data: {
+                labels: ["2am", "4am", "6am", "8am", "10am",
+                    "12pm", "2pm"],
+                datasets: [
+                    {
+                        label: "Messages",
+                        fillColor: "rgba(220,220,220,0.2)",
+                        strokeColor: "rgba(220,220,220,1)",
+                        pointColor: "rgba(220,220,220,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(220,220,220,1)",
+                        //Create random data to fill graph
+                        data: this.rand(100, 300, 7),
+                    },
+                ]
+            },
+            options: {
+                ///Boolean - Whether grid lines are shown across the chart
+                scaleShowGridLines: true,
+                //String - Colour of the grid lines
+                scaleGridLineColor: "rgba(255,0,0,0.5)",
+                //Number - Width of the grid lines
+                scaleGridLineWidth: 1,
+            }
+        }
+        
+    }
+
+    //Placeholder to create random data
+    rand(min, max, num) {
+        var rtn = [];
+        while (rtn.length < num) {
+            rtn.push(Math.round((Math.random() * (max - min)) + min));
+        }
+        return rtn;
+    }
+
+    render() {
+        return (
+            <div className="graph">
+                <div className="graph-title">
+                    <h2> #No. of Messages sent in last 12 Hours </h2>
+                </div>
+                <this.state.LineChart
+                    data={this.state.data}
+                    options={this.state.options}
+                />
+            </div>
+        );
+    }
+}
+
+export class ConsoleLog extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+        }
+    }
+    
+    render() {
+        return (
+            <div className="consolelog">
+                <div className="consolelog-title">
+                    <h3> Log </h3>
+                </div>
+            </div>
+        );
+    }
 }

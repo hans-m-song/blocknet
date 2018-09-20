@@ -194,16 +194,12 @@ button{
   position: relative;
 }
 
-
-.right-panel {
-  flex : 0;
-  flex-basis : 10%;
-  background-color : black;
-}
+/***************Console related CSS************/
 
 .console {
   background-color : black;
   color : white;
+  overflow : auto;
 }
 
 .console-header {
@@ -221,6 +217,29 @@ button{
 
 .console-content {
   color : white;
+}
+
+.graph {
+    border : 1px solid white;
+}
+
+.graph-title {
+    border : 1px solid white;
+    text-align : center;
+}
+
+.consolelog {
+    border: 1px solid white;
+    text-align: center;
+}
+
+.consolelog-title {
+
+}
+
+.properties {
+    border: 1px solid white;
+    text-align: center;
 }
 
 .footer {
@@ -401,4 +420,10 @@ button{
   border : 1px dashed back;
   background-color : white;
   color : black;
+}
+
+.right-panel {
+    flex: 0;
+    flex-basis: 10%;
+    background-color: black;
 }
