@@ -5,10 +5,20 @@ import { Msg, msg2str } from './Message'
 /********** Main Screen and Panels ************/
 /*Header navigation bar*/
 export class Header extends Component {
+  constructor(props) {
+    super(props);
+    this.claimTokens = this.claimTokens.bind(this);
+  }
+
+  claimTokens() {
+    this.props.claimTokens();
+  }
+
   render() {
     return (
       <div className="header">
         <h1 className="title text-unselectable hover-cursor">BLOCK NET >></h1>
+        <TokenManager claimTokens={this.claimTokens} state={this.props.state} />
         <nav className="header-nav">
           <div>
             <a href="#">Dev Blog</a>
@@ -17,6 +27,35 @@ export class Header extends Component {
             <a href="#">About Us</a>
           </div>
         </nav>
+      </div>
+    );
+  }
+}
+
+/**
+ * Token balance
+ */
+export class TokenManager extends Component {
+  constructor(props) {
+    super(props);
+      this.claimTokens = this.claimTokens.bind(this);
+  }
+
+  claimTokens() {
+    this.props.claimTokens();
+  }
+
+  refreshBalance(e) {
+    e.preventDefault();
+    this.forceUpdate();
+  }
+
+  render() {
+    return (
+      <div className="token-manager">
+        <p className="token-balance">Balance: {this.props.state.balance}</p>
+        <button onClick={this.claimTokens}>Claim Tokens</button>
+        <button onClick={(e)=>{this.refreshBalance(e)}}>Refresh</button>
       </div>
     );
   }
@@ -543,3 +582,4 @@ export class Console extends Component {
     );
   }
 }
+
