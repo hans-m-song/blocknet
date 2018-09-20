@@ -1,14 +1,25 @@
 import React, { Component } from 'react'
 import PerfectScrollbar from 'perfect-scrollbar'
 import Chart from 'chart.js'
+import { Msg, msg2str } from './Message'
 
 /********** Main Screen and Panels ************/
 /*Header navigation bar*/
 export class Header extends Component {
+    constructor(props) {
+        super(props);
+        this.claimTokens = this.claimTokens.bind(this);
+    }
+
+    claimTokens() {
+        this.props.claimTokens();
+    }
+
     render() {
         return (
             <div className="header">
                 <h1 className="title text-unselectable hover-cursor">BLOCK NET >></h1>
+                <TokenManager claimTokens={this.claimTokens} state={this.props.state} />
                 <nav className="header-nav">
                     <div>
                         <a href="#">Dev Blog</a>
@@ -23,24 +34,70 @@ export class Header extends Component {
 }
 
 /**
+ * Token balance
+ */
+export class TokenManager extends Component {
+    constructor(props) {
+        super(props);
+        this.claimTokens = this.claimTokens.bind(this);
+    }
+
+    claimTokens() {
+        this.props.claimTokens();
+    }
+
+    refreshBalance(e) {
+        e.preventDefault();
+        this.forceUpdate();
+    }
+
+    render() {
+        return (
+            <div className="token-manager">
+                <p className="token-balance">Balance: {this.props.state.balance}</p>
+                <button onClick={this.claimTokens}>Claim Tokens</button>
+                <button onClick={(e) => { this.refreshBalance(e) }}>Refresh</button>
+            </div>
+        );
+    }
+}
+
+/**
  * Page body High level elements of the page body, i.e. the left and right panels and selected content.
  */
 export class MainPage extends Component {
     constructor(props) {
         super(props);
-        this.activateSection = this.activateSection.bind(this);
         this.state = { activeSection: "Rooms" };
+        this.activateSection = this.activateSection.bind(this);
+        this.sendMessage = this.sendMessage.bind(this);
+        this.dequeueMessage = this.dequeueMessage.bind(this);
     }
+
     activateSection(sectionName) {
         this.setState({ activeSection: sectionName });
     }
+
+    sendMessage(message) {
+        this.props.sendMessage(message);
+    }
+
+    dequeueMessage() {
+        this.props.dequeueMessage();
+    }
+
     render() {
         return (
             <div className="main-page">
                 <div className="main-screen">
-                    <LeftPanel onSectionClick={this.activateSection}
-                        activeSection={this.state.activeSection} />
-                    <Content section={this.state.activeSection} />
+                    <LeftPanel onSectionClick={this.activateSection} activeSection={this.state.activeSection} />
+                    <Content
+                        section={this.state.activeSection}
+                        sendMessage={this.sendMessage}
+                        latestMessage={this.props.latestMessage}
+                        queuedMessageFlag={this.props.queuedMessageFlag}
+                        dequeueMessage={this.props.dequeueMessage}
+                    />
                     <RightPanel />
                 </div>
             </div>
@@ -124,12 +181,28 @@ export class RightPanel extends Component {
 export class Content extends Component {
     constructor(props) {
         super(props);
+        this.sendMessage = this.sendMessage.bind(this);
+        this.dequeueMessage = this.dequeueMessage.bind(this);
     }
+
+    sendMessage(message) {
+        this.props.sendMessage(message);
+    }
+
+    dequeueMessage() {
+        this.props.dequeueMessage();
+    }
+
     render() {
         switch (this.props.section) {
             case "Rooms":
                 return (
-                    <RoomScreen />
+                    <RoomScreen
+                        sendMessage={this.sendMessage}
+                        latestMessage={this.props.latestMessage}
+                        queuedMessageFlag={this.props.queuedMessageFlag}
+                        dequeueMessage={this.props.dequeueMessage}
+                    />
                 );
             case "Messages":
                 return (
@@ -164,9 +237,9 @@ export class RoomScreen extends Component {
             lastMessage: '',
             activeRoom: "Block Net"
         };
-
         this.updateMessage = this.updateMessage.bind(this);
         this.activateRoom = this.activateRoom.bind(this);
+        this.dequeueMessage = this.dequeueMessage.bind(this);
     };
 
     /*This is the point where we will want to give the to-be-activated room name to the backend for it to send back messages*/
@@ -176,8 +249,25 @@ export class RoomScreen extends Component {
 
     //Calls the addMessage function from MessageContainer
     updateMessage(msg) {
-        this.setState({ lastMessage: msg });
-        this.child.current.addMessage(msg);
+        //this.setState({ lastMessage: msg });
+        //this.child.current.addMessage(msg);
+        this.sendMessageToBlock(msg);
+    }
+
+    componentDidUpdate() {
+        if (this.props.queuedMessageFlag) {
+            this.setState({ lastMessage: this.props.latestMessage });
+            this.child.current.addMessage(this.props.latestMessage);
+            this.dequeueMessage();
+        }
+    }
+
+    sendMessageToBlock(msg) {
+        this.props.sendMessage(msg);
+    }
+
+    dequeueMessage() {
+        this.props.dequeueMessage();
     }
 
     //Bind message container to this.child so that the addMessage
@@ -187,7 +277,12 @@ export class RoomScreen extends Component {
             <div className="room-screen">
                 <RoomNav onRoomButtonClick={this.activateRoom}
                     activeRoom={this.state.activeRoom} />
-                <MessageContainer ref={this.child} />
+                <MessageContainer
+                    ref={this.child}
+                    atestMessage={this.props.latestMessage}
+                    queuedMessage={this.props.queuedMessage}
+                    dequeueMessage={this.props.dequeueMessage}
+                />
                 <ChatBox updateMessage={(e) => this.updateMessage(e)} />
             </div>
         );
@@ -241,7 +336,7 @@ export class RoomButton extends Component {
     }
     render() {
         let selectedStatus = "unselected-room-button";
-        console.log("this: " + this.props.roomName + "| active: " + this.props.activeRoom)
+        //console.log("this: " + this.props.roomName + "| active: " + this.props.activeRoom)
         if (this.props.activeRoom === this.props.roomName) {
             selectedStatus = "selected-room-button";
         }
@@ -260,7 +355,7 @@ export class MessageContainer extends Component {
         this.state = {
             messages: []
         };
-
+        this.dequeueMessage = this.dequeueMessage.bind(this);
         this.addMessage = this.addMessage.bind(this);
     };
 
@@ -273,13 +368,17 @@ export class MessageContainer extends Component {
         });
     }
 
+    dequeueMessage() {
+        this.props.dequeueMessage();
+    }
+
     //Create a new variable containing the message and a unique key
     //and add it to the messages list
     addMessage(message) {
         var newMessage = {
             data: message,
             key: Date.now()
-        };
+        }
 
         this.setState((prevState) => {
             return {
@@ -291,6 +390,7 @@ export class MessageContainer extends Component {
     //Helper method for render to render every value in the messages list
     renderMessages() {
         return this.state.messages.map(message => {
+            //return <Message key={message.key} msg={message.data}/>
             return <Message key={message.key} msg={message.data} />
         });
     }
@@ -302,7 +402,6 @@ export class MessageContainer extends Component {
                     {this.renderMessages()}
                 </div>
             </div>
-
         );
     }
 }
@@ -314,6 +413,7 @@ export class MessageContainer extends Component {
 export class Message extends Component {
     constructor(props) {
         super(props);
+        console.log(this.props)
     };
 
     render() {
@@ -434,14 +534,12 @@ export class ChatBox extends Component {
     //Send message to the parent component, RoomScreen, and reset value to ''
     handleSubmit(e) {
         e.preventDefault();
-        var thisMessage = this.state.value;
-        if (thisMessage.trim() != '') {
-            this.props.updateMessage(thisMessage);
-            this.setState({ value: '' });
-        }
+        //var thisMessage = this.state.value;
+        var thisMessage = Msg("", this.state.value);
+        this.props.updateMessage(thisMessage);
+        this.setState({ value: '' });
     }
 
-    //Send message if enter is pressed and shift is not pressed
     onEnterPress(e) {
         if (e.keyCode == 13 && e.shiftKey == false) {
             e.preventDefault();
@@ -464,38 +562,6 @@ export class ChatBox extends Component {
         );
     }
 }
-
-/*Draggable sliding panel for console. Need to find out how to be implement*/
-/*
-export class SlidePanel extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			isPaneOpen: false
-		};
-	}
-    render() {
-        return (
-			<div className="slide-button">
-				<button onClick= {()=>this.setState({ isPaneOpen: true})}>
-					this is a placeholder button to open the console
-				</button>
-				<SlidingPane
-					className="slide-panel"
-					overlayClassName="slide-panel-overlay"
-					isOpen={ this.state.isPaneOpen }
-					title="Panel title"
-					subtitle="Panel subtitle"
-					onRequestClose={ () => {
-						// triggered on "<" on left top click or on outside click
-						this.setState({ isPaneOpen: false });
-					} }>
-					<div> sliding panel content </div>
-				</SlidingPane>
-			</div>
-        );
-    }
-}*/
 
 /**
  * Private Messages

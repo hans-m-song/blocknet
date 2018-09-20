@@ -1,42 +1,43 @@
 import React, { Component } from 'react'
 
-// backend
+// Imports the backend components
 import abi from './compiled/abi.json'
-import getTime from './utils/getTime'
 import getWeb3 from './utils/getWeb3'
 import getIPFS from './utils/getIPFS'
 import { contractAddress } from './utils/getAddress'
 
-// frontend
+// Imports the frontend components
 import './App.css'
 import {
     Header,
-    MainPage,
-    LeftPanel,
-    SectionButton,
-    RightPanel,
-    Content,
-    RoomScreen,
-    MessageContainer,
-    Message,
-    Menu,
-    MessageHeader,
-    MessageContent,
-    ChatBox,
-    PrivateChatsScreen,
-    HistoryScreen,
-    SettingsScreen,
-    InvitationScreen,
-    Console
+    MainPage
 } from './Elements'
+
+/* Unused components
+LeftPanel,
+SectionButton,
+RightPanel,
+Content,
+RoomScreen,
+MessageContainer,
+Message,
+Menu,
+MessageHeader,
+MessageContent,
+ChatBox,
+PrivateChatsScreen,
+HistoryScreen,
+SettingsScreen,
+InvitationScreen,
+Console
+*/
 
 class App extends Component {
     render() {
         // current implementation of the frontend
         return (
             <div className="App">
-                <Header />
-                <MainPage />
+                <Backend />
             </div>
         )
     }
@@ -60,8 +61,19 @@ class Backend extends Component {
         messageHistory: [],
         tokensPerMessage: 0,
         DailyTokensNo: 0,
-        latestBlockNo: 0
+        latestBlockNo: 0,
+        previousHash: '',
+        latestMessage: '',
+        queuedMessageFlag: false
     }
+
+    constructor(props) {
+        super(props);
+        this.sendMessage = this.sendMessage.bind(this);
+        this.dequeueMessage = this.dequeueMessage.bind(this);
+        this.claimTokens = this.claimMessageTokens.bind(this);
+    }
+
 
     // Connection handler for web3
     componentDidMount = async () => {
@@ -74,7 +86,6 @@ class Backend extends Component {
             const networkType = await web3.eth.net.getNetworkType()
             const web3InvalidNetwork = networkType !== 'rinkeby'
             this.setState({ web3, accounts, contract, web3InvalidNetwork }, this.syncData)
-            this.interval = setInterval(() => this.syncData(), 100)
             if (accounts[this.state.selectedAccountIndex]) {
                 this.setState({ metamaskOnline: true })
             }
@@ -99,6 +110,8 @@ class Backend extends Component {
                 const ipfsHash = info.id
                 console.log("IPFS version", version.version, "started\nat:", ipfsHash)
                 // in case you're getting websock 502, its a known issue: https://github.com/ipfs/js-ipfs/issues/941
+                // once everything has been initialized
+                this.interval = setInterval(() => this.syncData(), 1000)
             })
 
         } catch (error) {
@@ -138,22 +151,50 @@ class Backend extends Component {
         return peersAsHtml
     }
 
+    /*
+     * Reads the hash of the selected room and retrieve the messages stored
+     * in the file at that location to var hashContents
+     */
     readHash = async () => {
         const { contract } = this.state
+        // Read the latest message (hash)
         var latestMessage = await contract.methods.getMessage().call()
         //console.log('attempting to read file at: ', latestMessage)
         try {
             const hashBuffer = await ipfs.files.cat(latestMessage)
             //console.log('read file contents:\n', hashBuffer.toString())
             var hashContents = hashBuffer.toString()
-
             this.setState({ hashContents })
+
+            if (this.state.prevHash != hashContents) {
+                this.handleHashChange(hashContents)
+            }
+
         } catch (err) {
             this.setState({ hashContents: '' })
         }
+        this.setState({ prevHash: hashContents })
+        return hashContents;
     }
 
-    // get info from deployed dapp and sync with session state
+    /*When message file changes update the latest 'hash' or message state to be the latest message*/
+    handleHashChange(thisHash) {
+        if (this.state.prevHash == undefined) {
+            this.setState({ latestMessage: thisHash })
+            this.setState({ prevHash: thisHash })
+        } else {
+            this.setState({ latestMessage: thisHash.substring(0, thisHash.length - this.state.prevHash.length) });
+        }
+        this.setState({ queuedMessageFlag: true })
+    }
+
+    /*Function to be called by children to signal they have successfully received and attempted to render message*/
+    dequeueMessage() {
+        this.setState({ queuedMessageFlag: false })
+    }
+
+
+    // get info from deployed decentralised application (dapp) and sync with session state
     syncData = async () => {
         const { web3, accounts, contract, selectedAccountIndex } = this.state
         const from = accounts[selectedAccountIndex]
@@ -185,17 +226,13 @@ class Backend extends Component {
             ipfsPeers = { __html: await this.refreshPeerList() }
         }
 
-        const contractIPFSHash = await contract.methods.getHash().call()
-
         var latestMessage = await this.readHash()
         if (!latestMessage) {
             latestMessage = ''
         }
-        //console.log(latestMessage)
 
         this.setState({
             ipfsHash,
-            contractIPFSHash,
             ipfsAddr,
             ipfsPeers,
             balance,
@@ -220,30 +257,41 @@ class Backend extends Component {
             .then((x) => { this.syncData() })
     }
 
-    // send message
-    sendMessage = async () => {
+    /*
+     * Function that sends a message
+     * Message is read from the message field and appended to the current contents
+     * of the selected rooms (unimplented) hash file
+     * This is then saved as a new file to ipfs and the hash location
+     * of this new file is added to the contract
+     * 
+     */
+    sendMessage = async (message) => {
+
+        // Retrieve necessary information from the local saved state
         const { accounts, contract, selectedAccountIndex } = this.state
         const from = accounts[selectedAccountIndex]
-        const to = this.addressInput.value
-        var message = `${getTime()}|${this.messageInput.value}\n`
-        console.log(this.state.hashContents)
+        //const to = this.addressInput.value
+        //console.log(this.state.hashContents)
+        // Add message to current room messages
         if (this.state.hashContents) {
-            message = `${message}${this.state.hashContents}`
+            message.message = `${message.message}${this.state.hashContents}`
         }
-        console.log('attempting to send from:', from, '\nto', to, '\nmessage:', message)
+        //console.log('attempting to send from:', from, '\nto', to, '\nmessage:', message)
         try {
             if (this.state.ipfsHash) {
+                // Create a new file on ipfs with new message
                 const filesAdded = await ipfs.files.add({
                     path: 'testipfs',
-                    content: Buffer.from(message)
+                    content: Buffer.from(message.message)
                 })
+                // Send the new hash through the contract
                 console.log('added file:', filesAdded[0].path, filesAdded[0].hash)
                 await contract.methods.sendMessage(filesAdded[0].hash).send({ gas: '2352262', from })
                 console.log('sent hash');
             }
             this.syncData()
-            this.addressInput.value = ''
-            this.messageInput.value = ''
+            //this.addressInput.value = ''
+            //this.messageInput.value = ''
         } catch (err) {
             alert('transaction rejected, console for details')
             console.log(err)
@@ -257,10 +305,12 @@ class Backend extends Component {
             ipfsIsOnline,
             metamaskOnline,
             ipfsHash,
-            contractIPFSHash,
+            web3InvalidNetwork,
+            accounts,
+            selectedAccountIndex
+            /* Unused variables
             ipfsAddr,
             ipfsPeers,
-            web3InvalidNetwork,
             claimableTokens,
             latestBlockNo,
             tokensPerMessage,
@@ -271,80 +321,92 @@ class Backend extends Component {
             blocksTilClaim,
             latestMessage,
             hashContents,
-            accounts,
-            selectedAccountIndex
+            */
         } = this.state
         const address = accounts[selectedAccountIndex]
 
         if (accounts.length <= 0 && !web3GetError && !web3InvalidNetwork && !ipfsGetError && !ipfsHash && !ipfsIsOnline) {
             console.log('loading components')
             return (
-                <p>loading components</p>
+                <p className="warning-message">loading components</p>
             )
         }
 
         if (!metamaskOnline) {
             console.log('unable to load metamask account, make sure you are logged in')
             return (
-                <p>unable to load metamask account, make sure you are logged in</p>
+                <p className="warning-message">unable to load metamask account, make sure you are logged in</p>
             )
         }
 
         if (web3GetError) {
             console.log('unable to load web3, make sure metamask is installed')
             return (
-                <p>unable to load web3, make sure metamask is installed</p>
+                <p className="warning-message">unable to load web3, make sure metamask is installed</p>
             )
         }
 
         if (ipfsGetError) {
             console.log('unable to load ipfs, i dont know how to fix this yet')
             return (
-                <p>unable to load ipfs, i dont know how to fix this yet</p>
+                <p className="warning-message">unable to load ipfs, i dont know how to fix this yet</p>
             )
         }
 
         if (web3InvalidNetwork) {
             console.log('please change to the rinkeby network and refresh')
             return (
-                <p>please change to the rinkeby network and refresh</p>
+                <p className="warning-message">please change to the rinkeby network and refresh</p>
             )
         }
-
-        // backend stuff not yet implemented
+        /*
         return (
-            <div class="Backend">
-                <header className="Backend-header">
-                    <h1>eth/ipfs example</h1>
-                </header>
-                <p>account address: {address}</p>
-                <p>contract ipfs hash: {contractIPFSHash}</p>
-                <p>local ipfs hash: {ipfsHash}</p>
-                <p>ipfs swarm address: {ipfsAddr}</p>
-                <p>claimableTokens: {claimableTokens}</p>
-                <p>latestBlockNo: {latestBlockNo}</p>
-                <p>tokensPerMessage: {tokensPerMessage}</p>
-                <p>dailyTokensNo: {dailyTokensNo}</p>
-                <p>blocksPerClaim: {blocksPerClaim}</p>
-                <p>balance: {balance}</p>
-                <p>messageHistory: {messageHistory[messageHistory.length - 1]}</p>
-                <p>blocksTilClaim: {blocksTilClaim}</p>
-                <p>latestMessage: {latestMessage}</p>
-                <button onClick={this.readHash}>Read from Hash</button>
-                <p>Contents from Hash: {hashContents}</p>
-                <button onClick={this.claimMessageTokens}>Claim Tokens</button>
-                <br /><br />
-                <p>address: </p>
-                <input latype="text" ref={(input) => this.addressInput = input} />
-                <br /><br />
-                <p>message: </p>
-                <input type="text" ref={(input) => this.messageInput = input} />
-                <button onClick={this.sendMessage}>Send</button>
-
-                <p>ipfs peerlist: </p>
-                <ul dangerouslySetInnerHTML={ipfsPeers}></ul>
-            </div>
+          <div class="Backend">
+            <header className="Backend-header">
+              <h1>eth/ipfs example</h1>
+            </header>
+            <p>account address: {address}</p>
+            <p>local ipfs hash: {ipfsHash}</p>
+            <p>ipfs swarm address: {ipfsAddr}</p>
+            <p>claimableTokens: {claimableTokens}</p>
+            <p>latestBlockNo: {latestBlockNo}</p>
+            <p>tokensPerMessage: {tokensPerMessage}</p>
+            <p>dailyTokensNo: {dailyTokensNo}</p>
+            <p>blocksPerClaim: {blocksPerClaim}</p>
+            <p>balance: {balance}</p>
+            <p>messageHistory: {messageHistory[messageHistory.length - 1]}</p>
+            <p>blocksTilClaim: {blocksTilClaim}</p>
+            <p>latestMessage: {latestMessage}</p>
+            <button onClick={this.readHash}>Read from Hash</button>
+            <p>Contents from Hash: {hashContents}</p>
+            <button onClick={this.claimMessageTokens}>Claim Tokens</button>
+            <br /><br />
+            <p>address: </p>
+            <input latype="text" ref={(input) => this.addressInput = input} />
+            <br /><br />
+            <p>message: </p>
+            <input type="text" ref={(input) => this.messageInput = input} />
+            <button onClick={this.sendMessage}>Send</button>
+    
+            <p>ipfs peerlist: </p>
+            <ul dangerouslySetInnerHTML={ipfsPeers}></ul>
+          </div>
         )
+    */
+
+        return (
+            <div className="frontend">
+                <Header claimTokens={this.claimTokens} state={this.state} />
+                <MainPage
+                    sendMessage={this.sendMessage}
+                    latestMessage={this.state.latestMessage}
+                    queuedMessageFlag={this.state.queuedMessageFlag}
+                    dequeueMessage={this.dequeueMessage}
+                    ref={this.roomRef}
+                />
+            </div>
+        );
+
     }
 }
 
