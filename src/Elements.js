@@ -38,7 +38,8 @@ export class MainPage extends Component {
     return (
       <div className="main-page">
         <div className="main-screen">
-          <LeftPanel onSectionClick={this.activateSection} activeSection={this.state.activeSection} />
+          <LeftPanel onSectionClick={this.activateSection} 
+            activeSection={this.state.activeSection} />
           <Content section={this.state.activeSection} />
           <RightPanel />
         </div>
@@ -49,206 +50,182 @@ export class MainPage extends Component {
 
 /*Left panel containing sections for main sections of application*/
 export class LeftPanel extends Component {
-  constructor(props) {
-    super(props);
-    this.activateSection = this.activateSection.bind(this);
-  }
-  activateSection(sectionName) {
-    this.props.onSectionClick(sectionName);
-  }
-  render() {
-    return (
-      <div className="left-panel">
-            <SectionButton
-                sectionName="Rooms"
-                onSectionClick={this.activateSection}
-                activeSection={this.props.activeSection}
-            />
-            <SectionButton
-                sectionName="Messages"
-                onSectionClick={this.activateSection}
-                activeSection={this.props.activeSection}
-            />
-            <SectionButton
-                sectionName="Console"
-                onSectionClick={this.activateSection}
-                activeSection={this.props.activeSection}
-            />
-            <SectionButton
-                sectionName="Settings"
-                onSectionClick={this.activateSection}
-                activeSection={this.props.activeSection}
-            />
-      </div>
-    )
-  }
+    constructor(props) {
+        super(props);
+        this.activateSection = this.activateSection.bind(this);
+    }
+    activateSection(sectionName) {
+        this.props.onSectionClick(sectionName);
+    }
+    render() {
+        return (
+            <div className="left-panel">
+                <SectionButton sectionName="Rooms"
+                    onSectionClick={this.activateSection}
+                    activeSection={this.props.activeSection} />
+                <SectionButton sectionName="Messages"
+                    onSectionClick={this.activateSection}
+                    activeSection={this.props.activeSection} />
+                <SectionButton sectionName="Console"
+                    onSectionClick={this.activateSection}
+                    activeSection={this.props.activeSection} />
+                <SectionButton sectionName="Settings"
+                    onSectionClick={this.activateSection}
+                    activeSection={this.props.activeSection} />
+            </div>
+        )
+    }
 }
 
 /**
  * Button in side panel that routes to the main sections of the site
  */
 export class SectionButton extends Component {
-  constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-  }
-  handleClick() {
-    console.log(this.props.sectionName + " was clicked.")
-    this.props.onSectionClick(this.props.sectionName);
-  }
-  render() {
-    let selectedStatus = "unselected-section";
-    //console.log("active: {" + this.props.activeSection + "}| this: {" + this.props.sectionName + "}");
-    if (this.props.activeSection === this.props.sectionName) {
-      selectedStatus = "selected-section";
+    constructor(props) {
+        super(props);
+        this.handleClick = this.handleClick.bind(this);
     }
-    var classes = `${selectedStatus} section-button text-unselectable`;
+    handleClick() {
+        console.log(this.props.sectionName + " was clicked.")
+        this.props.onSectionClick(this.props.sectionName);
+    }
+    render() {
+        let selectedStatus = "unselected-section";
+        //console.log("active: {" + this.props.activeSection + "}| this: {" + this.props.sectionName + "}");
+        if (this.props.activeSection === this.props.sectionName) {
+            selectedStatus = "selected-section";
+        }
+        var classes = `${selectedStatus} section-button text-unselectable`;
 
-    return (
-        <div className={classes}
-            onClick={(e) => this.handleClick(e)}>{this.props.sectionName}
-        </div>
-    );
-  }
+        return (
+            <div className={classes} onClick={(e) => this.handleClick(e)}>
+                {this.props.sectionName}
+            </div>
+        );
+    }
 }
 
 /*Right panel, for stylistic purposes (acting as a border for now)
     -content: unsure for now, icons could potentially be added
 */
 export class RightPanel extends Component {
-  render() {
-    return (
-      <div className="right-panel">
+    render() {
+        return (
+            <div className="right-panel">
 
-      </div>
-    )
-  }
+            </div>
+        )
+    }
 }
 
 /**
  * Rooms and Messages
  * */
 export class Content extends Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    switch (this.props.section) {
-      case "Rooms":
-        return (
-          <RoomScreen />
-        );
-      case "Messages":
-        return (
-          <div className="content">
-            <PrivateChatsScreen />
-          </div>
-        );
-      case "Settings":
-        return (
-          <div className="content">
-            <SettingsScreen />
-          </div>
-        );
-      case "Console":
-        return (
-          <div className="content">
-            <Console />
-          </div>
-        );
+    constructor(props) {
+        super(props);
     }
-  }
+    render() {
+        switch (this.props.section) {
+            case "Rooms":
+                return (
+                    <RoomScreen />
+                );
+            case "Messages":
+                return (
+                    <div className="content">
+                        <PrivateChatsScreen />
+                    </div>
+                );
+            case "Settings":
+                return (
+                    <div className="content">
+                        <SettingsScreen />
+                    </div>
+                );
+            case "Console":
+                return (
+                    <div className="content">
+                        <Console />
+                    </div>
+                );
+        }
+    }
 }
 
 /**
  * Main room screen containing the room navigation menu, message list and chat box
  */
 export class RoomScreen extends Component {
-  constructor(props) {
-    super(props);
-    this.child = React.createRef();
-    this.state = {
-      lastMessage: '',
-      activeRoom: "Block Net"
+    constructor(props) {
+        super(props);
+        this.child = React.createRef();
+        this.state = {
+            lastMessage: '',
+            activeRoom: "Block Net"
+        };
+
+        this.updateMessage = this.updateMessage.bind(this);
+        this.activateRoom = this.activateRoom.bind(this);
     };
 
-    this.updateMessage = this.updateMessage.bind(this);
-    this.activateRoom = this.activateRoom.bind(this);
-  };
+    /*This is the point where we will want to give the to-be-activated room name to the backend for it to send back messages*/
+    activateRoom(roomName) {
+        this.setState({ activeRoom: roomName });
+    }  
 
-  /*This is the point where we will want to give the to-be-activated room name to the backend for it to send back messages*/
-  activateRoom(roomName) {
-    this.setState({ activeRoom: roomName });
-  }  
+    //Calls the addMessage function from MessageContainer
+    updateMessage(msg) {
+        this.setState({ lastMessage: msg });
+        this.child.current.addMessage(msg);
+    }
 
-  //Calls the addMessage function from MessageContainer
-  updateMessage(msg) {
-    this.setState({ lastMessage: msg });
-    this.child.current.addMessage(msg);
-  }
-
-  //Bind message container to this.child so that the addMessage
-  //function from MessageContainer can be accessed in updateMessage
-  render() {
-    return (
-      <div className="room-screen">
-            <RoomNav
-                onRoomButtonClick={this.activateRoom}
-                activeRoom={this.state.activeRoom}
-            />
-            <MessageContainer
-                ref={this.child}
-            />
-            <ChatBox
-                updateMessage={(e) => this.updateMessage(e)}
-            />
-      </div>
-    );
-  }
+    //Bind message container to this.child so that the addMessage
+    //function from MessageContainer can be accessed in updateMessage
+    render() {
+        return (
+            <div className="room-screen">
+                <RoomNav onRoomButtonClick={this.activateRoom}
+                    activeRoom={this.state.activeRoom} />
+                <MessageContainer ref={this.child} />
+                <ChatBox updateMessage={(e) => this.updateMessage(e)} />
+            </div>
+        );
+    }
 }
 
 /*
  * Contains all the messages
  */
 export class RoomNav extends Component {
-  constructor(props) {
-    super(props);
-    this.activateRoom = this.activateRoom.bind(this);
-  }
-  activateRoom(roomName) {
-    this.props.onRoomButtonClick(roomName);
-  }
-  render() {
-    return(
-      <div className="room-nav text-unselectable">
-            <RoomButton
-                roomName="Block Net"
-                onRoomButtonClick={this.activateRoom}
-                activeRoom={this.props.activeRoom}
-            />
-            <RoomButton
-                roomName="Programming"
-                onRoomButtonClick={this.activateRoom}
-                activeRoom={this.props.activeRoom}
-            />
-            <RoomButton
-                roomName="Gaming"
-                onRoomButtonClick={this.activateRoom}
-                activeRoom={this.props.activeRoom}
-            />
-            <RoomButton
-                roomName="Work"
-                onRoomButtonClick={this.activateRoom}
-                activeRoom={this.props.activeRoom}
-            />
-            <RoomButton
-                roomName="Lifestyle"
-                onRoomButtonClick={this.activateRoom}
-                activeRoom={this.props.activeRoom}
-            />
-      </div>
-    );
-  }
+    constructor(props) {
+        super(props);
+        this.activateRoom = this.activateRoom.bind(this);
+    }
+    activateRoom(roomName) {
+        this.props.onRoomButtonClick(roomName);
+    }
+    render() {
+      return(
+        <div className="room-nav text-unselectable">
+              <RoomButton roomName="Block Net"
+                  onRoomButtonClick={this.activateRoom}
+                  activeRoom={this.props.activeRoom} />
+              <RoomButton roomName="Programming"
+                  onRoomButtonClick={this.activateRoom}
+                  activeRoom={this.props.activeRoom} />
+              <RoomButton roomName="Gaming"
+                  onRoomButtonClick={this.activateRoom}
+                  activeRoom={this.props.activeRoom} />
+              <RoomButton roomName="Work"
+                  onRoomButtonClick={this.activateRoom}
+                  activeRoom={this.props.activeRoom} />
+              <RoomButton roomName="Lifestyle"
+                  onRoomButtonClick={this.activateRoom}
+                  activeRoom={this.props.activeRoom} />
+        </div>
+      );
+    }
 }
 
 /**
@@ -270,8 +247,8 @@ export class RoomButton extends Component {
     }
     let classes = `${selectedStatus}`
     return(
-        <div className={classes}
-            onClick={(e) => this.handleClick(e)}>{this.props.roomName}
+        <div className={classes} onClick={(e) => this.handleClick(e)}>
+            {this.props.roomName}
         </div>
     );
   }
@@ -301,7 +278,7 @@ export class MessageContainer extends Component {
   addMessage(message) {
     var newMessage = {
       data: message,
-      key: Date.now(),
+      key: Date.now()
     };
 
     this.setState((prevState) => {
@@ -314,10 +291,7 @@ export class MessageContainer extends Component {
   //Helper method for render to render every value in the messages list
   renderMessages() {
     return this.state.messages.map(message => {
-        return <Message
-            key={message.key}
-            msg={message.data}
-        />
+        return <Message key={message.key} msg={message.data} />
     });
   }
 
@@ -340,17 +314,13 @@ export class MessageContainer extends Component {
 export class Message extends Component {
   constructor(props){
     super(props);
-
-    console.log(this.props)
   };
 
   render() {
     return (
       <div className="message">
         <MessageHeader />
-            <MessageContent
-                msg={this.props.msg}
-            />
+            <MessageContent msg={this.props.msg} />
       </div>
     );
   }
@@ -434,7 +404,6 @@ export class MessageContent extends Component {
   };
 
   render() {
-    console.log(this.props);
     return (
       <p className="message-content hover-cursor">
         {this.props.msg}
@@ -644,8 +613,7 @@ export class MessageGraph extends Component {
                 </div>
                 <this.state.LineChart
                     data={this.state.data}
-                    options={this.state.options}
-                />
+                    options={this.state.options} />
             </div>
         );
     }
