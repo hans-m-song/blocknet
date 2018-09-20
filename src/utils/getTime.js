@@ -5,7 +5,7 @@ const moment = require('moment')
 * @returns moment The time at which the function is called
 */
 function getTime() { 
-    return moment().format()
+    return moment().format("HH:mm, Do MMMM YYYY")
 }
 
 export default getTime

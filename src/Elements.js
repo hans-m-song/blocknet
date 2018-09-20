@@ -341,7 +341,12 @@ export class MessageContainer extends Component {
     renderMessages() {
         return this.props.messageHistory.map(message => {
             //return <Message key={message.key} msg={message.data}/>
-            return <Message key={message.date} user={message.user} message={message.message}/>
+            return <Message
+                key={message.date}
+                user={message.user.toString()}
+                date={message.date.toString()}
+                message={message.message.toString()}
+            />
         });
     }
 
@@ -370,8 +375,11 @@ export class Message extends Component {
     render() {
         return (
             <div className="message">
-            <MessageHeader user={this.props.user} date={this.props.date}/>
-            <MessageContent message={this.props.message} />
+                <MessageHeader
+                    user={this.props.user.toString()}
+                    date={this.props.date.toString()}
+                />
+            <MessageContent message={this.props.message.toString()} />
             </div>
         );
     }
@@ -440,7 +448,7 @@ export class MessageHeader extends Menu {
                         }
                     </div>
                 </div>
-                <h3 className="message-time hover-cursor">{moment(this.props.date).format("HH:mm, Do MMMM YYYY")}</h3>
+                <h3 className="message-time hover-cursor">{this.props.date}</h3>
             </div>
         );
     }

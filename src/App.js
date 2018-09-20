@@ -157,11 +157,11 @@ class Backend extends Component {
         const { contract } = this.state
         // Read the latest message (hash)
         var latestHash = await contract.methods.getMessage().call()
-        console.log('attempting to read file at: ', latestHash)
+        //console.log('attempting to read file at: ', latestHash)
         try {
             const fileBuffer = await ipfs.files.cat(latestHash + '/BlockNet.json')
             var messageHistory = JSON.parse(fileBuffer)
-            console.log('read file contents:\n', messageHistory)
+            //console.log('read file contents:\n', messageHistory)
             this.setState({ messageHistory })
         } catch (err) {
             console.error(err)
@@ -200,7 +200,7 @@ class Backend extends Component {
                 ipfsPeers = { __html: await this.refreshPeerList() }
         }
 
-        var latestMesssage = await this.readHash()
+        var latestMessage = await this.readHash()
 
         //console.log(latestMessage)
 
