@@ -712,6 +712,27 @@ export class ConsoleLog extends Component {
                 <div className="consolelog-title">
                     <h3> Log </h3>
                 </div>
+                <div className="consolelog-content">
+                    <p>>Loading Components...</p>
+                    <p>>Using address >> 0x6c568c66b75259fa8b47853cD56aF396b728FBE5</p>
+                    <p>>Metamask acount loaded...</p>
+                    <p>>Connection to Rinkeby Test Network established</p>
+                    <p>>IPFS initialized >> Using IPFS local hash QmT4owZoqCLUMyai8qGtAKFYbEjg1su3KfvzqoE8vkDy9U</p>
+                    <p>>Updating Blockchain... Receiving latest messages</p>
+                    <p>>Block #3021383, Block #3021384 downladed</p>
+                    <p>>Blockchain verified...</p>
+                    <p>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>></p>
+                    <p>>Block #3021384 has been verified by ethereum network</p>
+                    <p>>Client transmitting message to block #3021385</p>
+                    <p>>Block #3021385 currently 50% full</p>
+                    <p>>Expected wait time till message is sent ~2 minutes</p>
+                    <p>></p>
+                    <p>></p>
+                    <p>></p>
+                    <p>></p>
+                    <p>></p>
+                    <p>></p>
+                </div>
             </div>
         );
     }

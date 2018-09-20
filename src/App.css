@@ -239,6 +239,20 @@ button {
     text-align: center;
 }
 
+.properties-content > p {
+    display: block;
+    margin-top: 0em;
+    margin-bottom: 0em;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.properties-content {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+}
+
 .graph {
     display : flex;
     flex-direction : row;
@@ -253,6 +267,30 @@ button {
     text-align : center;
 }
 
+.consolelog {
+    border: 1px solid white;
+    text-align: left;
+}
+
+.consolelog-title {
+    border: 1px solid white;
+    text-align: center;
+}
+
+.consolelog-content {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+}
+
+.consolelog-content > p {
+    display: block;
+    margin-top: 0em;
+    margin-bottom: 0em;
+    margin-left: 0;
+    margin-right: 0;
+}
+
 .token-manager>p {
     color: white;
     padding-right: 10px;
@@ -262,9 +300,6 @@ button {
     border: white;
 }
 
-.properties {
-    border: 1px solid white;
-    text-align: center;
 .token-manager>button:hover {
     background-color: white;
     color: black;
