@@ -6,30 +6,33 @@ import getTime from './utils/getTime'
 import getWeb3 from './utils/getWeb3'
 import getIPFS from './utils/getIPFS'
 import { contractAddress } from './utils/getAddress'
-import { Msg, msg2str } from './Message'
+//import { Msg, msg2str } from './Message'
 
 // Imports the frontend components
 import './App.css'
 import {
   Header,
-  MainPage,
-  LeftPanel,
-  SectionButton,
-  RightPanel,
-  Content,
-  RoomScreen,
-  MessageContainer,
-  Message,
-  Menu,
-  MessageHeader,
-  MessageContent,
-  ChatBox,
-  PrivateChatsScreen,
-  HistoryScreen,
-  SettingsScreen,
-  InvitationScreen,
-  Console
+  MainPage
 } from './Elements'
+
+/* Unused components
+LeftPanel,
+SectionButton,
+RightPanel,
+Content,
+RoomScreen,
+MessageContainer,
+Message,
+Menu,
+MessageHeader,
+MessageContent,
+ChatBox,
+PrivateChatsScreen,
+HistoryScreen,
+SettingsScreen,
+InvitationScreen,
+Console
+*/
 
 class App extends Component {
   render() {
@@ -45,6 +48,7 @@ class App extends Component {
 let ipfs
 
 class Backend extends Component {
+  // global vars for the current session state
   state = {
     web3GetError: false,
     ipfsGetError: false,
@@ -65,8 +69,8 @@ class Backend extends Component {
   constructor(props) {
     super(props);
     this.sendMessage = this.sendMessage.bind(this);
+    this.claimTokens = this.claimMessageTokens.bind(this);
   }
-  // global vars for the current session state
 
 
   // Connection handler for web3
@@ -80,7 +84,6 @@ class Backend extends Component {
       const networkType = await web3.eth.net.getNetworkType()
       const web3InvalidNetwork = networkType !== 'rinkeby'
       this.setState({ web3, accounts, contract, web3InvalidNetwork }, this.syncData)
-      this.interval = setInterval(() => this.syncData(), 100)
       if (accounts[this.state.selectedAccountIndex]) {
         this.setState({ metamaskOnline: true })
       }
@@ -105,6 +108,8 @@ class Backend extends Component {
         const ipfsHash = info.id
         console.log("IPFS version", version.version, "started\nat:", ipfsHash)
         // in case you're getting websock 502, its a known issue: https://github.com/ipfs/js-ipfs/issues/941
+        // once everything has been initialized
+        this.interval = setInterval(() => this.syncData(), 1000)
       })
 
     } catch (error) {
@@ -197,8 +202,6 @@ class Backend extends Component {
       ipfsPeers = { __html: await this.refreshPeerList() }
     }
 
-    const contractIPFSHash = await contract.methods.getHash().call()
-
     var latestMessage = await this.readHash()
     if (!latestMessage) {
       latestMessage = ''
@@ -207,7 +210,6 @@ class Backend extends Component {
 
     this.setState({
       ipfsHash,
-      contractIPFSHash,
       ipfsAddr,
       ipfsPeers,
       balance,
@@ -240,7 +242,7 @@ class Backend extends Component {
    * of this new file is added to the contract
    * 
    */
-    sendMessage = async (message) => {
+  sendMessage = async (message) => {
       // Retrieve necessary information from the local saved state
       const { accounts, contract, selectedAccountIndex } = this.state
       const from = accounts[selectedAccountIndex]
@@ -279,10 +281,12 @@ class Backend extends Component {
       ipfsIsOnline,
       metamaskOnline,
       ipfsHash,
-      contractIPFSHash,
+      web3InvalidNetwork,
+      accounts,
+      selectedAccountIndex
+      /* Unused variables
       ipfsAddr,
       ipfsPeers,
-      web3InvalidNetwork,
       claimableTokens,
       latestBlockNo,
       tokensPerMessage,
@@ -293,43 +297,42 @@ class Backend extends Component {
       blocksTilClaim,
       latestMessage,
       hashContents,
-      accounts,
-      selectedAccountIndex
+      */
     } = this.state
     const address = accounts[selectedAccountIndex]
 
     if (accounts.length <= 0 && !web3GetError && !web3InvalidNetwork && !ipfsGetError && !ipfsHash && !ipfsIsOnline) {
       console.log('loading components')
       return (
-        <p>loading components</p>
+        <p className="warning-message">loading components</p>
       )
     }
 
     if (!metamaskOnline) {
       console.log('unable to load metamask account, make sure you are logged in')
       return (
-        <p>unable to load metamask account, make sure you are logged in</p>
+        <p className="warning-message">unable to load metamask account, make sure you are logged in</p>
       )
     }
 
     if (web3GetError) {
       console.log('unable to load web3, make sure metamask is installed')
       return (
-        <p>unable to load web3, make sure metamask is installed</p>
+        <p className="warning-message">unable to load web3, make sure metamask is installed</p>
       )
     }
 
     if (ipfsGetError) {
       console.log('unable to load ipfs, i dont know how to fix this yet')
       return (
-        <p>unable to load ipfs, i dont know how to fix this yet</p>
+        <p className="warning-message">unable to load ipfs, i dont know how to fix this yet</p>
       )
     }
 
     if (web3InvalidNetwork) {
       console.log('please change to the rinkeby network and refresh')
       return (
-        <p>please change to the rinkeby network and refresh</p>
+        <p className="warning-message">please change to the rinkeby network and refresh</p>
       )
     }
     
@@ -339,7 +342,6 @@ class Backend extends Component {
           <h1>eth/ipfs example</h1>
         </header>
         <p>account address: {address}</p>
-        <p>contract ipfs hash: {contractIPFSHash}</p>
         <p>local ipfs hash: {ipfsHash}</p>
         <p>ipfs swarm address: {ipfsAddr}</p>
         <p>claimableTokens: {claimableTokens}</p>
@@ -369,8 +371,8 @@ class Backend extends Component {
 
     return (
       <div className="frontend">
-        <Header />
-        <MainPage sendMessage={this.sendMessage}/>
+        <Header claimTokens={this.claimTokens} state={this.state} />
+        <MainPage sendMessage={this.sendMessage} />
       </div>
     );
 

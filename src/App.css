@@ -12,6 +12,10 @@
   background: blue; /* Gecko Browsers */
 }
 
+.warning-message {
+  color: white;
+}
+
 .hover-cursor {
   cursor : default;
 }
@@ -221,6 +225,26 @@ button{
 
 .console-content {
   color : white;
+}
+
+.token-manager {
+  display: flex;
+  margin-right: 5px;
+  padding-right: 10px;
+}
+
+.token-manager > p {
+  color: white;
+  padding-right: 10px;
+}
+
+.token-manager > button {
+  border: white;
+}
+
+.token-manager > button:hover {
+  background-color: white;
+  color: black;
 }
 
 .footer {
