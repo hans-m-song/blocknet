@@ -18,8 +18,9 @@
     "license": "ISC",
     "dependencies": {
         "ajv": "^6.5.3",
+        "chart.js": "^2.7.2",
         "ganache-cli": "^6.1.8",
-        "ipfs": "^0.32.0",
+        "ipfs": "^0.32.2",
         "ipfs-api": "^24.0.1",
         "ipfs-name": "0.0.1",
         "ipns": "^0.1.6",
@@ -27,6 +28,7 @@
         "moment": "^2.22.2",
         "perfect-scrollbar": "^1.4.0",
         "react": "^16.4.2",
+        "react-chartjs": "^1.2.0",
         "react-dom": "^16.4.2",
         "react-scripts": "^1.1.5",
         "solc": "^0.4.24",

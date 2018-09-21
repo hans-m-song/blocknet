@@ -313,6 +313,10 @@ button {
     margin-right: 0;
 }
 
+.token-manager {
+    display: flex;
+}
+
 .token-manager>p {
     color: white;
     padding-right: 10px;
