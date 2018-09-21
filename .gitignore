@@ -55,6 +55,7 @@ Thumbs.db
 
 # dependencies
 /node_modules
+package-lock.json
 
 # testing
 /coverage
@@ -80,3 +81,4 @@ src/compiled/*
 build
 .vs/ProjectSettings.json
 .vs/VSWorkspaceState.json
+.vs/config/applicationhost.config
