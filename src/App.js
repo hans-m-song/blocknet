@@ -306,17 +306,11 @@ class Backend extends Component {
         } = this.state
         const address = accounts[selectedAccountIndex]
 
-            if (accounts.length <= 0 && !web3GetError && !web3InvalidNetwork && !ipfsGetError && !ipfsHash && !ipfsIsOnline) {
+            if ((accounts.length <= 0 && !web3GetError && !web3InvalidNetwork && !ipfsGetError) ||
+                    !ipfsHash || !ipfsIsOnline || !metamaskOnline) {
                 console.log('loading components')
                 return (
                     <p className="warning-message">loading components</p>
-                )
-        }
-
-            if (!metamaskOnline) {
-                console.log('unable to load metamask account, make sure you are logged in')
-                return (
-                    <p className="warning-message">unable to load metamask account, make sure you are logged in</p>
                 )
         }
 
