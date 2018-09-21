@@ -289,8 +289,7 @@ class Backend extends Component {
             accounts,
             balance,
             messageHistory,
-            selectedAccountIndex
-            /* Unused variables
+            selectedAccountIndex,
             ipfsAddr,
             ipfsPeers,
             claimableTokens,
@@ -301,7 +300,6 @@ class Backend extends Component {
             blocksTilClaim,
             latestMessage,
             hashContents,
-            */
         } = this.state
         const address = accounts[selectedAccountIndex]
 
@@ -370,10 +368,14 @@ class Backend extends Component {
 
         return (
             <div className="frontend">
-                <Header claimTokens={this.claimTokens} state={this.state} />
+                <Header 
+                    claimTokens={this.claimTokens} 
+                    state={this.state} 
+                />
                 <MainPage
                     sendMessage={this.sendMessage}
                     messageHistory={this.state.messageHistory}
+                    currentState={this.state}
                 />
             </div>
         );
