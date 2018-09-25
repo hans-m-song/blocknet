@@ -5,11 +5,18 @@ import Chart from 'chart.js'
  * Console
  */
 export class ConsoleScreen extends Component {
+    constructor(props) {
+        super(props);
+        this.currentState = this.props.currentState;
+    }
+    
     render() {
         return (
             <div className="console">
                 <div className="console-top">
-                    <Properties />
+                    <Properties 
+                        currentState={this.currentState}
+                    />
                     <MessageGraph />
                 </div>
                 <div className="console-bottom">
@@ -23,8 +30,7 @@ export class ConsoleScreen extends Component {
 export class Properties extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-        }
+        this.state = this.props.currentState;
     }
 
     render() {
@@ -34,17 +40,13 @@ export class Properties extends Component {
                     <h4> Properties </h4>
                 </div>
                 <div className="properties-content">
-                    <p>account address: 0x6c568c66b75259fa8b47853cD56aF396b728FBE5</p>
-                    <p>local ipfs hash: QmT4owZoqCLUMyai8qGtAKFYbEjg1su3KfvzqoE8vkDy9U</p>
-                    <p>ipfs swarm address: /dns4/ws-star.discovery.libp2p.io/tcp/443/wss/p2p-websocket-star/ipfs/QmT4owZoqCLUMyai8qGtAKFYbEjg1su3KfvzqoE8vkDy9U</p>
-                    <p>claimableTokens: 96</p>
-                    <p>latestBlockNo: 3021384</p>
-                    <p>tokensPerMessage: 3</p>
-                    <p>dailyTokensNo: 12</p>
-                    <p>blocksPerClaim: 100</p>
-                    <p>balance: 6</p>
-                    <p>messageHistory: 3020577</p>
-                    <p>blocksTilClaim: 0</p>
+                    <p>account address: {this.state.accounts[this.state.selectedAccountIndex]}</p>
+                    <p>local ipfs hash: {this.state.ipfsHash}}</p>
+                    <p>claimableTokens: {this.state.claimableTokens}</p>
+                    <p>latestBlockNo: {this.state.latestBlockNo}</p>
+                    <p>tokensPerMessage: {this.state.tokensPermessage}</p>
+                    <p>dailyTokensNo: {this.state.dailyTokensNo}</p>
+                    <p>blocksPerClaim: {this.state.blocksPerClaim}</p>
                 </div>
             </div>
         );

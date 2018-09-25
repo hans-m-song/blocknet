@@ -72,6 +72,7 @@ export class MainPage extends Component {
         this.state = { activeSection: "Rooms" };
         this.activateSection = this.activateSection.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
+        this.currentState = this.props.currentState;
     }
 
     activateSection(sectionName) {
@@ -94,6 +95,7 @@ export class MainPage extends Component {
                         section={this.state.activeSection}
                         sendMessage={this.sendMessage}
                         messageHistory={this.props.messageHistory}
+                        currentState={this.currentState}
                     />
                     <RightPanel />
                 </div>
@@ -179,6 +181,7 @@ export class Content extends Component {
     constructor(props) {
         super(props);
         this.sendMessage = this.sendMessage.bind(this);
+        this.currentState = this.props.currentState;
     }
 
     sendMessage(message) {
@@ -209,7 +212,9 @@ export class Content extends Component {
             case "Console":
                 return (
                     <div className="content">
-                        <ConsoleScreen />
+                        <ConsoleScreen 
+                            currentState={this.currentState}
+                        />
                     </div>
                 );
         }
