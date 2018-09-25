@@ -12,7 +12,7 @@ import './App.css'
 import {
     Header,
     MainPage
-} from './Elements'
+} from './modules/MainPage'
 
 /* Unused components
 LeftPanel,
@@ -377,7 +377,6 @@ class Backend extends Component {
                 />
             </div>
         );
-
         }
     }
 

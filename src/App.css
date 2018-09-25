@@ -4,6 +4,41 @@
     font-size: 1em;
 }
 
+/************     Chrome Scrollbars      ***********/
+/*These will only work on chrome; if we convert to Electron application this will still apply and we won't have to worry about cross-browser support*/
+@keyframes scrollbar-active {
+    from {background-color : #1f1f20;}
+    to {background-color : white;}
+}
+
+@keyframes scrollbar-thumb-inactive {
+    from {background-color : white;}
+    to {background-color : #1f1f20;}
+}
+
+
+div::-webkit-scrollbar {
+    width: 10px;
+}
+   
+div::-webkit-scrollbar-thumb {
+    background: white;
+}
+
+div::-webkit-scrollbar-thumb:hover {
+    /*animation-name  : scrollbar-active;
+    animation-duration : 5s;*/
+    background-color : white;
+}
+
+div::-webkit-scrollbar:window-inactive {
+    background-color : #1f1f20
+}
+  
+div::-webkit-scrollbar-track {
+    background: none;
+}
+
 /************     Text selection colour        **********/
 
 ::selection {
@@ -88,8 +123,7 @@ button {
     font-size: 250%;
 }
 
-/*Main Page Stuff (Panel and Content screens)*/
-
+/**************Main Page CSS****************/
 .main-page {
     height: calc(100vh - 70px);
     /*100% of viewport heigh - 100px*/
@@ -336,14 +370,13 @@ button {
     float: left;
 }
 
-/******Room Related CSS******/
-
+/***************Room Related CSS********************/
 .room-screen {
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
     color: white;
-    border: 1px none white;
+    border: 1px solid white;
     margin-top: 0px;
     width: calc(80vw);
 }
@@ -378,8 +411,6 @@ button {
     color: black;
 }
 
-.unselected-room-button {}
-
 @media all and (max-width: 800px) {
     .room-nav ul {}
     .room-nav li {}
@@ -392,23 +423,26 @@ button {
 }
 
 /******Message Box Related CSS******/
-
-.scroll-container {
+/*.scroll-container {
     position: relative;
     height: 69vh;
     margin-top: 3px;
     flex-shrink: 0;
     overflow: hidden;
-}
+}*/
 
 /*Container for all messages*/
-
-.message-container {
+/*.message-container {
     margin-bottom: 0px;
     margin-top: 0px;
     height: 50%;
+}*/
+
+.message-container {
+    overflow : auto;
 }
 
+/*Discrete message styling*/
 .message {
     border-bottom: solid white 1px;
     padding-bottom: 15px;
