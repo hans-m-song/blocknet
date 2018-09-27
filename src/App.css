@@ -2,41 +2,28 @@
     /*font-family : 'Do Hyeon', sans-serif;*/
     font-family: 'Do Hyeon', sans-serif;
     font-size: 1em;
+    background-color: black;
+    color: white;
+    border-color : white;
 }
 
 /************     Chrome Scrollbars      ***********/
 /*These will only work on chrome; if we convert to Electron application this will still apply and we won't have to worry about cross-browser support*/
-@keyframes scrollbar-active {
-    from {background-color : #1f1f20;}
-    to {background-color : white;}
-}
-
-@keyframes scrollbar-thumb-inactive {
-    from {background-color : white;}
-    to {background-color : #1f1f20;}
-}
-
-
 div::-webkit-scrollbar {
     width: 10px;
+    height: 5px;
 }
    
 div::-webkit-scrollbar-thumb {
     background: white;
 }
-
-div::-webkit-scrollbar-thumb:hover {
-    /*animation-name  : scrollbar-active;
-    animation-duration : 5s;*/
-    background-color : white;
-}
-
-div::-webkit-scrollbar:window-inactive {
-    background-color : #1f1f20
-}
   
 div::-webkit-scrollbar-track {
     background: none;
+}
+
+div::-webkit-scrollbar-track {
+
 }
 
 /************     Text selection colour        **********/
@@ -52,7 +39,7 @@ div::-webkit-scrollbar-track {
 }
 
 .warning-message {
-    color: white;
+
 }
 
 .hover-cursor {
@@ -64,32 +51,24 @@ div::-webkit-scrollbar-track {
 }
 
 body {
-    background-color: black;
     margin: 0;
     padding: 0;
 }
 
 h1 {
-    color: white;
 }
 
 button {
-    border: 3px solid black;
-    background-color: black;
+    border: 1px none;
     font-family: 'Courier New', Courier, monospace 10px solid;
-    color: aliceblue;
 }
 
 .header {
-    background-color: black;
-    border-bottom: 1px solid #1f1f20;
-    color: white;
     padding-left: 10px;
     padding-right: 20px;
     padding-top: 0px;
     padding-bottom: 0px;
     margin-top: 3px;
-    margin-bottom: 8px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -104,7 +83,7 @@ button {
 }
 
 .header>h3 {
-    border: 1px solid white;
+    border: 1px solid;
 }
 
 .header-nav {
@@ -116,7 +95,6 @@ button {
 }
 
 .header-nav a {
-    color: white;
 }
 
 .title {
@@ -125,9 +103,8 @@ button {
 
 /**************Main Page CSS****************/
 .main-page {
-    height: calc(100vh - 70px);
     /*100% of viewport heigh - 100px*/
-    /*adding margin here resolved the overlap of the console and footer*/
+    height: calc(100vh - 55px);
 }
 
 .main-screen {
@@ -141,21 +118,14 @@ button {
 
 .left-panel {
     flex: 0;
-    flex-basis: 12%;
+    flex-basis : 10%;
+    flex-shrink: 0;
     padding: 0px;
-    background-color: black;
 }
 
 /*Styling of left panel section links*/
 
 .section-button {
-    /*color*/
-    background-color: black;
-    color: white;
-    /*border*/
-    border: white;
-    border-width: 1px;
-    border-style: solid;
     /*padding*/
     padding: 5px 5px 5px 5px;
     margin: 0px 10px 10px 10px;
@@ -176,10 +146,6 @@ button {
     /*color*/
     background-color: white;
     color: black;
-    /*border*/
-    border: white;
-    border-width: 1px;
-    border-style: solid;
     /*interaction*/
     cursor: pointer;
 }
@@ -188,10 +154,6 @@ button {
     /*color*/
     background-color: black;
     color: white;
-    /*border*/
-    border: white;
-    border-width: 1px;
-    border-style: solid;
     /*interaction*/
     cursor: pointer;
 }
@@ -200,31 +162,24 @@ button {
     /*color*/
     background-color: white;
     color: black;
-    /*border*/
-    border: white;
-    border-width: 1px;
-    border-style: solid;
 }
 
 .unselected-section {
-    /*color*/
-    background-color: black;
-    color: white;
-    /*border*/
-    border: white;
-    border-width: 1px;
-    border-style: solid;
 }
 
 .content {
-    flex-grow: 1;
-    flex-basis: 85%;
+    flex-grow: 0;
+    /*89.63 is the max width before x-overflow*/
+    flex-basis: 80%;
     overflow: auto;
-    background-color: black;
-    color: white;
-    border: 1px solid white;
-    margin: 5px;
+    border: 1px none;
+    margin: 0px 5px 5px 5px;
     position: relative;
+    /*background-color : #131313;*/
+}
+
+.content * {
+    /*background-color : #131313;*/
 }
 
 .console-header>p {
@@ -234,17 +189,14 @@ button {
 
 .right-panel {
     flex: 0;
+    flex-shrink : 1;
     flex-basis: 10%;
-    background-color: black;
 }
 
 /*****************Console Related CSS*************************/
 .console {
     display : flex;
     flex-direction : column;
-    background-color: black;
-    color: white;
-
 }
 
 .console-top {
@@ -271,7 +223,7 @@ button {
     flex : auto;
     flex-grow : 1;
     order : 1;
-    border: 1px solid white;
+    border: 1px solid;
     text-align: left;
 }
 
@@ -279,7 +231,7 @@ button {
     display: block;
     margin-top: 0em;
     margin-bottom: 0em;
-    border: 1px solid white;
+    border: 1px solid;
     text-align: center;
 }
 
@@ -303,20 +255,20 @@ button {
     flex : auto;
     flex-grow : 1;
     order : 2;
-    border: 1px solid white;
+    border: 1px solid;
 }
 
 .linegraph {
     display : flex;
     flex-direction : row;
     flex : auto;
-    border : 1px solid white;
+    border : 1px solid;
     padding-left : 10px;
     padding-right : 10px;
 }
 
 .graph-title {
-    border : 1px solid white;
+    border : 1px solid;
     text-align : center;
 }
 
@@ -324,12 +276,12 @@ button {
     display : flex;
     flex : 1;
     flex-direction : column;
-    border: 1px solid white;
+    border: 1px solid;
     text-align: left;
 }
 
 .consolelog-title {
-    border: 1px solid white;
+    border: 1px solid;
     text-align: center;
 }
 
@@ -352,12 +304,10 @@ button {
 }
 
 .token-manager>p {
-    color: white;
     padding-right: 10px;
 }
 
 .token-manager>button {
-    border: white;
 }
 
 .token-manager>button:hover {
@@ -375,24 +325,22 @@ button {
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
-    color: white;
-    border: 1px solid white;
     margin-top: 0px;
     width: calc(80vw);
 }
 
 .room-nav {
-    /*overflow-x : auto;
-    overflow-y : auto;
-    */
+    overflow-x : auto;
     display: flex;
     flex-direction: row;
-    border-bottom: 1px solid white;
+    border-bottom: 1px solid;
     flex-shrink: 0;
 }
 
 .room-nav div {
     padding: 11px 15px 10px 15px;
+    flex-shrink : 0;
+    margin : 0;
 }
 
 .room-nav div:hover {
@@ -402,7 +350,7 @@ button {
 }
 
 .room-nav div:active {
-    background-color: black;
+    background-color:black;
     color: white;
 }
 
@@ -440,13 +388,23 @@ button {
 
 .message-container {
     overflow : auto;
+    margin-left: 10px;
+}
+
+/*useful for colouring entire message container*/
+.message-container * {
 }
 
 /*Discrete message styling*/
 .message {
-    border-bottom: solid white 1px;
+    border-bottom: solid 1px;
     padding-bottom: 15px;
     padding-top: 5px;
+    margin-right: 5px;
+}
+
+.message:last-child {
+    border-bottom: none;
 }
 
 .message-header {
@@ -469,12 +427,10 @@ button {
 .invite-menu {}
 
 .inner-invite-menu {
-    border: 1px solid white;
+    border: 1px solid;
 }
 
 .invite-button {
-    background-color: black;
-    color: white;
 }
 
 .message-time {
@@ -496,7 +452,9 @@ button {
 
 .chat-box {
     margin-top: auto;
-    padding: 3px 0px 0px 0px;
+    margin-left: 1px;
+    padding: 0;
+    border-top: none 1px;
 }
 
 .chat-box form {
@@ -509,20 +467,20 @@ button {
 
 .chat-box textarea {
     flex-basis: 90%;
-    background-color: black;
-    border-top: 1px solid white;
-    border-right: 1px none white;
-    border-left: 1px none white;
-    border-bottom: 1px solid white;
-    border-left: 1px solid white;
-    color: white;
+    border: 1px solid;
+    border-right: none;
+    border-left : solid 1px;
 }
 
 .chat-box-send {
     flex-grow: 0;
     flex-basis: 10%;
     cursor: pointer;
-    border: 1px dashed back;
+    border: 1px solid;
+    border-left: none;
+    border-right: none;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
     background-color: white;
     color: black;
 }

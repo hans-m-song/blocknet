@@ -2,16 +2,6 @@ import React, { Component } from 'react'
 import { ChatBox } from './ChatBox'
 import { Message } from './Message'
 
-/*
-import {
-
-} from './Messages'
-
-import {
-
-} from './ChatBox'
-*/
-
 /**
  * Main room screen containing the room navigation menu, message list and chat box
  */
@@ -47,7 +37,7 @@ export class RoomScreen extends Component {
     //function from MessageContainer can be accessed in updateMessage
     render() {
         return (
-            <div className="room-screen">
+            <div className="content room-screen">
                 <RoomNav onRoomButtonClick={this.activateRoom}
                     activeRoom={this.state.activeRoom} />
                 <MessageContainer
@@ -87,6 +77,48 @@ export class RoomNav extends Component {
                     onRoomButtonClick={this.activateRoom}
                     activeRoom={this.props.activeRoom} />
                 <RoomButton roomName="Lifestyle"
+                    onRoomButtonClick={this.activateRoom}
+                    activeRoom={this.props.activeRoom} />
+                <RoomButton roomName="Room 1"
+                    onRoomButtonClick={this.activateRoom}
+                    activeRoom={this.props.activeRoom} />
+                <RoomButton roomName="Room 2"
+                    onRoomButtonClick={this.activateRoom}
+                    activeRoom={this.props.activeRoom} />
+                <RoomButton roomName="Room 3"
+                    onRoomButtonClick={this.activateRoom}
+                    activeRoom={this.props.activeRoom} />
+                <RoomButton roomName="Room 4"
+                    onRoomButtonClick={this.activateRoom}
+                    activeRoom={this.props.activeRoom} />
+                <RoomButton roomName="Room 5"
+                    onRoomButtonClick={this.activateRoom}
+                    activeRoom={this.props.activeRoom} />
+                <RoomButton roomName="Room 6"
+                    onRoomButtonClick={this.activateRoom}
+                    activeRoom={this.props.activeRoom} />
+                <RoomButton roomName="Room 7"
+                    onRoomButtonClick={this.activateRoom}
+                    activeRoom={this.props.activeRoom} />
+                <RoomButton roomName="Room 8"
+                    onRoomButtonClick={this.activateRoom}
+                    activeRoom={this.props.activeRoom} />
+                <RoomButton roomName="Room 9"
+                    onRoomButtonClick={this.activateRoom}
+                    activeRoom={this.props.activeRoom} />
+                <RoomButton roomName="Room 10"
+                    onRoomButtonClick={this.activateRoom}
+                    activeRoom={this.props.activeRoom} />
+                <RoomButton roomName="Room 11"
+                    onRoomButtonClick={this.activateRoom}
+                    activeRoom={this.props.activeRoom} />
+                <RoomButton roomName="Room 12"
+                    onRoomButtonClick={this.activateRoom}
+                    activeRoom={this.props.activeRoom} />
+                <RoomButton roomName="Room 13"
+                    onRoomButtonClick={this.activateRoom}
+                    activeRoom={this.props.activeRoom} />
+                <RoomButton roomName="Room 14"
                     onRoomButtonClick={this.activateRoom}
                     activeRoom={this.props.activeRoom} />
             </div>

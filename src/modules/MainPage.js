@@ -97,7 +97,6 @@ export class MainPage extends Component {
                         messageHistory={this.props.messageHistory}
                         currentState={this.currentState}
                     />
-                    <RightPanel />
                 </div>
             </div>
         );
@@ -199,19 +198,15 @@ export class Content extends Component {
                 );
             case "Messages":
                 return (
-                    <div className="content">
-                        <PrivateMessagesScreen />
-                    </div>
+                    <PrivateMessagesScreen />
                 );
             case "Settings":
                 return (
-                    <div className="content">
-                        <SettingsScreen />
-                    </div>
+                    <SettingsScreen />
                 );
             case "Console":
                 return (
-                    <div className="content">
+                    <div class="content">
                         <ConsoleScreen 
                             currentState={this.currentState}
                         />
