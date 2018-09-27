@@ -117,10 +117,15 @@ button {
 /*Left panel holds links to different sections of the site*/
 
 .left-panel {
+    display: flex;
     flex: 0;
     flex-basis : 10%;
     flex-shrink: 0;
     padding: 0px;
+}
+
+.sections {
+    
 }
 
 /*Styling of left panel section links*/

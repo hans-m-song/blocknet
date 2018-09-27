@@ -3,6 +3,7 @@ import { RoomScreen } from './RoomScreen'
 import { PrivateMessagesScreen } from './PrivateMessagesScreen'
 import { SettingsScreen } from './SettingsScreen'
 import { ConsoleScreen } from './ConsoleScreen'
+import * as THREE from 'three'
 
 /********** Main Screen and Panels ************/
 /*Header navigation bar*/
@@ -15,7 +16,24 @@ export class Header extends Component {
     claimTokens() {
         this.props.claimTokens();
     }
+    render() {
+        return (
+            <div className="header">
+                <h1 className="title text-unselectable hover-cursor">BLOCK NET >></h1>
+                <ThreeScene/>
+                <nav className="header-nav">
+                    <div>
+                        <a href="#">Dev Blog</a>
+                    </div>
+                    <div>
+                        <a href="#">About Us</a>
+                    </div>
+                </nav>
+            </div>
+        );
+    }
 
+    /*
     render() {
         return (
             <div className="header">
@@ -32,7 +50,79 @@ export class Header extends Component {
             </div>
         );
     }
+    */
 }
+
+export class ThreeScene extends Component{
+    componentDidMount(){
+      const width = 50
+      const height = 50
+  
+      //ADD SCENE
+      this.scene = new THREE.Scene()
+  
+      //ADD CAMERA
+      this.camera = new THREE.PerspectiveCamera(
+        75,
+        width / height,
+        0.1,
+        1000
+      )
+      this.camera.position.z = 1.7
+  
+      //ADD RENDERER
+      this.renderer = new THREE.WebGLRenderer({ antialias: true })
+      this.renderer.setClearColor('#000000')
+      this.renderer.setSize(width, height)
+      this.mount.appendChild(this.renderer.domElement)
+  
+      //ADD CUBE
+      const geometry = new THREE.BoxGeometry(1, 1, 1)
+      const material = new THREE.MeshBasicMaterial({ color: '#ffffff'     })
+      this.cube = new THREE.Mesh(geometry, material)
+      this.scene.add(this.cube)
+  
+  this.start()
+    }
+  
+  componentWillUnmount(){
+      this.stop()
+      this.mount.removeChild(this.renderer.domElement)
+    }
+  
+  start = () => {
+      if (!this.frameId) {
+        this.frameId = requestAnimationFrame(this.animate)
+      }
+    }
+  
+  stop = () => {
+      cancelAnimationFrame(this.frameId)
+    }
+  
+  animate = () => {
+     this.cube.rotation.x += 0.01
+     this.cube.rotation.y += 0.01
+  
+     this.renderScene()
+     this.frameId = window.requestAnimationFrame(this.animate)
+   }
+  
+  renderScene = () => {
+    this.renderer.render(this.scene, this.camera)
+  }
+  
+  render(){
+      return(
+        <div
+          style={{ width: '50px', height: '50px' }}
+          ref={(mount) => { this.mount = mount }}
+        />
+      )
+    }
+  }
+  
+  
 
 /**
  * Token balance
@@ -62,6 +152,8 @@ export class TokenManager extends Component {
         );
     }
 }
+
+
 
 /**
  * Page body High level elements of the page body, i.e. the left and right panels and selected content.
@@ -115,18 +207,20 @@ export class LeftPanel extends Component {
     render() {
         return (
             <div className="left-panel">
-                <SectionButton sectionName="Rooms"
-                    onSectionClick={this.activateSection}
-                    activeSection={this.props.activeSection} />
-                <SectionButton sectionName="Messages"
-                    onSectionClick={this.activateSection}
-                    activeSection={this.props.activeSection} />
-                <SectionButton sectionName="Console"
-                    onSectionClick={this.activateSection}
-                    activeSection={this.props.activeSection} />
-                <SectionButton sectionName="Settings"
-                    onSectionClick={this.activateSection}
-                    activeSection={this.props.activeSection} />
+                <div className="sections">
+                    <SectionButton sectionName="Rooms"
+                        onSectionClick={this.activateSection}
+                        activeSection={this.props.activeSection} />
+                    <SectionButton sectionName="Messages"
+                        onSectionClick={this.activateSection}
+                        activeSection={this.props.activeSection} />
+                    <SectionButton sectionName="Console"
+                        onSectionClick={this.activateSection}
+                        activeSection={this.props.activeSection} />
+                    <SectionButton sectionName="Settings"
+                        onSectionClick={this.activateSection}
+                        activeSection={this.props.activeSection} />
+                </div>
             </div>
         )
     }
