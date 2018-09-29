@@ -9,12 +9,12 @@ export class ConsoleScreen extends Component {
         super(props);
         this.currentState = this.props.currentState;
     }
-    
+
     render() {
         return (
             <div className="console">
                 <div className="console-top">
-                    <Properties 
+                    <Properties
                         currentState={this.currentState}
                     />
                     <MessageGraph />
@@ -40,7 +40,7 @@ export class Properties extends Component {
                     <h4> Properties </h4>
                 </div>
                 <div className="properties-content">
-                    <p>account address: {this.state.accounts[this.state.selectedAccountIndex]}</p>
+                <p>account address: {this.state.accounts[this.state.selectedAccountIndex]}</p>
                     <p>local ipfs hash: {this.state.ipfsHash}}</p>
                     <p>claimableTokens: {this.state.claimableTokens}</p>
                     <p>latestBlockNo: {this.state.latestBlockNo}</p>

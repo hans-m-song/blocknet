@@ -153,6 +153,29 @@ export class RoomButton extends Component {
 }
 
 export class MessageContainer extends Component {
+    constructor(props) {
+        super(props);
+        //this.generateEmojiMap = this.generateEmojiMap.bind(this);
+        //this.emojiMap = this.generateEmojiMap();
+        //console.log("messagecontainer's emoji map: " + emojiMap);
+        console.log("DSFSDGSDFGSDFGSDFGSDFGSDFG");
+    }
+
+    generateEmojiMap() {
+        var map = new Map();
+        map.set('dog', String.fromCodePoint(0x1F436));
+        map.set('smile', String.fromCodePoint(0x1F600));
+        map.set('laugh', String.fromCodePoint(0x1F602));
+        map.set('wink', String.fromCodePoint(0x1F609));
+        map.set('sad', String.fromCodePoint(0x1F613));
+        map.set('cheeky', String.fromCodePoint(0x1F61B));
+        map.set(' ', String.fromCodePoint(0x1F4A9));
+        map.set('water', String.fromCodePoint(0x1F4A6));
+        map.set('cat', String.fromCodePoint(0x1F431));
+        map.set('chick', String.fromCodePoint(0x1F425));
+        return map
+    }
+
     //Helper method for render to render every value in the messages list
     renderMessages() {
         return this.props.messageHistory.map(message => {
@@ -162,14 +185,17 @@ export class MessageContainer extends Component {
                 user={message.user.toString()}
                 date={message.date.toString()}
                 message={message.message.toString()}
+                //map={this.emojiMap}
             />
         });
     }
 
+    //                map={this.emojiMap}
     render() {
         return (
             <div className="message-container">
                 {this.renderMessages()}
+
             </div>
         );
     }
