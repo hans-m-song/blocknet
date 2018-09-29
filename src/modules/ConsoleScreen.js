@@ -9,7 +9,6 @@ export class ConsoleScreen extends Component {
         super(props);
         this.currentState = this.props.currentState;
     }
-
     render() {
         return (
             <div className="console">
