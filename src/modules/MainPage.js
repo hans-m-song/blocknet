@@ -19,6 +19,7 @@ export class Header extends Component {
         return (
             <div className="header">
                 <h1 className="title text-unselectable hover-cursor">BLOCK NET >></h1>
+                <ConsoleHeaderButton/>
                 <nav className="header-nav">
                     <div>
                         <a href="#">Dev Blog</a>
@@ -49,6 +50,20 @@ export class Header extends Component {
         );
     }
     */
+}
+
+/**
+ * Console header button
+ */
+export class ConsoleHeaderButton extends Component {
+
+    render() {
+        return (
+            <div className="console-header-button">
+                console
+            </div>
+        );
+    }
 }
 
 /**

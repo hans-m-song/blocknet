@@ -13,6 +13,7 @@ import {
     Header,
     MainPage
 } from './modules/MainPage'
+import { ConsoleScreen } from './modules/ConsoleScreen'
 
 /* Unused components
 LeftPanel,
@@ -368,18 +369,25 @@ class Backend extends Component {
 
         return (
             <div className="frontend">
-                <Header 
-                    claimTokens={this.claimTokens} 
-                    state={this.state} 
-                />
-                <MainPage
-                    sendMessage={this.sendMessage}
-                    messageHistory={this.state.messageHistory}
+                <div className="content-page">
+                    <Header 
+                        claimTokens={this.claimTokens} 
+                        state={this.state} 
+                    />
+                    <MainPage
+                        sendMessage={this.sendMessage}
+                        messageHistory={this.state.messageHistory}
+                        currentState={this.state}
+                    />
+                </div>
+                <ConsoleScreen 
                     currentState={this.state}
                 />
             </div>
-        );
+            );
         }
     }
+
+
 
     export default App

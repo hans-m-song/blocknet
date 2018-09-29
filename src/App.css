@@ -2,7 +2,7 @@
     /*font-family : 'Do Hyeon', sans-serif;*/
     font-family: 'Do Hyeon', sans-serif;
     font-size: 1em;
-    background-color: #1a1a00;
+    background-color: #14130a;
     color: white;
     border-color : white;
 }
@@ -107,6 +107,10 @@ button {
     height: calc(100vh - 55px);
 }
 
+content-page {
+    overflow : hidden;
+}
+
 .main-screen {
     display: flex;
     height: 100%;
@@ -150,14 +154,14 @@ button {
 .section-button:hover {
     /*color*/
     background-color: white;
-    color: #1a1a00;
+    color: #14130a;
     /*interaction*/
     cursor: pointer;
 }
 
 .section-button:active {
     /*color*/
-    background-color: #1a1a00;
+    background-color: #14130a;
     color: white;
     /*interaction*/
     cursor: pointer;
@@ -166,7 +170,7 @@ button {
 .selected-section {
     /*color*/
     background-color: white;
-    color: #1a1a00;
+    color: #14130a;
 }
 
 .unselected-section {
@@ -198,10 +202,29 @@ button {
     flex-basis: 10%;
 }
 
+/************************Hover Console************************************/
+.hover-console {
+    width : 100%;
+    height : 50%;
+    position : fixed;
+    background-color: blue;
+    bottom : 0;
+}
+
 /*****************Console Related CSS*************************/
 .console {
     display : flex;
     flex-direction : column;
+    width : 100%;
+    height : 50%;
+    position : fixed;
+    bottom : 0;
+    overflow : auto;
+}
+
+.console * {
+    background-color : white;
+    color : black;
 }
 
 .console-top {
@@ -211,6 +234,7 @@ button {
     justify-content : flex-start;
     align-items : stretch;
     align-content : stretch;
+    /*overflow : auto;*/
 }
 
 .console-bottom {
@@ -219,6 +243,7 @@ button {
     flex-direction : row;
     justify-content : flex-start;
     align-items : stretch;
+    /*overflow : auto;*/
 }
 
 
@@ -317,7 +342,7 @@ button {
 
 .token-manager>button:hover {
     background-color: white;
-    color: #1a1a00;
+    color: #14130a;
     cursor: pointer;
 }
 
@@ -350,18 +375,18 @@ button {
 
 .room-nav div:hover {
     background-color: white;
-    color: #1a1a00;
+    color: #14130a;
     cursor: pointer;
 }
 
 .room-nav div:active {
-    background-color:#1a1a00;
+    background-color:#14130a;
     color: white;
 }
 
 .selected-room-button {
     background-color: white;
-    color: #1a1a00;
+    color: #14130a;
 }
 
 @media all and (max-width: 800px) {
@@ -487,5 +512,5 @@ button {
     border-top: 1px solid white;
     border-bottom: 1px solid white;
     background-color: white;
-    color: #1a1a00;
+    color: #14130a;
 }

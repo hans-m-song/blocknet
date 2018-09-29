@@ -96,9 +96,7 @@ export class MessageHeader extends Menu {
                 <div className="composer" onClick={this.showMenu}>
                     <h3 className="message-username hover-hand hover-cursor">{this.props.user}</h3>
                     {/* <!-- <button className="invite-button hover-cursor"> Invite </button> -->*/}
-
                     <div className="invite-menu hover-hand hover-cursor">
-
                         {
                             this.state.showMenu
                                 ? (

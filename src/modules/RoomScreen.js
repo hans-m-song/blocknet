@@ -153,7 +153,9 @@ export class RoomButton extends Component {
 }
 
 export class MessageContainer extends Component {
-
+    /**
+     * Probably a good idea to copy verbatim the discord emoji shortcuts because it is familiar with our target audience
+     */
     generateEmojiMap() {
         var map = new Map();
         map.set('dog', String.fromCodePoint(0x1F436));
