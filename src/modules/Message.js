@@ -30,8 +30,10 @@ export class Message extends Component {
                     endIndex = i+code.length;
                     emojiString = userString.substring(startIndex+code.length, endIndex-code.length);
                     emoji = this.props.map.get(emojiString);
-                    userString = (userString.substring(0, startIndex)) + emoji + (userString.substring(endIndex, userString.length));
-                    i = i-(endIndex-startIndex);
+                    if (emoji != undefined) {
+                        userString = (userString.substring(0, startIndex)) + emoji + (userString.substring(endIndex, userString.length));
+                        i = i-(endIndex-startIndex);
+                    }
                     startIndex = -1;
                     endIndex = -1;
                 }
