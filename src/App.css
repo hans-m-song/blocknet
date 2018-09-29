@@ -2,7 +2,7 @@
     /*font-family : 'Do Hyeon', sans-serif;*/
     font-family: 'Do Hyeon', sans-serif;
     font-size: 1em;
-    background-color: black;
+    background-color: #1a1a00;
     color: white;
     border-color : white;
 }
@@ -150,14 +150,14 @@ button {
 .section-button:hover {
     /*color*/
     background-color: white;
-    color: black;
+    color: #1a1a00;
     /*interaction*/
     cursor: pointer;
 }
 
 .section-button:active {
     /*color*/
-    background-color: black;
+    background-color: #1a1a00;
     color: white;
     /*interaction*/
     cursor: pointer;
@@ -166,7 +166,7 @@ button {
 .selected-section {
     /*color*/
     background-color: white;
-    color: black;
+    color: #1a1a00;
 }
 
 .unselected-section {
@@ -317,7 +317,7 @@ button {
 
 .token-manager>button:hover {
     background-color: white;
-    color: black;
+    color: #1a1a00;
     cursor: pointer;
 }
 
@@ -350,18 +350,18 @@ button {
 
 .room-nav div:hover {
     background-color: white;
-    color: black;
+    color: #1a1a00;
     cursor: pointer;
 }
 
 .room-nav div:active {
-    background-color:black;
+    background-color:#1a1a00;
     color: white;
 }
 
 .selected-room-button {
     background-color: white;
-    color: black;
+    color: #1a1a00;
 }
 
 @media all and (max-width: 800px) {
@@ -487,5 +487,5 @@ button {
     border-top: 1px solid white;
     border-bottom: 1px solid white;
     background-color: white;
-    color: black;
+    color: #1a1a00;
 }

@@ -5,11 +5,42 @@ import React, { Component } from 'react'
  * and sent time, and the content, which contains the actual message
  */
 export class Message extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {message: this.renderEmoji()};
+    }
+
     componentDidMount() {
         var messageContainer = document.getElementsByClassName("message-container");
         messageContainer[0].scrollTop = messageContainer[0].scrollHeight;
     }
 
+    renderEmoji() {
+        let emoji = "";
+        let code = "~!";
+        let startIndex = -1;
+        let endIndex = -1;
+        let userString = this.props.message;
+        let emojiString = "";
+        for (let i=0; i<userString.length; i++) {
+            if ((userString[i] === code[0]) && (userString[i+1] === code[1])) {
+                if (startIndex === -1) {
+                    startIndex = i;
+                } else {
+                    endIndex = i+code.length;
+                    emojiString = userString.substring(startIndex+code.length, endIndex-code.length);
+                    emoji = this.props.map.get(emojiString);
+                    userString = (userString.substring(0, startIndex)) + emoji + (userString.substring(endIndex, userString.length));
+                    i = i-(endIndex-startIndex);
+                    startIndex = -1;
+                    endIndex = -1;
+                }
+            }
+        }
+        return userString;
+    }
+    //let emojiString = userString.substring(0, startIndex) + emoji + (userString.substring(endIndex, userString.length));
+    
     render() {
         return (
             <div className="message">
@@ -17,7 +48,7 @@ export class Message extends Component {
                     user={this.props.user.toString()}
                     date={this.props.date.toString()}
                 />
-            <MessageContent message={this.props.message.toString()} />
+            <MessageContent message={this.state.message} />
             </div>
         );
     }
