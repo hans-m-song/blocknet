@@ -9,9 +9,17 @@ export class ConsoleScreen extends Component {
         super(props);
         this.currentState = this.props.currentState;
     }
+
     render() {
+        let classes;
+        if (this.props.consoleActive) {
+            classes = `console console-active`;
+        } else {
+            classes = `console console-inactive`;
+        }
+
         return (
-            <div className="console">
+            <div className={classes}>
                 <div className="console-top">
                     <Properties
                         currentState={this.currentState}

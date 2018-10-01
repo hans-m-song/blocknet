@@ -3,6 +3,9 @@ import { RoomScreen } from './RoomScreen'
 import { PrivateMessagesScreen } from './PrivateMessagesScreen'
 import { SettingsScreen } from './SettingsScreen'
 import { ConsoleScreen } from './ConsoleScreen'
+import InactiveLogo from '../console_inactive.png'
+import ActiveLogo from '../console_active.png'
+
 
 /********** Main Screen and Panels ************/
 /*Header navigation bar*/
@@ -10,16 +13,30 @@ export class Header extends Component {
     constructor(props) {
         super(props);
         this.claimTokens = this.claimTokens.bind(this);
+        this.consoleClick = this.consoleClick.bind(this);
+        console.log("console status at constructor: " + this.props.consoleActive);
+
+    }
+
+    consoleClick() {
+        console.log("console status: " + this.props.consoleActive);
+        this.props.consoleClick();
+        console.log("console status: " + this.props.consoleActive);
+
     }
 
     claimTokens() {
         this.props.claimTokens();
     }
+
     render() {
         return (
             <div className="header">
                 <h1 className="title text-unselectable hover-cursor">BLOCK NET >></h1>
-                <ConsoleHeaderButton/>
+                <ConsoleHeaderButton 
+                    active={this.props.consoleActive}
+                    consoleClick={this.props.consoleClick}
+                />
                 <nav className="header-nav">
                     <div>
                         <a href="#">Dev Blog</a>
@@ -56,11 +73,34 @@ export class Header extends Component {
  * Console header button
  */
 export class ConsoleHeaderButton extends Component {
+    constructor(props) {
+        super(props);
+        this.handleClick = this.consoleClick.bind(this);
+        this.state = { active: this.props.active };
+    }
+
+    consoleClick() {
+        console.log("console clicked");
+        console.log(this.props.active);
+        this.props.consoleClick();
+    }
+
+    //var classes = `${selectedStatus} section-button text-unselectable`;
 
     render() {
+        let classes;
+        let logo;
+        if (this.props.active) {
+            classes = `console-header-button-active`;
+            logo = ActiveLogo;
+        } else {
+            classes = `console-header-button-inactive`;
+            logo = InactiveLogo;
+        }
+
         return (
-            <div className="console-header-button">
-                console
+            <div className={classes} onClick={(e) => this.consoleClick(e)}>
+                <img src={logo} height="45" width="45" />
             </div>
         );
     }

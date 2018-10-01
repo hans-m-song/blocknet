@@ -14,6 +14,8 @@ import {
     MainPage
 } from './modules/MainPage'
 import { ConsoleScreen } from './modules/ConsoleScreen'
+import InactiveLogo from './console_inactive.png'
+import ActiveLogo from './console_active.png'
 
 /* Unused components
 LeftPanel,
@@ -308,7 +310,10 @@ class Backend extends Component {
                     !ipfsHash || !ipfsIsOnline || !metamaskOnline) {
                 console.log('loading components')
                 return (
-                    <p className="warning-message">loading components</p>
+                    <div>
+                        <p className="warning-message">loading components</p>
+                        <img className="loading-pic" src={InactiveLogo} height="400" width="400"/>
+                    </div>
                 )
         }
 
@@ -368,22 +373,58 @@ class Backend extends Component {
         */
 
         return (
-            <div className="frontend">
-                <div className="content-page">
-                    <Header 
-                        claimTokens={this.claimTokens} 
-                        state={this.state} 
-                    />
-                    <MainPage
-                        sendMessage={this.sendMessage}
-                        messageHistory={this.state.messageHistory}
-                        currentState={this.state}
-                    />
-                </div>
-                <ConsoleScreen 
+            <div className="front-app">
+                <Frontend
+                    claimTokens={this.claimTokens}
+                    state={this.state}
+                    sendMessage={this.sendMessage}
+                    messageHistory={this.state.messageHistory}
                     currentState={this.state}
+                    consoleActive={this.props.consoleActive}
                 />
+
             </div>
+            );
+        }
+    }
+
+    class Frontend extends Component {
+        constructor(props) {
+            super(props);
+            this.switchConsole = this.switchConsole.bind(this);
+            this.state={consoleActive: false}
+        }
+        
+        /**
+         * This sets whether the console is showing or not
+         */
+        switchConsole() {
+            this.state.consoleActive ? this.setState({consoleActive: false}) 
+                : this.setState({consoleActive: true})
+        }
+
+        render() {
+            return (
+                <div className="frontend">
+                    <div className="content-page">
+                        <Header 
+                            claimTokens={this.props.claimTokens} 
+                            state={this.props.state} 
+                            consoleClick={this.switchConsole}
+                            consoleActive={this.state.consoleActive}
+                        />
+                        <MainPage
+                            sendMessage={this.props.sendMessage}
+                            messageHistory={this.props.state.messageHistory}
+                            currentState={this.props.state}
+                        />
+                        <ConsoleScreen 
+                            currentState={this.props.state}
+                            consoleActive={this.state.consoleActive}
+
+                        />
+                    </div>
+                </div>
             );
         }
     }
