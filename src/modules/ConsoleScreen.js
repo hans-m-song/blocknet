@@ -8,6 +8,13 @@ export class ConsoleScreen extends Component {
     constructor(props) {
         super(props);
         this.currentState = this.props.currentState;
+        this.activateSection = this.activateSection.bind(this);
+        this.state = {activeSection: "Log"};
+    }
+
+    activateSection(section) {
+        this.setState({ activeSection: section});
+        console.log("clicked a console nav button");
     }
 
     render() {
@@ -20,19 +27,114 @@ export class ConsoleScreen extends Component {
 
         return (
             <div className={classes}>
-                <div className="console-top">
-                    <Properties
-                        currentState={this.currentState}
-                    />
-                    <MessageGraph />
-                </div>
-                <div className="console-bottom">
-                    <ConsoleLog />
-                </div>
+                <ConsoleNav 
+                    activeSection={this.state.activeSection}
+                    activateSection={this.activateSection}
+                />
+                <ConsoleContent 
+                    currentState={this.currentState}
+                    activateSection={this.activateSection}
+                    activeSection={this.state.activeSection}
+                />
             </div>
         );
     }
 }
+
+/*
+ * Nav menu for console sections (properties, network, log)
+ */
+export class ConsoleNav extends Component {
+    constructor(props) {
+        super(props);
+        this.activateSection = this.activateSection.bind(this);
+    }
+    activateSection(sectionName) {
+        this.props.activateSection(sectionName);
+    }
+    render() {
+
+        return (
+            <div className="console-nav">
+                <ConsoleNavButton 
+                    sectionName="Log" 
+                    activateSection={this.props.activateSection}
+                    activeSection={this.props.activeSection}
+                />
+                <ConsoleNavButton 
+                    sectionName="Properties"
+                    activateSection={this.props.activateSection}
+                    activeSection={this.props.activeSection}
+                />
+                <ConsoleNavButton 
+                    sectionName="Network"
+                    activateSection={this.props.activateSection}
+                    activeSection={this.props.activeSection}
+                />
+            </div>
+        )
+    }
+}
+
+class ConsoleNavButton extends Component {
+    constructor(props) {
+        super(props);
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick() {
+        this.props.activateSection(this.props.sectionName);
+    }
+
+    render() {
+        let classes;
+        if (this.props.activeSection === this.props.sectionName) {
+            classes = `unselected-button`;
+        } else {
+            classes = `selected-button`;
+        }
+
+        return (
+            <div className={classes} onClick={(e) => this.handleClick(e)}>
+                {this.props.sectionName}
+            </div>
+        );
+    }
+}
+
+class ConsoleContent extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        switch (this.props.activeSection) {
+            case "Log":
+                return (
+                    <ConsoleLog />
+                );
+
+            case "Properties":
+                return(
+                    <Properties
+                    currentState={this.currentState}
+                />
+                );
+
+            case "Network":
+                return (
+                    <MessageGraph />
+                );
+            default:
+                return(
+                    <div>Something went wrong!</div>
+                );
+        }
+    }
+
+
+}
+    
 
 export class Properties extends Component {
     constructor(props) {
@@ -40,6 +142,7 @@ export class Properties extends Component {
         this.state = this.props.currentState;
     }
 
+    /*
     render() {
         return (
             <div className="properties">
@@ -58,6 +161,23 @@ export class Properties extends Component {
             </div>
         );
     }
+    */
+
+   render() {
+    return (
+        <div className="properties">
+            <div className="properties-content">
+            <p>account address: </p>
+                <p>local ipfs hash: </p>
+                <p>claimableTokens: </p>
+                <p>latestBlockNo: </p>
+                <p>tokensPerMessage: </p>
+                <p>dailyTokensNo: </p>
+                <p>blocksPerClaim: </p>
+            </div>
+        </div>
+    );
+}
 }
 
 export class MessageGraph extends Component {
@@ -131,9 +251,6 @@ export class ConsoleLog extends Component {
     render() {
         return (
             <div className="consolelog">
-                <div className="consolelog-title">
-                    <h3> Log </h3>
-                </div>
                 <div className="consolelog-content">
                     <p>>Loading Components...</p>
                     <p>>Using address >> 0x6c568c66b75259fa8b47853cD56aF396b728FBE5</p>
