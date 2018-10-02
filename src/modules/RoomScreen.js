@@ -138,10 +138,10 @@ export class RoomButton extends Component {
         this.props.onRoomButtonClick(this.props.roomName)
     }
     render() {
-        let selectedStatus = "unselected-room-button";
+        let selectedStatus = "unselected-button";
         //console.log("this: " + this.props.roomName + "| active: " + this.props.activeRoom)
         if (this.props.activeRoom === this.props.roomName) {
-            selectedStatus = "selected-room-button";
+            selectedStatus = "selected-button";
         }
         let classes = `${selectedStatus}`
         return (
