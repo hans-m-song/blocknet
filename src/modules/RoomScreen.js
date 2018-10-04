@@ -11,7 +11,7 @@ export class RoomScreen extends Component {
         this.child = React.createRef();
         this.state = {
             lastMessage: '',
-            activeRoom: "Block Net"
+            activeRoom: "BlockNet"
         };
         this.updateMessage = this.updateMessage.bind(this);
         this.activateRoom = this.activateRoom.bind(this);
@@ -20,6 +20,7 @@ export class RoomScreen extends Component {
     /*This is the point where we will want to give the to-be-activated room name to the backend for it to send back messages*/
     activateRoom(roomName) {
         this.setState({ activeRoom: roomName });
+        this.props.setRoom(roomName);
     }
 
     //Calls the addMessage function from MessageContainer
@@ -64,7 +65,7 @@ export class RoomNav extends Component {
     render() {
         return (
             <div className="room-nav text-unselectable">
-                <RoomButton roomName="Block Net"
+                <RoomButton roomName="BlockNet"
                     onRoomButtonClick={this.activateRoom}
                     activeRoom={this.props.activeRoom} />
                 <RoomButton roomName="Programming"

@@ -28,6 +28,7 @@ contract MessageToken is BaseToken {
     mapping (address => uint[]) messageHistory;
     uint public blocksPerClaim = 100;
     string public ipfsHash;
+	mapping (string => string) roomHashes;
     string public latestMessage;
 
     // emmitted events that can be caught (pending implementation)
@@ -192,7 +193,12 @@ contract MessageToken is BaseToken {
      *                  messages from the room this contract belongs to
      */
     function sendHash(string _hash) public {
-        ipfsHash = _hash;
+        require(balances[msg.sender] >= tokensPerMessage);
+        messageHistory[msg.sender].push(block.number - 1);
+        balances[msg.sender] -= tokensPerMessage;
+        balances[this] += tokensPerMessage;
+        
+        roomHashes[room] = _hash;
         //emit hashUpdate(msg.sender, ipfsHash);
     }
 
@@ -200,7 +206,7 @@ contract MessageToken is BaseToken {
      * retrieves the hash 
      * returns: the stored IPNS hash 
      */
-    function getHash() public view returns (string _hash) {
-        return ipfsHash;
+    function getHash(string room) public view returns (string _hash) {
+        return roomHashes[room];
     }
 }

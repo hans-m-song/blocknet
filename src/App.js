@@ -63,6 +63,7 @@ class Backend extends Component {
         balance: 0,
         blocksTilClaim: 0,
         messageHistory: [],
+        currentRoom: "BlockNet",
         tokensPerMessage: 0,
         DailyTokensNo: 0,
         latestBlockNo: 0
@@ -158,10 +159,10 @@ class Backend extends Component {
     readHash = async () => {
         const { contract } = this.state
         // Read the latest message (hash)
-        var latestHash = await contract.methods.getMessage().call()
+        var latestHash = await contract.methods.getHash(this.state.currentRoom).call()
         //console.log('attempting to read file at: ', latestHash)
         try {
-            const fileBuffer = await ipfs.files.cat(latestHash + '/BlockNet.json')
+            const fileBuffer = await ipfs.files.cat(latestHash)
             var messageHistory = JSON.parse(fileBuffer)
             //console.log('read file contents:\n', messageHistory)
             this.setState({ messageHistory })
@@ -170,56 +171,56 @@ class Backend extends Component {
         }
     }
 
-        // get info from deployed decentralised application (dapp) and sync with session state
-        syncData = async () => {
-            const { web3, accounts, contract, selectedAccountIndex } = this.state
-            const from = accounts[selectedAccountIndex]
+    // get info from deployed decentralised application (dapp) and sync with session state
+    syncData = async () => {
+        const { web3, accounts, contract, selectedAccountIndex } = this.state
+        const from = accounts[selectedAccountIndex]
 
-            const balance = await contract.methods
-                .balanceOf(from).call()
-            //const blockHistory = await contract.methods
-            //  .getMessageHistory(from).call()
-            const blocksTilClaim = await contract.methods
-                .getBlocksTillClaimable(from).call()
-            const claimableTokens = await contract.methods
-                .getClaimableTokens(from).call()
-            const blocksPerClaim = await contract.methods
-                .getBlocksPerClaim().call()
-            const tokensPerMessage = await contract.methods
-                .getTokensPerMessage().call()
-            const dailyTokensNo = await contract.methods
-                .getDailyTokensNo().call()
-            const latestBlockNo = await web3.eth.getBlockNumber()
+        const balance = await contract.methods
+            .balanceOf(from).call()
+        //const blockHistory = await contract.methods
+        //  .getMessageHistory(from).call()
+        const blocksTilClaim = await contract.methods
+            .getBlocksTillClaimable(from).call()
+        const claimableTokens = await contract.methods
+            .getClaimableTokens(from).call()
+        const blocksPerClaim = await contract.methods
+            .getBlocksPerClaim().call()
+        const tokensPerMessage = await contract.methods
+            .getTokensPerMessage().call()
+        const dailyTokensNo = await contract.methods
+            .getDailyTokensNo().call()
+        const latestBlockNo = await web3.eth.getBlockNumber()
 
-            const ipfsInfo = await ipfs.id()
-            var ipfsHash
-            if (ipfsInfo) {
-                ipfsHash = ipfsInfo.id
-            }
-            const ipfsAddr = ipfsInfo.addresses
-            var ipfsPeers = { __html: '' }
-            if (this.state.ipfsIsOnline) {
-                ipfsPeers = { __html: await this.refreshPeerList() }
+        const ipfsInfo = await ipfs.id()
+        var ipfsHash
+        if (ipfsInfo) {
+            ipfsHash = ipfsInfo.id
         }
+        const ipfsAddr = ipfsInfo.addresses
+        var ipfsPeers = { __html: '' }
+        if (this.state.ipfsIsOnline) {
+            ipfsPeers = { __html: await this.refreshPeerList() }
+    }
 
-        var latestMessage = await this.readHash()
+    var latestMessage = await this.readHash()
 
-        //console.log(latestMessage)
+    //console.log(latestMessage)
 
-        this.setState({
-            ipfsHash,
-            ipfsAddr,
-            ipfsPeers,
-            balance,
-            //messageHistory,
-            blocksTilClaim,
-            claimableTokens,
-            blocksPerClaim,
-            tokensPerMessage,
-            dailyTokensNo,
-            latestBlockNo
-            //latestMessage
-        })
+    this.setState({
+        ipfsHash,
+        ipfsAddr,
+        ipfsPeers,
+        balance,
+        //messageHistory,
+        blocksTilClaim,
+        claimableTokens,
+        blocksPerClaim,
+        tokensPerMessage,
+        dailyTokensNo,
+        latestBlockNo
+        //latestMessage
+    })
     }
 
     // TODO determine gas cost
@@ -264,12 +265,13 @@ class Backend extends Component {
 
                 // Create a new file on ipfs with new message
                 const filesAdded = await ipfs.files.add({
-                    path: '/Rooms/BlockNet.json',
+                    path: `${this.state.currentRoom}.json`,
                     content: Buffer.from(JSON.stringify(messageHistory, null, 4))
                 })
                 // Send the new hash through the contract
                 console.log('added file:', filesAdded[0].path, filesAdded[0].hash)
-                await contract.methods.sendMessage(filesAdded[0].hash).send({ gas: '2352262', from })
+                await contract.methods.sendHash(this.state.currentRoom, filesAdded[0].hash)
+                    .send({ gas: '2352262', from })
                 console.log('sent hash')
             }
             this.syncData()
@@ -279,6 +281,11 @@ class Backend extends Component {
             alert('transaction rejected, console for details')
             console.log(err)
         }
+    }
+
+    setRoom = async (room) => {
+        this.state.currentRoom = room
+        console.log(room);
     }
 
     render() {
@@ -378,6 +385,7 @@ class Backend extends Component {
                     claimTokens={this.claimTokens}
                     state={this.state}
                     sendMessage={this.sendMessage}
+                    setRoom={this.setRoom}
                     messageHistory={this.state.messageHistory}
                     currentState={this.state}
                     consoleActive={this.props.consoleActive}
@@ -416,6 +424,7 @@ class Backend extends Component {
                         <MainPage
                             sendMessage={this.props.sendMessage}
                             messageHistory={this.props.state.messageHistory}
+                            setRoom={this.props.setRoom}
                             currentState={this.props.state}
                         />
                         <ConsoleScreen 

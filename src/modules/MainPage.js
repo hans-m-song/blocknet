@@ -166,6 +166,7 @@ export class MainPage extends Component {
                     <Content
                         section={this.state.activeSection}
                         sendMessage={this.sendMessage}
+                        setRoom={this.props.setRoom}
                         messageHistory={this.props.messageHistory}
                         currentState={this.currentState}
                     />
@@ -268,6 +269,7 @@ export class Content extends Component {
                     <RoomScreen
                         sendMessage={this.sendMessage}
                         messageHistory={this.props.messageHistory}
+                        setRoom={this.props.setRoom}
                     />
                 );
             case "Messages":
