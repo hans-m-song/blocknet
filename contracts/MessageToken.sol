@@ -192,7 +192,7 @@ contract MessageToken is BaseToken {
      * params:  _hash - (should be) an IPNS hash that points to a file containing 
      *                  messages from the room this contract belongs to
      */
-    function sendHash(string _hash) public {
+    function sendHash(string room, string _hash) public {
         require(balances[msg.sender] >= tokensPerMessage);
         messageHistory[msg.sender].push(block.number - 1);
         balances[msg.sender] -= tokensPerMessage;
