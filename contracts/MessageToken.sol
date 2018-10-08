@@ -193,10 +193,10 @@ contract MessageToken is BaseToken {
      *                  messages from the room this contract belongs to
      */
     function sendHash(string room, string _hash) public {
-        require(balances[msg.sender] >= tokensPerMessage);
+        //require(balances[msg.sender] >= tokensPerMessage);
         messageHistory[msg.sender].push(block.number - 1);
-        balances[msg.sender] -= tokensPerMessage;
-        balances[this] += tokensPerMessage;
+        //balances[msg.sender] -= tokensPerMessage;
+        //balances[this] += tokensPerMessage;
         
         roomHashes[room] = _hash;
         //emit hashUpdate(msg.sender, ipfsHash);

@@ -161,14 +161,15 @@ class Backend extends Component {
         // Read the latest message (hash)
         var latestHash = await contract.methods.getHash(this.state.currentRoom).call()
         //console.log('attempting to read file at: ', latestHash)
+        var messageHistory = []
         try {
             const fileBuffer = await ipfs.files.cat(latestHash)
             var messageHistory = JSON.parse(fileBuffer)
             //console.log('read file contents:\n', messageHistory)
-            this.setState({ messageHistory })
         } catch (err) {
             console.error(err)
         }
+        this.setState({ messageHistory })
     }
 
     // get info from deployed decentralised application (dapp) and sync with session state
@@ -285,7 +286,6 @@ class Backend extends Component {
 
     setRoom = async (room) => {
         this.state.currentRoom = room
-        console.log(room);
     }
 
     render() {
