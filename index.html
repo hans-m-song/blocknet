@@ -13,9 +13,9 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/three.js/97/three.min.js"></script>
     <script type="text/javascript" src="js/script.js" async></script>
     <script type="text/javascript" src="js/box.js" async></script>
-    
-    <title>Block Net</title>
+    <link rel="shortcut icon" href="favicon.ico">
 </head>
+    <title>Block Net</title> 
 
 <body>
     <div class="header navbar-fixed-top" style="padding-bottom:0px; padding-top:5px;">
@@ -36,7 +36,7 @@
     <div class="jumbotron" id="box"></div>
     <!--Will try to do some fancy scrolling, and adding 'links' to make a chain, etc with this stuff-->
     <!--Another idea is to have a '...' dialogue box that suggests someones about to send a message, is a button and creates new box and centres on it, kinda like how messaging in video games works-->
-    <div class="content-centre">
+    <div class="centre">
         <div id="blocknet" class="pitch-container">
             <h2>About Block Net</h2>
             <div class="pitch-panels">
@@ -46,16 +46,15 @@
                 <div class="pitch-scroller">
                     <div class="pitchblockcontainer">
                         <div class="pitchblock">
-                            <div class="pitch-content">
                                 <div class="pitchblock-header">
                                     <h2>True peer to peer online messaging</h2>
                                 </div>
                                 <div class="pitchblock-body">
-                                    <p>Imagine being able to talk directly to your friends online
+                                    <p>> Imagine being able to talk directly to your friends online
                                         without a middle man</p>
                                     <p>> Block Net offers decentralised p2p messaging through the blockchain</p>
+									<p>> When you send a message, a block is added to the chain</p>
                                 </div>
-                            </div>
                         </div>
                         <div class="block-arrow">
                             <img src="https://drive.google.com/uc?id=1_0Q-tE86SUVCfrzMQZt1ZM5qj-9lwqD1" height="20px" width="80px">
@@ -65,7 +64,7 @@
                                 <h2>Shared rooms for group conversations</h2>
                             </div>
                             <div class="pitchblock-body">
-                                <p>Chat with a bunch of your friends together in private rooms where only those invited
+                                <p>> Chat with a bunch of your friends together in private rooms where only those invited
                                     can participate</p>
                                 <p>> Like Discord (but it's cooler on blockchain)</p>
                             </div>
@@ -75,10 +74,10 @@
                         </div>
                         <div class="pitchblock">
                             <div class="pitchblock-header">
-                                <h2>Private messages are actually private</h2>
+                                <h2>> Private messages are actually private</h2>
                             </div>
                             <div class="pitchblock-body">
-                                <p>With Block Net you don't need to worry about the Zucc peering over your shoulder</p>
+                                <p>> With Block Net you don't need to worry about the Zucc peering over your shoulder</p>
                                 <p>> Your messages belong to you and you alone</p>
                             </div>
                         </div>
@@ -91,9 +90,56 @@
         </div>
         <div id="demo" class="mvp-video">
             <h2>Demonstration</h2>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/FBGG9YmHcwo" frameborder="0" allow="autoplay; encrypted-media"
+			<div class = "video-frame">
+				<iframe width="560" height="315" src="https://www.youtube.com/embed/FBGG9YmHcwo" frameborder="0" allow="autoplay; encrypted-media"
                 allowfullscreen></iframe>
+			</div>
         </div>
+		<div id="blockchain">
+			<h2> The Blockchain </h2>
+				<div class="grid-container">
+					<div class="flip-card">
+						<div class="flip-card-inner">
+							<div class="flip-card-front">
+								<h2>1</h2>
+							</div>
+							<div class="flip-card-back">
+								<h2>2</h2>
+							</div>
+						</div>
+					</div>
+					<div class="flip-card">
+						<div class="flip-card-inner">
+							<div class="flip-card-front">
+								<h2>3</h2>
+							</div>
+							<div class="flip-card-back">
+								<h2>4</h2>
+							</div>
+						</div>
+					</div>
+					<div class="flip-card">
+						<div class="flip-card-inner">
+							<div class="flip-card-front">
+								<h2>5</h2>
+							</div>
+							<div class="flip-card-back">
+								<h2>6</h2>
+							</div>
+						</div>
+					</div>
+					<div class="flip-card">
+						<div class="flip-card-inner">
+							<div class="flip-card-front">
+								<h2>7</h2>
+							</div>
+							<div class="flip-card-back">
+								<h2>8</h2>
+							</div>
+						</div>
+					</div>
+				</div>
+		</div>
         <div id="about">
             <h2>Team 8 Hearts 1 Beat</h2>
             Stuff about us and the project maybe?

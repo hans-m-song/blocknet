@@ -1,12 +1,12 @@
 * {
-  font-family: 'Do Hyeon', sans-serif;
+  font-family: 'Trebuchet MS', sans-serif;
 }
 
 body {
   background-color : #ebebeb;
   margin : 0;
   padding : 0;
-  font-family: 'Do Hyeon', sans-serif;
+  font-family: 'Trebuchet-MS', sans-serif;
   background-image : url("../img/circles-light.png");
 }
 
@@ -68,8 +68,9 @@ body {
 }
 
 .centre {
-  width : 80%;
+  width : 40vw;
   margin : auto;
+  
 }
 
 .pitch-panels {
@@ -84,11 +85,11 @@ body {
 }
 
 #pitch-scroll-left {
-  margin-right : 10px;
+  margin-right : 20px;
 }
 
 #pitch-scroll-right {
-  margin-left : 10px;
+  margin-left : 20px;
 }
 
 .pitch-scroll-button {
@@ -109,7 +110,6 @@ body {
   overflow-x : hidden;
   overflow-y : auto;
   height : 300px; 
-  width : 580px;
 }
 
 .pitchblockcontainer {
@@ -117,6 +117,7 @@ body {
   flex-direction : row;
   flex-basis : 50%;
   flex-grow : 0;
+  width : 580px;
 }
 
 .pitchblock {
@@ -124,6 +125,7 @@ body {
   margin-top : 20px;
   margin-bottom : 20px;
   width : 250px;
+  box-shadow: 5px 5px 3px gray;
 }
 
 .pitchblock-header {
@@ -146,6 +148,74 @@ body {
 .pitch-container {
 	padding-top: 60px;
 }
+
+.video-frame {
+	margin: 20px auto;
+	display: flex;
+	align-items: center;
+}
+
+.grid-container {
+  margin: 20px auto;
+  width:800px;
+  height:800px;
+  display:grid;
+  grid-template-columns: auto auto;
+  grid-row: auto auto;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+}
+
+.flip-card {
+  background-color: transparent;
+  width: auto;
+  height: auto;
+  perspective: 1000px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+.flip-card-front {
+  background-color: white;
+  color: black;
+}
+
+.flip-card-back {
+  background-color: black;
+  color: white;
+  transform: rotateY(180deg);
+}
+
+/*.grid-item {
+	background-color:black;
+    padding:20px;
+    border-radius:10px;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:16px;
+	box-shadow: 5px 5px 3px gray;
+}*/
+
 footer {
   margin: auto;
 }
