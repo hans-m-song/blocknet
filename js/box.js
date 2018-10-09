@@ -12,19 +12,19 @@ var camera, scene, renderer;
 				scene.add( mesh );
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
-				renderer.setSize( window.innerWidth, window.innerHeight );
-				document.body.appendChild( renderer.domElement );
+				renderer.setSize( window.innerWidth * 0.98, window.innerHeight * 0.98);
+				document.getElementById("box").appendChild( renderer.domElement );
 				//
 				window.addEventListener( 'resize', onWindowResize, false );
 			}
 			function onWindowResize() {
 				camera.aspect = window.innerWidth / window.innerHeight;
 				camera.updateProjectionMatrix();
-				renderer.setSize( window.innerWidth, window.innerHeight );
+				renderer.setSize( window.innerWidth * 0.98, window.innerHeight * 0.98);
 			}
 			function animate() {
 				requestAnimationFrame( animate );
 				mesh.rotation.x += 0.005;
-				mesh.rotation.y += 0.01;
+				mesh.rotation.y += 0.003;
 				renderer.render( scene, camera );
 			}
