@@ -439,12 +439,38 @@ content-page {
     width: calc(80vw);
 }
 
+.room-menu {
+    display: flex;
+    justify-content: space-between;
+    flex-direction : row;
+    flex-shrink: 0;
+    border-bottom: 1px solid;
+}
+
+.room-menu-button {
+    padding: 11px 15px 10px 15px;
+    flex-basis: 1%;
+}
+
+.room-menu-button:hover {
+    background-color: white;
+    color: #14130a !important;
+    cursor: pointer;
+}
+
+/*Styling for the plus icon for adding rooms*/
+.plus-icon {
+}
+
+.room-menu-button:hover .plus-icon {
+    background-color: white;
+}
+
 .room-nav {
     overflow-x : auto;
     display: flex;
-    flex-direction: row;
-    border-bottom: 1px solid;
     flex-shrink: 0;
+    flex-basis: 95.5%;
 }
 
 .room-nav div {
@@ -454,8 +480,8 @@ content-page {
 }
 
 .room-nav div:hover {
-    background-color: white;
-    color: #14130a;
+    background-color: white !important;
+    color: #14130a !important;
     cursor: pointer;
 }
 

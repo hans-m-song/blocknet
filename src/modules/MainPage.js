@@ -37,18 +37,11 @@ export class Header extends Component {
                     active={this.props.consoleActive}
                     consoleClick={this.props.consoleClick}
                 />
-                <nav className="header-nav">
-                    <div>
-                        <a href="#">Dev Blog</a>
-                    </div>
-                    <div>
-                        <a href="#">About Us</a>
-                    </div>
-                </nav>
             </div>
         );
     }
 
+    /*Old version with token manager and links*/
     /*
     render() {
         return (
@@ -164,6 +157,7 @@ export class MainPage extends Component {
                 <div className="main-screen">
                     <LeftPanel onSectionClick={this.activateSection} activeSection={this.state.activeSection} />
                     <Content
+                        rooms={this.props.rooms}
                         section={this.state.activeSection}
                         sendMessage={this.sendMessage}
                         messageHistory={this.props.messageHistory}
@@ -266,6 +260,7 @@ export class Content extends Component {
             case "Rooms":
                 return (
                     <RoomScreen
+                        rooms={this.props.rooms}
                         sendMessage={this.sendMessage}
                         messageHistory={this.props.messageHistory}
                     />
