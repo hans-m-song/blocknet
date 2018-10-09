@@ -217,6 +217,9 @@ body {
     font-size:16px;
 	box-shadow: 5px 5px 3px gray;
 }*/
+.about-us {
+	padding-top: 20px;
+}
 
 footer {
   margin: auto;
