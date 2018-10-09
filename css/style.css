@@ -84,11 +84,11 @@ body {
 }
 
 #pitch-scroll-left {
-  margin-right : 5px;
+  margin-right : 10px;
 }
 
 #pitch-scroll-right {
-  margin-left : 5px;
+  margin-left : 10px;
 }
 
 .pitch-scroll-button {
@@ -109,6 +109,7 @@ body {
   overflow-x : hidden;
   overflow-y : auto;
   height : 300px; 
+  width : 580px;
 }
 
 .pitchblockcontainer {
@@ -119,8 +120,6 @@ body {
 }
 
 .pitchblock {
-  border-color : black;
-  border-style : solid;
   background-color : black;
   margin-top : 20px;
   margin-bottom : 20px;
@@ -144,6 +143,9 @@ body {
   align-self : center;
 }
 
+.pitch-container {
+	padding-top: 60px;
+}
 footer {
   margin: auto;
 }
