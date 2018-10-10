@@ -29,11 +29,10 @@
         </div>
 
         <nav class="nav header-nav ">
-            <a class="nav-item btn" href="index.html#blocknet">About Block Net</a>
-            <a class="nav-item btn" href="index.html#demo">Demonstration</a>
-            <a class="nav-item btn" href="index.html#blockchain">The Blockchain</a>
-            <a class="nav-item btn" href="index.html#about">About Us</a>
-            <a class="nav-item btn" href="stats.php">Login</a>
+            <a class="nav-item btn" href="index.php#blocknet">About Block Net</a>
+            <a class="nav-item btn" href="index.php#demo">Demonstration</a>
+            <a class="nav-item btn" href="index.php#blockchain">The Blockchain</a>
+            <a class="nav-item btn" href="index.php#about">About Us</a>
         </nav>
 
     </div>
@@ -187,7 +186,7 @@
         </div>
     </div>
     <footer>
-        <p>8 Hearts 1 Beat, 2018 | DECO3801 | <a href="metrics.html" id="metrics">Metrics</a></p>
+        <p>8 Hearts 1 Beat, 2018 | DECO3801 | <a href="metrics.php" id="metrics">Metrics</a></p>
 		
     </footer>
 </body>
