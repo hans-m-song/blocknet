@@ -1,3 +1,7 @@
+<?php
+	require("inc/connection.php");
+	include("inc/sessionStart.php");
+?>
 <!DOCTYPE html>
 <html>
 
@@ -28,6 +32,7 @@
             <a class="nav-item btn" href="index.html#demo">Demonstration</a>
             <a class="nav-item btn" href="index.html#blockchain">The Blockchain</a>
             <a class="nav-item btn" href="index.html#about">About Us</a>
+            <a class="nav-item btn" href="stats.php">Login</a>
         </nav>
 
     </div>
