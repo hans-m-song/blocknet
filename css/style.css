@@ -3,11 +3,10 @@
 }
 
 body {
-  background-color : white;
+  background-color : #c1c1c1;
   margin : 0;
   padding : 0;
   font-family: 'Trebuchet-MS', sans-serif;
-  background-image : url("../img/circles-light.png");
 }
 
 .header > h1 {
@@ -72,7 +71,7 @@ body {
   margin : auto;
 }
 
-.pitch-panels {
+/*.pitch-panels {
   display : flex;
   align-items : center;
 }
@@ -146,12 +145,24 @@ body {
 
 .pitch-container {
 	padding-top: 60px;
+}*/
+
+.carousel-inner {
+	overflow: hidden;
+}
+
+.mvp-video {
+	padding-top: 60px;
 }
 
 .video-frame {
 	margin: 20px auto;
 	display: flex;
 	align-items: center;
+}
+
+.blockchain-cards {
+	padding-top: 60px;
 }
 
 .grid-container {
@@ -162,7 +173,7 @@ body {
   grid-template-columns: auto auto;
   grid-row: auto auto;
   grid-column-gap: 20px;
-  grid-row-gap: 20px;
+  grid-row-gap: 50px;
 }
 
 .flip-card {
