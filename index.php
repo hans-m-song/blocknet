@@ -15,8 +15,8 @@
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/style.css">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/three.js/97/three.min.js"></script>
-    <script type="text/javascript" src="js/script.js" async></script>
-    <script type="text/javascript" src="js/box.js" async></script>
+	<script type="text/javascript" src="js/box.js" async></script>
+	<script type="text/javascript" src="js/form.js"></script>
     <link rel="shortcut icon" href="favicon.ico">
 </head>
     <title>Block Net</title> 
@@ -150,37 +150,39 @@
             <h2>Team 8 Hearts 1 Beat</h2>
             <p>We're a group of 3rd year undergraduates at the University of Queensland. This project was undertaken under the course DECO3801 for our client Ben </p>
 			<h2>Express Your Interest</h2>
-			<form>
+			<form onsubmit="">
 				<div class="form-groups">
 					<label for="nameInput">Name</label>
 					<input type="text" class="form-control" id="nameInput" placeholder="Enter name">
 				</div>
 				<div class="form-groups">
-					<label for="emailInput">Name</label>
-					<input type="text" class="form-control" id="emailInput" aria-describedby="emailHelp" placeholder="Enter email">
-					<small id="emailHelp" class="form-text text-muted">Optional</small>
+					<label for="emailInput">Email</label>
+					<input type="text" class="form-control" id="emailInput" placeholder="Enter email">
 				</div>
 				<div class="form-group">
 					<label for="proficiencySelect">What is your level of proficiency with technology?</label>
-					<select class="form-control" id="proficiencySelect">
+					<select class="form-control" id="proficiencySelect" aria-describedby="proficiencyHelp">
 						<option value="1">I use a computer sometimes</option>
 						<option value="2">I'm familiar with using a browser and some software</option>
 						<option value="3">I'm a power user, making use of most functions of the computer</option>
-						<option value="4">I develop software and start my arrays at 0</option>
-						<option value="5">I can almost use regex on HTML</option>
+						<option value="4">I'm familiar with programming in some languages</option>
+						<option value="5">I develop software for embeded systems or operating systems</option>
+						<option value="6">I can use regex on HTML</option>
 					</select>
+					<small id="proficiencyHelp" class="form-text text-muted">Optional</small>
 				</div>
 				<div class="form-group">
 					<label for="interestSelect">How familiar are you with blockchains?</label>
-					<select class="form-control" id="interestSelect">
+					<select class="form-control" id="interestSelect" aria-describedby="interestHelp">
 						<option value="1">What's a blockchain?</option>
 						<option value="2">I've read about it but never touched it</option>
 						<option value="3">I'm interested but don't know how to approach it</option>
 						<option value="4">I own some cryptocurrency</option>
 						<option value="5">I've developed Dapps and software around them</option>
 					</select>
+					<small id="interestHelp" class="form-text text-muted">Optional</small>
 				</div>
-				<button type="submit" class="btn btn-secondary">Submit</button>
+				<button type="button" onclick="submitForm()" class="btn btn-secondary">Submit</button>
 			</form>
 
         </div>
