@@ -3,9 +3,12 @@
 }
 
 body {
-  background-color : #c1c1c1;
-  margin : 0;
-  padding : 0;
+  background-image : url("https://drive.google.com/uc?id=1VyKxFX8HiOvGarF3qu8S_NtBqM-vkdsL");
+  background-repeat: repeat-y;
+  background-size:100%;
+  margin : auto;
+  padding : auto;
+  width:100vw;
   font-family: 'Trebuchet-MS', sans-serif;
 }
 
