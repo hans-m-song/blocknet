@@ -74,8 +74,16 @@ body {
   margin : auto;
 }
 
+.carousel-container {
+	padding-top: 60px;
+}
+
 .carousel-inner {
 	overflow: hidden;
+}
+
+.item img {
+	width:100%;
 }
 
 .mvp-video {
@@ -134,14 +142,14 @@ body {
 .flip-card-front {
   background-color: white;
   color: black;
-  box-shadow: 5px 5px 3px gray;
+  box-shadow: 5px 5px 3px #383838;
 }
 
 .flip-card-back {
   background-color: black;
   color: white;
   transform: rotateY(180deg);
-  box-shadow: 5px 5px 3px gray;
+  box-shadow: 5px 5px 3px #383838;
 }
 
 .about-us {
