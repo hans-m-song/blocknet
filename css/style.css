@@ -71,82 +71,6 @@ body {
   margin : auto;
 }
 
-/*.pitch-panels {
-  display : flex;
-  align-items : center;
-}
-
-.pitch-panels > button {
-  padding : 10px;
-  margin-left : 10px;
-  margin-right : 10px;
-}
-
-#pitch-scroll-left {
-  margin-right : 20px;
-}
-
-#pitch-scroll-right {
-  margin-left : 20px;
-}
-
-.pitch-scroll-button {
-  padding : 5px;
-}
-
-.pitch-scroll-button:hover {
-  cursor : pointer;
-  background-color : black;
-  color : white;
-}
-
-.scroll-icon {
-  font-size : 300%;
-}
-
-.pitch-scroller {
-  overflow-x : hidden;
-  overflow-y : auto;
-  height : 300px; 
-}
-
-.pitchblockcontainer {
-  display : flex;
-  flex-direction : row;
-  flex-basis : 50%;
-  flex-grow : 0;
-  width : 580px;
-}
-
-.pitchblock {
-  background-color : black;
-  margin-top : 20px;
-  margin-bottom : 20px;
-  width : 250px;
-  box-shadow: 5px 5px 3px gray;
-}
-
-.pitchblock-header {
-  background-color : white;
-  color : black;
-  margin : 0;
-  width : 250px;
-}
-
-.pitchblock-body {
-  background-color : black;
-  color : white;
-  width : 250px;
-}
-
-.block-arrow {
-  align-self : center;
-}
-
-.pitch-container {
-	padding-top: 60px;
-}*/
-
 .carousel-inner {
 	overflow: hidden;
 }
@@ -217,17 +141,6 @@ body {
   box-shadow: 5px 5px 3px gray;
 }
 
-/*.grid-item {
-	background-color:black;
-    padding:20px;
-    border-radius:10px;
-    color:#fff;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:16px;
-	box-shadow: 5px 5px 3px gray;
-}*/
 .about-us {
 	padding-top: 20px;
 }
