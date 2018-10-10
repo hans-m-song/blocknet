@@ -20,7 +20,8 @@
 <body>
     <div class="header navbar-fixed-top" style="padding-bottom:0px; padding-top:5px;">
         <div>
-            <h1 class="title">Block Net</h1>
+			<h1 class="title">Block Net<span id="box"></span></h1>
+			
         </div>
 
         <nav class="nav header-nav ">
@@ -143,15 +144,46 @@
 		</div>
         <div id="about" class="about-us">
             <h2>Team 8 Hearts 1 Beat</h2>
-            Stuff about us and the project maybe?
-            <h2>Express Your Interest</h2>
-            Could have a fun 'add your name to the block of interested users' - a form for interested people to fill in
-            their details and we show a scrollable 'blockchain' of all the people who have put their name down as
-            interested. That's interactive.
+            <p>We're a group of 3rd year undergraduates at the University of Queensland. This project was undertaken under the course DECO3801 for our client Ben </p>
+			<h2>Express Your Interest</h2>
+			<form>
+				<div class="form-groups">
+					<label for="nameInput">Name</label>
+					<input type="text" class="form-control" id="nameInput" placeholder="Enter name">
+				</div>
+				<div class="form-groups">
+					<label for="emailInput">Name</label>
+					<input type="text" class="form-control" id="emailInput" aria-describedby="emailHelp" placeholder="Enter email">
+					<small id="emailHelp" class="form-text text-muted">Optional</small>
+				</div>
+				<div class="form-group">
+					<label for="proficiencySelect">What is your level of proficiency with technology?</label>
+					<select class="form-control" id="proficiencySelect">
+						<option value="1">I use a computer sometimes</option>
+						<option value="2">I'm familiar with using a browser and some software</option>
+						<option value="3">I'm a power user, making use of most functions of the computer</option>
+						<option value="4">I develop software and start my arrays at 0</option>
+						<option value="5">I can almost use regex on HTML</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="interestSelect">How familiar are you with blockchains?</label>
+					<select class="form-control" id="interestSelect">
+						<option value="1">What's a blockchain?</option>
+						<option value="2">I've read about it but never touched it</option>
+						<option value="3">I'm interested but don't know how to approach it</option>
+						<option value="4">I own some cryptocurrency</option>
+						<option value="5">I've developed Dapps and software around them</option>
+					</select>
+				</div>
+				<button type="submit" class="btn btn-secondary">Submit</button>
+			</form>
+
         </div>
     </div>
     <footer>
-        <p>8 Hearts 1 Beat, 2018 | DECO3801</p>
+        <p>8 Hearts 1 Beat, 2018 | DECO3801 | <a href="metrics.html" id="metrics">Metrics</a></p>
+		
     </footer>
 </body>
 
