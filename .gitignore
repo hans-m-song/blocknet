@@ -51,3 +51,5 @@ Thumbs.db
 node_modules/
 .vs/
 src/compiled/
+build/
+*.json

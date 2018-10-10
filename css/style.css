@@ -157,6 +157,11 @@ body {
 }
 
 footer {
-	margin:auto;
-	padding-left:10%;
+  margin-right: 5%;
+  float: right;
+}
+
+#box {
+  padding: 0;
+  float: right;
 }
