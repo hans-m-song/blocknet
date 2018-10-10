@@ -8,8 +8,8 @@ body {
   background-size:100%;
   margin : auto;
   padding : auto;
-  width:100vw;
   font-family: 'Trebuchet-MS', sans-serif;
+  color: white;
 }
 
 .header > h1 {
@@ -75,7 +75,7 @@ body {
 }
 
 .carousel-container {
-	padding-top: 60px;
+	padding-top: 10%;
 }
 
 .carousel-inner {
@@ -87,7 +87,7 @@ body {
 }
 
 .mvp-video {
-	padding-top: 60px;
+	padding-top: 10%;
 }
 
 .video-frame {
@@ -97,7 +97,7 @@ body {
 }
 
 .blockchain-cards {
-	padding-top: 60px;
+	padding-top: 10%;
 }
 
 .grid-container {
@@ -157,5 +157,6 @@ body {
 }
 
 footer {
-  margin: auto;
+	margin:auto;
+	padding-left:10%;
 }
