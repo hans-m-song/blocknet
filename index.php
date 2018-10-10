@@ -1,5 +1,5 @@
 <?php
-	require("inc/connection.php");
+	require("inc/connectDB.php");
 	include("inc/sessionStart.php");
 ?>
 <!DOCTYPE html>

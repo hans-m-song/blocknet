@@ -1,8 +1,8 @@
 <?php 
-    include_once("inc/credentials.php")
+    //include_once("inc/credentials.php")
     
-    $username = UN;
-    $password = PW;
+    $username = "webuser";
+    $password = "w3KPXnLAihcrejYA";
     $host = "localhost";
     $dbname = "marketing_stats";
 
