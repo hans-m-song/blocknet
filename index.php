@@ -135,11 +135,11 @@
 			<div class="row">
 				<div class="col-md-4" class="logo-container">
 					<embed id="ethereum-logo" type="image/svg+xml" src="https://upload.wikimedia.org/wikipedia/commons/0/05/Ethereum_logo_2014.svg">
-							</div>
+				</div>
 				<div class="col-md-8" id="ethereum-intro">
 					test
-							</div>
-							</div>
+				</div>
+			</div>
 			<div class="row">
 				<div class="col-md-8" id="ipfs-intro">
 					test
