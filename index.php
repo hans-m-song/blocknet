@@ -161,7 +161,7 @@
 				</div>
 				<div class="form-group">
 					<label for="proficiencySelect">What is your level of proficiency with technology?</label>
-					<select class="form-control" id="proficiencySelect" aria-describedby="proficiencyHelp">
+					<select class="form-control" id="proficiencySelect">
 						<option value="1">I use a computer sometimes</option>
 						<option value="2">I'm familiar with using a browser and some software</option>
 						<option value="3">I'm a power user, making use of most functions of the computer</option>
@@ -169,18 +169,16 @@
 						<option value="5">I develop software for embeded systems or operating systems</option>
 						<option value="6">I can use regex on HTML</option>
 					</select>
-					<small id="proficiencyHelp" class="form-text text-muted">Optional</small>
 				</div>
 				<div class="form-group">
 					<label for="interestSelect">How familiar are you with blockchains?</label>
-					<select class="form-control" id="interestSelect" aria-describedby="interestHelp">
+					<select class="form-control" id="interestSelect">
 						<option value="1">What's a blockchain?</option>
 						<option value="2">I've read about it but never touched it</option>
 						<option value="3">I'm interested but don't know how to approach it</option>
 						<option value="4">I own some cryptocurrency</option>
 						<option value="5">I've developed Dapps and software around them</option>
 					</select>
-					<small id="interestHelp" class="form-text text-muted">Optional</small>
 				</div>
 				<button type="button" onclick="submitForm()" class="btn btn-secondary">Submit</button>
 			</form>
