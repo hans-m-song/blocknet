@@ -7,6 +7,12 @@
 	$form_proficiency = "";
 	$form_interest = "";
 
+	/*
+$stmt = $db->prepare("SELECT * FROM InterestedParty");
+$stmt->execute();
+$result = $stmt->fetch();
+echo "<script>alert('". $result['Name'] ."');</script>";*/
+
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		$form_name = test_input($_POST["nameInput"]);		
 		$form_email = test_input($_POST["emailInput"]);

@@ -9,7 +9,7 @@
 		$form_interest = test_input($_POST["interestSelect"]);
 
 		try {
-			$stmt = $_SESSION['DBLink']->prepare("INSERT INTO InterestedParty (Name, Email, Proficiency, Interest) VALUES (:form_name, :form_email, :form_proficiency, :form_interest)");
+			$stmt = $db->prepare("INSERT INTO InterestedParty (Name, Email, Proficiency, Interest) VALUES (:form_name, :form_email, :form_proficiency, :form_interest)");
 			$stmt->execute(array(':form_name' => $form_name,
 								':form_email' => $form_email,
 								'form_proficiency' => $form_proficiency,
@@ -206,7 +206,7 @@
 						<option value="5">I've developed Dapps and software around them</option>
 					</select>
 				</div>
-				<input type="submit" name="form_submit" class="btn btn-secondary">Submit</button>
+				<input type="submit" name="form_submit" class="btn btn-secondary">
 			</form>
 
         </div>
