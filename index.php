@@ -200,10 +200,31 @@
             <h2>Team 8 Hearts 1 Beat</h2>
             <p>We're a group of 3rd year undergraduates at the University of Queensland. This project was undertaken under the course DECO3801 for our client Ben </p>
 			<h2>Express Your Interest</h2>
+			<h4>Let people know about us</h4>
 			<div class="social-media">
-			<div id="fb-root"></div>
-			<div class="fb-like" data-href="https://8hearts1beat.uqcloud.net/" data-layout="button" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+				<iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2F8hearts1beat.uqcloud.net&width=96&layout=button&action=like&size=small&show_faces=true&share=true&height=65&appId=206978356552149" 
+					width="96" height="20" 
+					style="border:none;overflow:hidden" 
+					scrolling="no" 
+					frameborder="0" allowTransparency="true" 
+					allow="encrypted-media">
+				</iframe>
+	
+				<a 
+					href="https://twitter.com/share?ref_src=twsrc%5Etfw" 
+					class="twitter-share-button" 
+					data-show-count="false"
+					data-text="Check out Block Net! A serverless, blockchain based forum"
+					data-url="https://8hearts1beat.uqcloud.net"
+					data-hashtags="blockchain,ethereum,ipfs,forum">
+					Tweet
+				</a>
+				<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+				<script src="https://platform.linkedin.com/in.js" type="text/javascript"> lang: en_US</script>
+				<script type="IN/Share" data-url="https://8hearts1beat.uqcloud.net"></script>
 			</div>
+			<h4>Let us know about you</h4>
 			<form method="post" action="index.php">
 				<div class="form-groups">
 					<label for="nameInput">Name</label>
