@@ -148,12 +148,44 @@ form > .form-groups {
   background-color: black;
 }
 
-#ethereum-intro, #ipfs-intro {
-  background-color: white;
+.col-md-4, .col-md-8 {
+  padding: 0;
+  margin: 5px;
+  box-shadow: 5px 5px 5px rgb(0, 0, 0);
 }
 
-#ipfs-logo, #ethereum-logo {
+.col-md-4 {
+  height: 200px;
+  width: 200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.col-md-8 {
+  min-height: 200px;
+}
+
+.tech-intro {
+  padding: 10px;
+  font-size: 1.5rem;
+  background-color: rgb(49, 49, 49);
+  text-align: justify;
+}
+
+.intro-link {
+  color: whitesmoke;
+  text-decoration: bold;
+}
+
+.intro-link:hover {
+  color: grey;
+  text-decoration: bold;
+}
+
+.tech-logo {
   background-color: black;
+  padding: 0;
+  margin: auto;
   height: 200px;
   width: 200px;
 }

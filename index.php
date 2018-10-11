@@ -81,32 +81,28 @@
 				</ol>
 				<div class="carousel-inner">
 					<div class="item active">
-						<img class = "d-block w-100" 
-						img src="https://drive.google.com/uc?id=1_0Q-tE86SUVCfrzMQZt1ZM5qj-9lwqD1" alt="First slide">
+							<img class="d-block w-100" img src="https://drive.google.com/uc?id=1_0Q-tE86SUVCfrzMQZt1ZM5qj-9lwqD1" alt="First slide">
 						<div class="carousel-caption">
 							<h2>True P2P Online Messaging</h2>
 							<p>Block Net offers messaging through IPFS decentralised storage and the blockchain</p>
 						</div>
 					</div>
 					<div class="item">
-						<img class = "d-block w-100" 
-						img src="https://drive.google.com/uc?id=1_0Q-tE86SUVCfrzMQZt1ZM5qj-9lwqD1" alt="Second slide">
+							<img class="d-block w-100" img src="https://drive.google.com/uc?id=1_0Q-tE86SUVCfrzMQZt1ZM5qj-9lwqD1" alt="Second slide">
 						<div class="carousel-caption">
 							<h2>Your messages are valuable</h2>
 							<p>Block Net messages use a token economy system to ensure you receive only the most important messages</p>
 						</div>
 					</div>
 					<div class="item">
-						<img class = "d-block w-100" 
-						img src="https://drive.google.com/uc?id=1_0Q-tE86SUVCfrzMQZt1ZM5qj-9lwqD1" alt="Third slide">
+							<img class="d-block w-100" img src="https://drive.google.com/uc?id=1_0Q-tE86SUVCfrzMQZt1ZM5qj-9lwqD1" alt="Third slide">
 						<div class="carousel-caption">
 							<h2>Private messages are actually private</h2>
 							<p>Instead of throwing them onto a server, messages are stored by you</p>
 						</div>
 					</div>
 					<div class="item">
-						<img class = "d-block w-100" 
-						img src="https://drive.google.com/uc?id=1_0Q-tE86SUVCfrzMQZt1ZM5qj-9lwqD1" alt="Fourth slide">
+							<img class="d-block w-100" img src="https://drive.google.com/uc?id=1_0Q-tE86SUVCfrzMQZt1ZM5qj-9lwqD1" alt="Fourth slide">
 						<div class="carousel-caption">
 							<h2>We have private rooms too</h2>
 							<p>Block Net allows you to change everything about your chat rooms, from message cost to custom emotes</p>
@@ -125,28 +121,45 @@
         </div>
         <div id="demo" class="mvp-video">
             <h2>Demonstration</h2>
-			<div class = "video-frame">
+				<div class="video-frame">
 				<iframe width="560" height="315" src="https://www.youtube.com/embed/FBGG9YmHcwo" frameborder="0" allow="autoplay; encrypted-media"
                 allowfullscreen></iframe>
 			</div>
         </div>
 		<div id="blockchain" class="blockchain-cards">
 			<h2> The Blockchain </h2>
-			<div class="row">
-				<div class="col-md-4" class="logo-container">
-					<embed id="ethereum-logo" type="image/svg+xml" src="https://upload.wikimedia.org/wikipedia/commons/0/05/Ethereum_logo_2014.svg">
+				<div class="row justify-content-center no-gutters">
+					<div class="col-md-4 tech-logo-container">
+						<embed class="tech-logo" type="image/svg+xml" src="https://upload.wikimedia.org/wikipedia/commons/0/05/Ethereum_logo_2014.svg">
 				</div>
-				<div class="col-md-8" id="ethereum-intro">
-					test
+					<div class="col-md-8 tech-intro">
+						<h5><a class="intro-link" href="https://www.ethereum.org/">Ethereum</a></h5>
+						<p>
+							An open-source, public, blockchain-based distributed computing platform.
+							Their highly secure verification and econonomy system means anything that shouldn't be touched by unauthorized
+							users will not be.
+							In addition, they provide scripting functionality through Smart Contracts (or Dapps) which acts directly on the
+							blockchain.
+							This is where our most sensitive data is stored. 
+						</p>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-md-8" id="ipfs-intro">
-					test
-						</div>
-				<div class="col-md-4" class="logo-container">
-					<embed id="ipfs-logo" type="image/svg+xml" src="src/ipfs-logo.svg">
+				<div class="row justify-content-center no-gutters">
+					<div class="col-md-4 tech-logo-container">
+						<embed class="tech-logo" type="image/svg+xml" src="src/ipfs-logo.svg">
 					</div>
+					<div class="col-md-8 tech-intro">
+						<h5><a class="intro-link" href="https://ipfs.io/">IPFS (Inter-Planetary File System)</a></h5>
+						<p>
+							One major drawback of using the Ethereum blockchain is the verification time for creating each block (around 17
+							seconds).
+							To get around having to wait for each new block to retrieve messages and avoid the transaction cost of each
+							message,
+							messages are stored in IPFS repositories which provide a distributed storage solution, providing both data
+							redundancy and annonymity.
+							Additionally, users can create their own 
+						</p>
+						</div>
 				</div>
 
 		</div>
