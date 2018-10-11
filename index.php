@@ -130,46 +130,6 @@
 		<div id="blockchain" class="blockchain-cards">
 			<h2> The Blockchain </h2>
 				<div class="grid-container">
-					<div class="flip-card">
-						<div class="flip-card-inner">
-							<div class="flip-card-front">
-								<h2>1</h2>
-							</div>
-							<div class="flip-card-back">
-								<h2>2</h2>
-							</div>
-						</div>
-					</div>
-					<div class="flip-card">
-						<div class="flip-card-inner">
-							<div class="flip-card-front">
-								<h2>3</h2>
-							</div>
-							<div class="flip-card-back">
-								<h2>4</h2>
-							</div>
-						</div>
-					</div>
-					<div class="flip-card">
-						<div class="flip-card-inner">
-							<div class="flip-card-front">
-								<h2>5</h2>
-							</div>
-							<div class="flip-card-back">
-								<h2>6</h2>
-							</div>
-						</div>
-					</div>
-					<div class="flip-card">
-						<div class="flip-card-inner">
-							<div class="flip-card-front">
-								<h2>7</h2>
-							</div>
-							<div class="flip-card-back">
-								<h2>8</h2>
-							</div>
-						</div>
-					</div>
 				</div>
 		</div>
         <div id="about" class="about-us">
