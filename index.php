@@ -23,20 +23,24 @@
 		}
 	}
 
-    static $submitted = false;
 	if (isset($_POST['form_submit'])) {
-		if(!$submitted) {
 			$form_name = test_input($_POST["nameInput"]);		
 			$form_email = test_input($_POST["emailInput"]);
-			$form_proficiency = test_input($_POST["proficiencySelect"]);
-			$form_interest = test_input($_POST["interestSelect"]);
+			$form_proficient = test_input($_POST["Proficient"]);
+			$form_familiar = test_input($_POST["Familiar"]);
+            $favs = $_POST["fav-feature"];
+            $form_features = "";
+            foreach($favs as $fav) {
+                $form_features .= $fav . " ";
+            }
 
 			try {
-				$stmt = $db->prepare("INSERT INTO InterestedParty (Name, Email, Proficiency, Interest) VALUES (:form_name, :form_email, :form_proficiency, :form_interest)");
+				$stmt = $db->prepare("INSERT INTO InterestedParty (Name, Email, Proficient, Familiar, Features) VALUES (:form_name, :form_email, :form_proficient, :form_familiar, :form_features)");
 				$stmt->execute(array(':form_name' => $form_name,
 									':form_email' => $form_email,
-									':form_proficiency' => $form_proficiency,
-									':form_interest' => $form_interest
+									':form_proficient' => $form_proficient,
+									':form_familiar' => $form_familiar,
+                                    ':form_features' => $form_features
 									)
 								);
 			} catch (PDOException $ex) {
@@ -50,8 +54,13 @@
 			} catch (PDOException $ex) {
 				exit();
 			}
-			$submitted = true;
-		}
+
+			unset($_POST['form_submit']);
+            unset($_POST['nameInput']);
+            unset($_POST['emailInput']);
+            unset($_POST['Proficient']);
+            unset($_POST['Familiar']);
+            unset($_POST['fav-feature']);
 	}
 
 	function test_input($data) {
