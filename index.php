@@ -81,25 +81,28 @@
     <title>Block Net</title> 
 
 <body>
-    <div class="header navbar-fixed-top" style="padding-bottom:0px; padding-top:5px;">
-        <div>
-			<h1 class="title">Block Net<span id="box"></span></h1>
 			
+	<div class="header navbar-fixed-top">
+        <div>
+			<h1 class="title">Block<span id="logo-holder">
+				<img id="logo" src="src/console_active.png">
+			</span>Net</h1>
         </div>
 
         <nav class="nav header-nav ">
-            <a class="nav-item btn" href="index.php#blocknet">About Block Net</a>
-            <a class="nav-item btn" href="index.php#demo">Demonstration</a>
-            <a class="nav-item btn" href="index.php#blockchain">The Blockchain</a>
-            <a class="nav-item btn" href="index.php#about">About Us</a>
+            <a class="nav-item btn" href="#blocknet">About Block Net</a>
+            <a class="nav-item btn" href="#demo">Demonstration</a>
+            <a class="nav-item btn" href="#blockchain">The Blockchain</a>
+            <a class="nav-item btn" href="#about">About Us</a>
         </nav>
 
     </div>
     
-    <div class="jumbotron" id="box"></div>
     <!--Will try to do some fancy scrolling, and adding 'links' to make a chain, etc with this stuff-->
     <!--Another idea is to have a '...' dialogue box that suggests someones about to send a message, is a button and creates new box and centres on it, kinda like how messaging in video games works-->
+	<div class="container-fluid content">
     <div class="centre">
+		<div class="padding"></div>
         <div id="blocknet" class="carousel-container">
             <h2>About Block Net</h2>
 			<div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -111,32 +114,28 @@
 				</ol>
 				<div class="carousel-inner">
 					<div class="item active">
-						<img class = "d-block w-100" 
-						img src="https://drive.google.com/uc?id=1_0Q-tE86SUVCfrzMQZt1ZM5qj-9lwqD1" alt="First slide">
+							<img class="d-block w-100" img src="https://drive.google.com/uc?id=1_0Q-tE86SUVCfrzMQZt1ZM5qj-9lwqD1" alt="First slide">
 						<div class="carousel-caption">
 							<h2>True P2P Online Messaging</h2>
 							<p>Block Net offers messaging through IPFS decentralised storage and the blockchain</p>
 						</div>
 					</div>
 					<div class="item">
-						<img class = "d-block w-100" 
-						img src="https://drive.google.com/uc?id=1_0Q-tE86SUVCfrzMQZt1ZM5qj-9lwqD1" alt="Second slide">
+							<img class="d-block w-100" img src="https://drive.google.com/uc?id=1_0Q-tE86SUVCfrzMQZt1ZM5qj-9lwqD1" alt="Second slide">
 						<div class="carousel-caption">
 							<h2>Your messages are valuable</h2>
 							<p>Block Net messages use a token economy system to ensure you receive only the most important messages</p>
 						</div>
 					</div>
 					<div class="item">
-						<img class = "d-block w-100" 
-						img src="https://drive.google.com/uc?id=1_0Q-tE86SUVCfrzMQZt1ZM5qj-9lwqD1" alt="Third slide">
+							<img class="d-block w-100" img src="https://drive.google.com/uc?id=1_0Q-tE86SUVCfrzMQZt1ZM5qj-9lwqD1" alt="Third slide">
 						<div class="carousel-caption">
 							<h2>Private messages are actually private</h2>
 							<p>Instead of throwing them onto a server, messages are stored by you</p>
 						</div>
 					</div>
 					<div class="item">
-						<img class = "d-block w-100" 
-						img src="https://drive.google.com/uc?id=1_0Q-tE86SUVCfrzMQZt1ZM5qj-9lwqD1" alt="Fourth slide">
+							<img class="d-block w-100" img src="https://drive.google.com/uc?id=1_0Q-tE86SUVCfrzMQZt1ZM5qj-9lwqD1" alt="Fourth slide">
 						<div class="carousel-caption">
 							<h2>We have private rooms too</h2>
 							<p>Block Net allows you to change everything about your chat rooms, from message cost to custom emotes</p>
@@ -155,60 +154,56 @@
         </div>
         <div id="demo" class="mvp-video">
             <h2>Demonstration</h2>
-			<div class = "video-frame">
+				<div class="video-frame">
 				<iframe width="560" height="315" src="https://www.youtube.com/embed/FBGG9YmHcwo" frameborder="0" allow="autoplay; encrypted-media"
                 allowfullscreen></iframe>
 			</div>
         </div>
 		<div id="blockchain" class="blockchain-cards">
 			<h2> The Blockchain </h2>
-				<div class="grid-container">
-					<div class="flip-card">
-						<div class="flip-card-inner">
-							<div class="flip-card-front">
-								<h2>1</h2>
-							</div>
-							<div class="flip-card-back">
-								<h2>2</h2>
-							</div>
-						</div>
-					</div>
-					<div class="flip-card">
-						<div class="flip-card-inner">
-							<div class="flip-card-front">
-								<h2>3</h2>
-							</div>
-							<div class="flip-card-back">
-								<h2>4</h2>
-							</div>
-						</div>
-					</div>
-					<div class="flip-card">
-						<div class="flip-card-inner">
-							<div class="flip-card-front">
-								<h2>5</h2>
-							</div>
-							<div class="flip-card-back">
-								<h2>6</h2>
-							</div>
-						</div>
-					</div>
-					<div class="flip-card">
-						<div class="flip-card-inner">
-							<div class="flip-card-front">
-								<h2>7</h2>
-							</div>
-							<div class="flip-card-back">
-								<h2>8</h2>
-							</div>
-						</div>
-					</div>
+				<div class="row justify-content-center no-gutters">
+					<div class="col-md-4 tech-logo-container">
+						<embed class="tech-logo" type="image/svg+xml" src="https://upload.wikimedia.org/wikipedia/commons/0/05/Ethereum_logo_2014.svg">
 				</div>
+					<div class="col-md-8 tech-intro">
+						<h5><a class="intro-link" href="https://www.ethereum.org/">Ethereum</a></h5>
+						<p>
+							An open-source, public, blockchain-based distributed computing platform.
+							Their highly secure verification and econonomy system means anything that shouldn't be touched by unauthorized
+							users will not be.
+							In addition, they provide scripting functionality through Smart Contracts (or Dapps) which acts directly on the
+							blockchain.
+							This is where our most sensitive data is stored. 
+						</p>
+				</div>
+			</div>
+				<div class="row justify-content-center no-gutters">
+					<div class="col-md-4 tech-logo-container">
+						<embed class="tech-logo" type="image/svg+xml" src="src/ipfs-logo.svg">
+					</div>
+					<div class="col-md-8 tech-intro">
+						<h5><a class="intro-link" href="https://ipfs.io/">IPFS (Inter-Planetary File System)</a></h5>
+						<p>
+							One major drawback of using the Ethereum blockchain is the verification time for creating each block (around 17
+							seconds).
+							To get around having to wait for each new block to retrieve messages and avoid the transaction cost of each
+							message,
+							messages are stored in IPFS repositories which provide a distributed storage solution, providing both data
+							redundancy and annonymity.
+							Additionally, users can create their own 
+						</p>
+						</div>
+				</div>
+
 		</div>
         <div id="about" class="about-us">
             <h2>Team 8 Hearts 1 Beat</h2>
             <p>We're a group of 3rd year undergraduates at the University of Queensland. This project was undertaken under the course DECO3801 for our client Ben </p>
 			<h2>Express Your Interest</h2>
+			<div class="social-media">
+			<div id="fb-root"></div>
+			<div class="fb-like" data-href="https://8hearts1beat.uqcloud.net/" data-layout="button" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+			</div>
 			<form method="post" action="index.php">
 				<div class="form-groups">
 					<label for="nameInput">Name</label>
@@ -218,36 +213,46 @@
 					<label for="emailInput">Email</label>
 					<input type="text" class="form-control" id="emailInput" name="emailInput" placeholder="Enter email">
 				</div>
-				<div class="form-group">
+				<div class="form-groups">
 					<label for="proficiencySelect">What is your level of proficiency with technology?</label>
-					<select class="form-control" id="proficiencySelect" name="proficiencySelect">
-						<option value="1">I use a computer sometimes</option>
-						<option value="2">I'm familiar with using a browser and some software</option>
-						<option value="3">I'm a power user, making use of most functions of the computer</option>
-						<option value="4">I'm familiar with programming in some languages</option>
-						<option value="5">I develop software for embeded systems or operating systems</option>
-						<option value="6">I can use regex on HTML</option>
-					</select>
+						<ul class="likert">
+							<li class="likert"> Unfamiliar <input id="radProfStart" type="radio" name="Proficient" value="1" />
+							<li class="likert"><input type="radio" name="Proficient" value="2" />
+							<li class="likert"><input type="radio" name="Proficient" value="3" />
+							<li class="likert"><input type="radio" name="Proficient" value="4" />
+							<li class="likert"><input id="radProfEnd" type="radio" name="Proficient" value="5" /> Tech Savvy
+						</ul>
 				</div>
-				<div class="form-group">
-					<label for="interestSelect">How familiar are you with blockchains?</label>
-					<select class="form-control" id="interestSelect" name="interestSelect">
-						<option value="1">What's a blockchain?</option>
-						<option value="2">I've read about it but never touched it</option>
-						<option value="3">I'm interested but don't know how to approach it</option>
-						<option value="4">I own some cryptocurrency</option>
-						<option value="5">I've developed Dapps and software around them</option>
-					</select>
+				<div class="form-groups">
+					<label for="interestSelect">How familiar are you with blockchain technology?</label>
+						<ul class="likert">
+							<li class="likert"> Unfamiliar <input id="radBlkStart" type="radio" name="Familiar" value="1" />
+							<li class="likert"><input type="radio" name="Familiar" value="2" />
+							<li class="likert"><input type="radio" name="Familiar" value="3" />
+							<li class="likert"><input type="radio" name="Familiar" value="4" />
+							<li class="likert"><input id="radBlkEnd" type="radio" name="Familiar" value="5" /> Knowledgeable
+						</ul>
 				</div>
-				<input type="submit" name="form_submit" class="btn btn-secondary">
+				<div class="form-groups">
+					<label for="favFeature">What features interest you about Block Net?</label>
+					<div class="fav-feature-list" id="favFeature">
+						<input type="checkbox" name="fav-feature" value="data"> Data security and privacy<br>
+						<input type="checkbox" name="fav-feature" value="tech"> The use of cutting edge technology<br>
+						<input type="checkbox" name="fav-feature" value="friends"> Talking with friends online<br>
+						<input type="checkbox" name="fav-feature" value="community"> Participating in it's online community<br>
+						<input type="checkbox" name="fav-feature" value="learn"> The ability to see and learn how a decentralised application works<br>
+					</div>
+				</div>
+				<input id="submission" type="submit" name="form_submit" class="btn btn-secondary">
 			</form>
 
         </div>
     </div>
-    <footer>
+
+    <div class="footer">
         <p>8 Hearts 1 Beat, 2018 | DECO3801 | <a href="metrics.php" id="metrics">Metrics</a></p>
-		
-    </footer>
+	</div>
+	</div>
 </body>
 
 </html>
