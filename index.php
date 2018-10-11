@@ -27,22 +27,26 @@
 
         $form_name = "";
         if(isset($_POST['nameInput'])) {
-			$form_name = test_input($_POST["nameInput"]);	
+			$form_name = test_input($_POST["nameInput"]);
+            unset($_POST['nameInput']);	
         }	
 
         $form_email = "";
         if(isset($_POST['emailInput'])) {
 			$form_email = test_input($_POST["emailInput"]);
+            unset($_POST['emailInput']);
         }
 
         $form_proficient = "";
         if(isset($_POST['Proficient'])) {
 			$form_proficient = test_input($_POST["Proficient"]);
+            unset($_POST['Proficient']);
         }
 
         $form_familiar = "";
         if(isset($_POST['Familiar'])) {
 			$form_familiar = test_input($_POST["Familiar"]);
+            unset($_POST['Familiar']);
         }
 
         $form_features = "";
@@ -52,6 +56,7 @@
             foreach($favs as $fav) {
                 $form_features .= $fav . " ";
             }
+            unset($_POST['fav-feature']);
         }
 
 			try {
@@ -76,11 +81,6 @@
 			}
 
 			unset($_POST['form_submit']);
-            unset($_POST['nameInput']);
-            unset($_POST['emailInput']);
-            unset($_POST['Proficient']);
-            unset($_POST['Familiar']);
-            unset($_POST['fav-feature']);
 	}
 
 	function test_input($data) {
