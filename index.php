@@ -200,6 +200,16 @@
 							<li class="likert"><input id="radBlkEnd" type="radio" name="Familiar" value="5" /> Knowledgeable
 						</ul>
 				</div>
+				<div class="form-groups">
+					<label for="favFeature">What features interest you about Block Net?</label>
+					<div class="fav-feature-list" id="favFeature">
+						<input type="checkbox" name="fav-feature" value="data"> Data security and privacy<br>
+						<input type="checkbox" name="fav-feature" value="tech"> The use of cutting edge technology<br>
+						<input type="checkbox" name="fav-feature" value="friends"> Talking with friends online<br>
+						<input type="checkbox" name="fav-feature" value="community"> Participating in it's online community<br>
+						<input type="checkbox" name="fav-feature" value="learn"> The ability to see and learn how a decentralised application works<br>
+					</div>
+				</div>
 				<input id="submission" type="submit" name="form_submit" class="btn btn-secondary">
 			</form>
 
