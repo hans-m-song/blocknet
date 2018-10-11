@@ -150,18 +150,18 @@
             <h2>Team 8 Hearts 1 Beat</h2>
             <p>We're a group of 3rd year undergraduates at the University of Queensland. This project was undertaken under the course DECO3801 for our client Ben </p>
 			<h2>Express Your Interest</h2>
-			<form onsubmit="">
+			<form onsubmit="" method="post" action="inc/submission.php">
 				<div class="form-groups">
 					<label for="nameInput">Name</label>
-					<input type="text" class="form-control" id="nameInput" placeholder="Enter name">
+					<input type="text" class="form-control" id="nameInput" name="nameInput" placeholder="Enter name">
 				</div>
 				<div class="form-groups">
 					<label for="emailInput">Email</label>
-					<input type="text" class="form-control" id="emailInput" placeholder="Enter email">
+					<input type="text" class="form-control" id="emailInput" name="emailInput" placeholder="Enter email">
 				</div>
 				<div class="form-group">
 					<label for="proficiencySelect">What is your level of proficiency with technology?</label>
-					<select class="form-control" id="proficiencySelect" aria-describedby="proficiencyHelp">
+					<select class="form-control" id="proficiencySelect" name="proficiencySelect" aria-describedby="proficiencyHelp">
 						<option value="1">I use a computer sometimes</option>
 						<option value="2">I'm familiar with using a browser and some software</option>
 						<option value="3">I'm a power user, making use of most functions of the computer</option>
@@ -173,7 +173,7 @@
 				</div>
 				<div class="form-group">
 					<label for="interestSelect">How familiar are you with blockchains?</label>
-					<select class="form-control" id="interestSelect" aria-describedby="interestHelp">
+					<select class="form-control" id="interestSelect" name="interestSelect" aria-describedby="interestHelp">
 						<option value="1">What's a blockchain?</option>
 						<option value="2">I've read about it but never touched it</option>
 						<option value="3">I'm interested but don't know how to approach it</option>
