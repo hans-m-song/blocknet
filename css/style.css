@@ -91,6 +91,11 @@ body {
 	align-items: center;
 }
 
+.video-frame > iframe {
+  display: block;
+  margin: auto;
+}
+
 .about-us {
   padding-top: 20px;
 }
@@ -100,7 +105,6 @@ body {
 }
 
 .footer {
-  margin-right: 11%;
   float: right;
 }
 
@@ -131,8 +135,47 @@ form > .form-groups {
   background-color: black;
 }
 
+.row {
+  padding-bottom: 10px;
+}
+
+.col-md-4 {
+  height: 200px;
+  width: 200px;
+}
+
+.col-md-8 {
+  height: 200px;
+}
+
+.col-md-4, .col-md-8 {
+  padding: 0;
+  box-shadow: 5px 5px 5px rgb(0, 0, 0);
+}
+
 #ethereum-intro, #ipfs-intro {
-  background-color: white;
+  padding: 10px;
+  text-align: justify;
+}
+
+#ethereum-intro {
+  background-color: rgb(68, 68, 68);
+  margin-left: 10px;
+}
+
+#ipfs-intro {
+  background-color: rgb(12, 58, 80);
+  margin-right: 10px;
+}
+
+#intro-link {
+  color: whitesmoke;
+  text-decoration: bold;
+}
+
+#intro-link:hover {
+  color: grey;
+  text-decoration: bold;
 }
 
 #ipfs-logo, #ethereum-logo {

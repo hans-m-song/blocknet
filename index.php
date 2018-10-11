@@ -132,17 +132,25 @@
         </div>
 		<div id="blockchain" class="blockchain-cards">
 			<h2> The Blockchain </h2>
-			<div class="row">
+				<div id="ethereum-row" class="row justify-content-center no-gutters">
 				<div class="col-md-4" class="logo-container">
 					<embed id="ethereum-logo" type="image/svg+xml" src="https://upload.wikimedia.org/wikipedia/commons/0/05/Ethereum_logo_2014.svg">
 				</div>
 				<div class="col-md-8" id="ethereum-intro">
-					test
+						<h5><a id="intro-link" href="https://www.ethereum.org/">Ethereum</a></h5>
+						<p>Our application is utilizes one of the most popular Blockchain platforms available: Ethereum which provides a
+							digital ledger of all actions taken.
+							It is highly secure with a Hybrid Proof of Work/Stake system and completely annonymous
+							Our app utilizes the Ethereum Virtual Machine to deploy smart contracts (Dapps), written in Ethereum's custom
+							language <a id="intro-link" href="https://solidity.readthedocs.io/">Solidity</a> onto the blockchain and to
+							interact with deployed contracts.
+						</p>
 				</div>
 			</div>
-			<div class="row">
+				<div id="ipfs-row" class="row justify-content-center no-gutters">
 				<div class="col-md-8" id="ipfs-intro">
-					test
+						<h5><a id="intro-link" href="https://ipfs.io/">IPFS</a></h5>
+						<p></p>
 						</div>
 				<div class="col-md-4" class="logo-container">
 					<embed id="ipfs-logo" type="image/svg+xml" src="src/ipfs-logo.svg">
@@ -152,11 +160,13 @@
 		</div>
         <div id="about" class="about-us">
             <h2>Team 8 Hearts 1 Beat</h2>
-            <p>We're a group of 3rd year undergraduates at the University of Queensland. This project was undertaken under the course DECO3801 for our client Ben </p>
+				<p>We're a group of 3rd year undergraduates at the University of Queensland. This project was undertaken under the
+					course DECO3801 for our client Ben </p>
 			<h2>Express Your Interest</h2>
 			<div class="social-media">
 			<div id="fb-root"></div>
-			<div class="fb-like" data-href="https://8hearts1beat.uqcloud.net/" data-layout="button" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+					<div class="fb-like" data-href="https://8hearts1beat.uqcloud.net/" data-layout="button" data-action="like"
+					 data-size="large" data-show-faces="false" data-share="true"></div>
 			</div>
 			<form method="post" action="index.php">
 				<div class="form-groups">
