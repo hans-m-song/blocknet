@@ -24,15 +24,35 @@
 	}
 
 	if (isset($_POST['form_submit'])) {
-			$form_name = test_input($_POST["nameInput"]);		
+
+        $form_name = "";
+        if(isset($_POST['nameInput'])) {
+			$form_name = test_input($_POST["nameInput"]);	
+        }	
+
+        $form_email = "";
+        if(isset($_POST['emailInput'])) {
 			$form_email = test_input($_POST["emailInput"]);
+        }
+
+        $form_proficient = "";
+        if(isset($_POST['Proficient'])) {
 			$form_proficient = test_input($_POST["Proficient"]);
+        }
+
+        $form_familiar = "";
+        if(isset($_POST['Familiar'])) {
 			$form_familiar = test_input($_POST["Familiar"]);
+        }
+
+        $form_features = "";
+        if(isset($_POST['fav-feature'])) {
             $favs = $_POST["fav-feature"];
-            $form_features = "";
+
             foreach($favs as $fav) {
                 $form_features .= $fav . " ";
             }
+        }
 
 			try {
 				$stmt = $db->prepare("INSERT INTO InterestedParty (Name, Email, Proficient, Familiar, Features) VALUES (:form_name, :form_email, :form_proficient, :form_familiar, :form_features)");
@@ -266,11 +286,11 @@
 				<div class="form-groups">
 					<label for="favFeature">What features interest you about Block Net?</label>
 					<div class="fav-feature-list" id="favFeature">
-						<input type="checkbox" name="fav-feature" value="data"> Data security and privacy<br>
-						<input type="checkbox" name="fav-feature" value="tech"> The use of cutting edge technology<br>
-						<input type="checkbox" name="fav-feature" value="friends"> Talking with friends online<br>
-						<input type="checkbox" name="fav-feature" value="community"> Participating in it's online community<br>
-						<input type="checkbox" name="fav-feature" value="learn"> The ability to see and learn how a decentralised application works<br>
+						<input type="checkbox" name="fav-feature[]" value="data"> Data security and privacy<br>
+						<input type="checkbox" name="fav-feature[]" value="tech"> The use of cutting edge technology<br>
+						<input type="checkbox" name="fav-feature[]" value="friends"> Talking with friends online<br>
+						<input type="checkbox" name="fav-feature[]" value="community"> Participating in it's online community<br>
+						<input type="checkbox" name="fav-feature[]" value="learn"> The ability to see and learn how a decentralised application works<br>
 					</div>
 				</div>
 				<input id="submission" type="submit" name="form_submit" class="btn btn-secondary">
