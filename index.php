@@ -169,24 +169,23 @@
 				</div>
 				<div class="form-groups">
 					<label for="proficiencySelect">What is your level of proficiency with technology?</label>
-					<select class="form-control" id="proficiencySelect" name="proficiencySelect">
-						<option value="1">I use a computer sometimes</option>
-						<option value="2">I'm familiar with using a browser and some software</option>
-						<option value="3">I'm a power user, making use of most functions of the computer</option>
-						<option value="4">I'm familiar with programming in some languages</option>
-						<option value="5">I develop software for embeded systems or operating systems</option>
-						<option value="6">I can use regex on HTML</option>
-					</select>
+						<ul class="likert">
+							<li class="likert"> Unfamiliar <input id="radProfStart" type="radio" name="Proficient" value="1" />
+							<li class="likert"><input type="radio" name="Proficient" value="2" />
+							<li class="likert"><input type="radio" name="Proficient" value="3" />
+							<li class="likert"><input type="radio" name="Proficient" value="4" />
+							<li class="likert"><input id="radProfEnd" type="radio" name="Proficient" value="5" /> Tech Savvy
+						</ul>
 				</div>
 				<div class="form-groups">
-					<label for="interestSelect">How familiar are you with blockchains?</label>
-					<select class="form-control" id="interestSelect" name="interestSelect">
-						<option value="1">What's a blockchain?</option>
-						<option value="2">I've read about it but never touched it</option>
-						<option value="3">I'm interested but don't know how to approach it</option>
-						<option value="4">I own some cryptocurrency</option>
-						<option value="5">I've developed Dapps and software around them</option>
-					</select>
+					<label for="interestSelect">How familiar are you with blockchain technology?</label>
+						<ul class="likert">
+							<li class="likert"> Unfamiliar <input id="radBlkStart" type="radio" name="Familiar" value="1" />
+							<li class="likert"><input type="radio" name="Familiar" value="2" />
+							<li class="likert"><input type="radio" name="Familiar" value="3" />
+							<li class="likert"><input type="radio" name="Familiar" value="4" />
+							<li class="likert"><input id="radBlkEnd" type="radio" name="Familiar" value="5" /> Knowledgeable
+						</ul>
 				</div>
 				<input id="submission" type="submit" name="form_submit" class="btn btn-secondary">
 			</form>
