@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { CreateRoomScreen } from './CreateRoomScreen' 
 import { ChatBox } from './ChatBox'
 import { Message } from './Message'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -10,17 +11,34 @@ export class RoomScreen extends Component {
     constructor(props) {
         super(props);
         this.child = React.createRef();
+        
+        /*setting the state in constructor means there is no 'memory' of the last position (i.e. room) the user was in if they navigate to a different screen (i.e. settings)and will default to these. May be worth keeping track of last position in the main screen.*/
         this.state = {
             lastMessage: '',
-            activeRoom: "Block Net"
+            activeRoom: "Block Net",
+            creatingRoom: false
         };
+
         this.updateMessage = this.updateMessage.bind(this);
         this.activateRoom = this.activateRoom.bind(this);
+        this.activateCreateRoom = this.activateCreateRoom.bind(this);
     };
 
-    /*This is the point where we will want to give the to-be-activated room name to the backend for it to send back messages*/
+    /*This is the point where we will want to give the to-be-activated room name to the backend for it to send back messages
+    
+    NOTE: this may need to be moved further up to the backend when incorporating frontend with backend.
+    */
     activateRoom(roomName) {
         this.setState({ activeRoom: roomName });
+        this.setState({ creatingRoom: false });
+    }
+
+    activateCreateRoom() {
+        if (this.state.creatingRoom) {
+            this.setState({ creatingRoom: false });
+        } else {
+            this.setState({ creatingRoom: true })
+        }
     }
 
     //Calls the addMessage function from MessageContainer
@@ -37,17 +55,43 @@ export class RoomScreen extends Component {
     //Bind message container to this.child so that the addMessage
     //function from MessageContainer can be accessed in updateMessage
     render() {
+        const creatingRoom = this.state.creatingRoom;
+        let content;
+        if (creatingRoom) {
+            content = 
+                <div className="content room-screen">
+                    <RoomNav 
+                        onRoomButtonClick={this.activateRoom}
+                        onAddRoomButtonClick={this.activateCreateRoom}
+                        rooms={this.props.rooms}
+                        activeRoom={this.state.activeRoom} 
+                        creatingRoom={this.state.creatingRoom}
+                    />
+                    <CreateRoomScreen
+                        activateRoom={this.activateRoom}
+                        addRoom={this.props.addRoom}
+                    />
+                </div>
+        } else {
+            content = 
+                <div className="content room-screen">
+                    <RoomNav 
+                        onRoomButtonClick={this.activateRoom}
+                        onAddRoomButtonClick={this.activateCreateRoom}
+                        rooms={this.props.rooms}
+                        activeRoom={this.state.activeRoom} 
+                        creatingRoom={this.state.creatingRoom}
+                    />
+                    <MessageContainer
+                        ref={this.child}
+                        messageHistory={this.props.messageHistory}
+                    />
+                    <ChatBox updateMessage={(e) => this.updateMessage(e)} />
+                </div>
+        }
+
         return (
-            <div className="content room-screen">
-                <RoomNav onRoomButtonClick={this.activateRoom}
-                    rooms={this.props.rooms}
-                    activeRoom={this.state.activeRoom} />
-                <MessageContainer
-                    ref={this.child}
-                    messageHistory={this.props.messageHistory}
-                />
-                <ChatBox updateMessage={(e) => this.updateMessage(e)} />
-            </div>
+            content
         );
     }
 }
@@ -59,6 +103,7 @@ export class RoomNav extends Component {
     constructor(props) {
         super(props);
         this.activateRoom = this.activateRoom.bind(this);
+        this.activateCreateRoom = this.activateCreateRoom.bind(this);
     }
 
     /*Converts array of room names passed down as prop from backend into corresponding buttons in room nav menu*/
@@ -69,6 +114,7 @@ export class RoomNav extends Component {
                 roomName={room}
                 onRoomButtonClick={this.activateRoom}
                 activeRoom={this.props.activeRoom}
+                creatingRoom={this.props.creatingRoom}
             />    
         );
         return (
@@ -80,25 +126,20 @@ export class RoomNav extends Component {
         this.props.onRoomButtonClick(roomName);
     }
 
+    activateCreateRoom() {
+        this.props.onAddRoomButtonClick();
+    }
+
    render() {
         return (
             <div className="room-menu">
                 <div className="room-nav text-unselectable">
                     {this.roomList()}
                 </div>
-                <div className="room-menu-button">
-                    <FontAwesomeIcon className="plus-icon" icon="plus" />
-                </div>
-            </div>
-        );
-    }
-}
-
-export class addRoom extends Component {
-    render() {
-        return (
-            <div className="add-room-button">
-                
+                <AddRoomButton 
+                    creatingRoom={this.props.creatingRoom}
+                    onAddRoomButtonClick={this.activateCreateRoom}
+                />
             </div>
         );
     }
@@ -113,18 +154,44 @@ export class RoomButton extends Component {
         this.handleClick = this.handleClick.bind(this);
     }
     handleClick() {
-        this.props.onRoomButtonClick(this.props.roomName)
+        this.props.onRoomButtonClick(this.props.roomName);
     }
     render() {
         let selectedStatus = "unselected-button";
         //console.log("this: " + this.props.roomName + "| active: " + this.props.activeRoom)
-        if (this.props.activeRoom === this.props.roomName) {
+        if ((this.props.activeRoom === this.props.roomName) && (!this.props.creatingRoom)) {
             selectedStatus = "selected-button";
         }
         let classes = `${selectedStatus}`
         return (
             <div className={classes} onClick={(e) => this.handleClick(e)}>
                 {this.props.roomName}
+            </div>
+        );
+    }
+}
+
+export class AddRoomButton extends Component {
+    constructor(props) {
+        super(props);
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick() {
+        this.props.onAddRoomButtonClick();
+    }
+
+    render() {
+        let selectedStatus = "";
+
+        if (this.props.creatingRoom) {
+            selectedStatus = "selected-add-room-button";
+        }
+        let classes = `${selectedStatus}`
+
+        return (
+            <div className={classes + " " + "room-menu-button"} onClick={(e) => this.handleClick(e)}>
+                <FontAwesomeIcon className="plus-icon" icon="plus" />
             </div>
         );
     }

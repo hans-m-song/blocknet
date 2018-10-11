@@ -162,6 +162,7 @@ export class MainPage extends Component {
                         sendMessage={this.sendMessage}
                         messageHistory={this.props.messageHistory}
                         currentState={this.currentState}
+                        addRoom={this.props.addRoom}
                     />
                 </div>
             </div>
@@ -263,6 +264,7 @@ export class Content extends Component {
                         rooms={this.props.rooms}
                         sendMessage={this.sendMessage}
                         messageHistory={this.props.messageHistory}
+                        addRoom={this.props.addRoom}
                     />
                 );
             case "Messages":

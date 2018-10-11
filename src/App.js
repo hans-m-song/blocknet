@@ -78,6 +78,7 @@ class Backend extends Component {
         super(props);
         this.sendMessage = this.sendMessage.bind(this);
         this.claimTokens = this.claimMessageTokens.bind(this);
+        this.addRoom = this.addRoom.bind(this);
         this.rooms = ["Block Net", "Programming", "Gaming", "Random"];
     }
 
@@ -389,9 +390,20 @@ class Backend extends Component {
                     messageHistory={this.state.messageHistory}
                     currentState={this.state}
                     consoleActive={this.props.consoleActive}
+                    addRoom={this.addRoom}
                 />
             </div>
             );
+        }
+
+        /**
+         * Add a room to the backend's room registry
+         */
+        addRoom(data) {
+            //console.log(data);
+            //this.rooms.push(data);
+            this.rooms.push(data.roomName);
+            console.log(this.rooms);
         }
     }
 
@@ -425,6 +437,7 @@ class Backend extends Component {
                             sendMessage={this.props.sendMessage}
                             messageHistory={this.props.state.messageHistory}
                             currentState={this.props.state}
+                            addRoom={this.props.addRoom}
                         />
                         <ConsoleScreen 
                             currentState={this.props.state}

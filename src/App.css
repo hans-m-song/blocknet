@@ -458,12 +458,35 @@ content-page {
     cursor: pointer;
 }
 
+.room-menu-button:hover * {
+    background-color: white;
+    color: #14130a;
+}
+
+.room-menu-button:active .room-menu-button {
+    background-color : #14130a !important;
+    color: white !important;
+}
+
+.selected-add-room-button {
+    background-color: white;
+}
+
+.selected-add-room-button * {
+    background-color: white;
+    color: #14130a;
+}
+
 /*Styling for the plus icon for adding rooms*/
 .plus-icon {
 }
 
 .room-menu-button:hover .plus-icon {
     background-color: white;
+}
+
+.room-menu-button:hover path {
+    color : #14130a;
 }
 
 .room-nav {
