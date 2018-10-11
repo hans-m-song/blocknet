@@ -1,6 +1,32 @@
 <?php
 	require("inc/connectDB.php");
 	include("inc/sessionStart.php");
+
+	if (isset($_POST['form_submit'])) {
+		$form_name = test_input($_POST["nameInput"]);		
+		$form_email = test_input($_POST["emailInput"]);
+		$form_proficiency = test_input($_POST["proficiencySelect"]);
+		$form_interest = test_input($_POST["interestSelect"]);
+
+		try {
+			$stmt = $_SESSION['DBLink']->prepare("INSERT INTO InterestedParty (Name, Email, Proficiency, Interest) VALUES (:form_name, :form_email, :form_proficiency, :form_interest)");
+			$stmt->execute(array(':form_name' => $form_name,
+								':form_email' => $form_email,
+								'form_proficiency' => $form_proficiency,
+								'form_interest' => $form_interest
+								)
+							);
+		} catch (PDOException $ex) {
+			exit();
+		}
+	}
+
+	function test_input($data) {
+		$data = trim($data);
+		$data = stripslashes($data);
+		$data = htmlspecialchars($data);
+		return $data;
+	}
 ?>
 <!DOCTYPE html>
 <html>
@@ -150,7 +176,7 @@
             <h2>Team 8 Hearts 1 Beat</h2>
             <p>We're a group of 3rd year undergraduates at the University of Queensland. This project was undertaken under the course DECO3801 for our client Ben </p>
 			<h2>Express Your Interest</h2>
-			<form onsubmit="" method="post" action="inc/submission.php">
+			<form method="post" action="index.php">
 				<div class="form-groups">
 					<label for="nameInput">Name</label>
 					<input type="text" class="form-control" id="nameInput" name="nameInput" placeholder="Enter name">
@@ -180,7 +206,7 @@
 						<option value="5">I've developed Dapps and software around them</option>
 					</select>
 				</div>
-				<button type="button" onclick="submitForm()" class="btn btn-secondary">Submit</button>
+				<input type="submit" name="form_submit" class="btn btn-secondary">Submit</button>
 			</form>
 
         </div>

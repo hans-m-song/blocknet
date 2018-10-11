@@ -23,7 +23,7 @@ function submitForm() {
     const payload = formToString();
     console.log(payload);
 
-    urlEncodedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
+    var XHR = new XMLHttpRequest();
 
     XHR.addEventListener('load', function(event) {
         console.log('payload sent');

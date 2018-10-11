@@ -14,7 +14,7 @@
 		$form_interest = test_input($_POST["interestSelect"]);
 
 		try {
-			$stmt = $_SESSION["DBLink"]->prepare("INSERT INTO `InterestedParty` (`Name`, `Email`, `Proficiency`, `Interest`) VALUES (:form_name, :form_email, :form_proficiency, :form_interest);");
+			$stmt = $_SESSION["DBLink"]->prepare('INSERT INTO `InterestedParty` (`Name`, `Email`, `Proficiency`, `Interest`) VALUES (:form_name, :form_email, :form_proficiency, :form_interest);');
 			$stmt->execute(array(':form_name' => $form_name,
 								':form_email' => $form_email,
 								'form_proficiency' => $form_proficiency,
