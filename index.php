@@ -81,6 +81,8 @@
 			}
 
 			unset($_POST['form_submit']);
+            header("Location: index.php");
+
 	}
 
 	function test_input($data) {
@@ -254,7 +256,7 @@
 				<script type="IN/Share" data-url="https://8hearts1beat.uqcloud.net"></script>
 			</div>
 			<h4>Let us know about you</h4>
-			<form method="post" action="index.php">
+			<form method="post" action="">
 				<div class="form-groups">
 					<label for="nameInput">Name</label>
 					<input type="text" class="form-control" id="nameInput" name="nameInput" placeholder="Enter name">
@@ -266,7 +268,7 @@
 				<div class="form-groups">
 					<label for="proficiencySelect">What is your level of proficiency with technology?</label>
 						<ul class="likert">
-							<li class="likert"> Unfamiliar <input id="radProfStart" type="radio" name="Proficient" value="1" />
+							<li class="likert"> Unfamiliar <input id="radProfStart" type="radio" name="Proficient" value="1" required/>
 							<li class="likert"><input type="radio" name="Proficient" value="2" />
 							<li class="likert"><input type="radio" name="Proficient" value="3" />
 							<li class="likert"><input type="radio" name="Proficient" value="4" />
@@ -276,7 +278,7 @@
 				<div class="form-groups">
 					<label for="interestSelect">How familiar are you with blockchain technology?</label>
 						<ul class="likert">
-							<li class="likert"> Unfamiliar <input id="radBlkStart" type="radio" name="Familiar" value="1" />
+							<li class="likert"> Unfamiliar <input id="radBlkStart" type="radio" name="Familiar" value="1" required/>
 							<li class="likert"><input type="radio" name="Familiar" value="2" />
 							<li class="likert"><input type="radio" name="Familiar" value="3" />
 							<li class="likert"><input type="radio" name="Familiar" value="4" />
