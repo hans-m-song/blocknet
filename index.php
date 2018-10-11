@@ -138,19 +138,23 @@
 				</div>
 				<div class="col-md-8" id="ethereum-intro">
 						<h5><a id="intro-link" href="https://www.ethereum.org/">Ethereum</a></h5>
-						<p>Our application is utilizes one of the most popular Blockchain platforms available: Ethereum which provides a
-							digital ledger of all actions taken.
-							It is highly secure with a Hybrid Proof of Work/Stake system and completely annonymous
-							Our app utilizes the Ethereum Virtual Machine to deploy smart contracts (Dapps), written in Ethereum's custom
-							language <a id="intro-link" href="https://solidity.readthedocs.io/">Solidity</a> onto the blockchain and to
-							interact with deployed contracts.
+						<p>
+							An open-source, public, blockchain-based distributed computing platform.
+							Their highly secure verification and econonomy system means anything that shouldn't be touched by unauthorized users will not be.
+							In addition, they provide scripting functionality through Smart Contracts (or Dapps) which acts directly on the blockchain.
+							This is where our most sensitive data is stored. 
 						</p>
 				</div>
 			</div>
 				<div id="ipfs-row" class="row justify-content-center no-gutters">
 				<div class="col-md-8" id="ipfs-intro">
-						<h5><a id="intro-link" href="https://ipfs.io/">IPFS</a></h5>
-						<p></p>
+						<h5><a id="intro-link" href="https://ipfs.io/">IPFS (Inter-Planetary File System)</a></h5>
+						<p>
+							One major drawback of using the Ethereum blockchain is the verification time for creating each block (around 17 seconds).
+							To get around having to wait for each new block to retrieve messages and avoid the transaction cost of each message, 
+							messages are stored in IPFS repositories which provide a distributed storage solution, providing both data redundancy and annonymity.
+							Additionally, users can create their own 
+						</p>
 						</div>
 				<div class="col-md-4" class="logo-container">
 					<embed id="ipfs-logo" type="image/svg+xml" src="src/ipfs-logo.svg">

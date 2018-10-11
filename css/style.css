@@ -155,16 +155,16 @@ form > .form-groups {
 
 #ethereum-intro, #ipfs-intro {
   padding: 10px;
+  font-size: 1.5rem;
+  background-color: rgb(49, 49, 49);
   text-align: justify;
 }
 
 #ethereum-intro {
-  background-color: rgb(68, 68, 68);
   margin-left: 10px;
 }
 
 #ipfs-intro {
-  background-color: rgb(12, 58, 80);
   margin-right: 10px;
 }
 
