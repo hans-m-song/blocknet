@@ -48,25 +48,28 @@
     <title>Block Net</title> 
 
 <body>
-    <div class="header navbar-fixed-top" style="padding-bottom:0px; padding-top:5px;">
-        <div>
-			<h1 class="title">Block Net<span id="box"></span></h1>
 			
+	<div class="header navbar-fixed-top">
+        <div>
+			<h1 class="title">Block<span id="logo-holder">
+				<img id="logo" src="src/console_active.png">
+			</span>Net</h1>
         </div>
 
         <nav class="nav header-nav ">
-            <a class="nav-item btn" href="index.php#blocknet">About Block Net</a>
-            <a class="nav-item btn" href="index.php#demo">Demonstration</a>
-            <a class="nav-item btn" href="index.php#blockchain">The Blockchain</a>
-            <a class="nav-item btn" href="index.php#about">About Us</a>
+            <a class="nav-item btn" href="#blocknet">About Block Net</a>
+            <a class="nav-item btn" href="#demo">Demonstration</a>
+            <a class="nav-item btn" href="#blockchain">The Blockchain</a>
+            <a class="nav-item btn" href="#about">About Us</a>
         </nav>
 
     </div>
     
-    <div class="jumbotron" id="box"></div>
     <!--Will try to do some fancy scrolling, and adding 'links' to make a chain, etc with this stuff-->
     <!--Another idea is to have a '...' dialogue box that suggests someones about to send a message, is a button and creates new box and centres on it, kinda like how messaging in video games works-->
+	<div class="container-fluid content">
     <div class="centre">
+		<div class="padding"></div>
         <div id="blocknet" class="carousel-container">
             <h2>About Block Net</h2>
 			<div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -129,53 +132,32 @@
         </div>
 		<div id="blockchain" class="blockchain-cards">
 			<h2> The Blockchain </h2>
-				<div class="grid-container">
-					<div class="flip-card">
-						<div class="flip-card-inner">
-							<div class="flip-card-front">
-								<h2>1</h2>
+			<div class="row">
+				<div class="col-md-4" class="logo-container">
+					<embed id="ethereum-logo" type="image/svg+xml" src="https://upload.wikimedia.org/wikipedia/commons/0/05/Ethereum_logo_2014.svg">
 							</div>
-							<div class="flip-card-back">
-								<h2>2</h2>
+				<div class="col-md-8" id="ethereum-intro">
+					test
 							</div>
+							</div>
+			<div class="row">
+				<div class="col-md-8" id="ipfs-intro">
+					test
 						</div>
-					</div>
-					<div class="flip-card">
-						<div class="flip-card-inner">
-							<div class="flip-card-front">
-								<h2>3</h2>
-							</div>
-							<div class="flip-card-back">
-								<h2>4</h2>
-							</div>
-						</div>
-					</div>
-					<div class="flip-card">
-						<div class="flip-card-inner">
-							<div class="flip-card-front">
-								<h2>5</h2>
-							</div>
-							<div class="flip-card-back">
-								<h2>6</h2>
-							</div>
-						</div>
-					</div>
-					<div class="flip-card">
-						<div class="flip-card-inner">
-							<div class="flip-card-front">
-								<h2>7</h2>
-							</div>
-							<div class="flip-card-back">
-								<h2>8</h2>
-							</div>
-						</div>
+				<div class="col-md-4" class="logo-container">
+					<embed id="ipfs-logo" type="image/svg+xml" src="src/ipfs-logo.svg">
 					</div>
 				</div>
+
 		</div>
         <div id="about" class="about-us">
             <h2>Team 8 Hearts 1 Beat</h2>
             <p>We're a group of 3rd year undergraduates at the University of Queensland. This project was undertaken under the course DECO3801 for our client Ben </p>
 			<h2>Express Your Interest</h2>
+			<div class="social-media">
+			<div id="fb-root"></div>
+			<div class="fb-like" data-href="https://8hearts1beat.uqcloud.net/" data-layout="button" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+			</div>
 			<form method="post" action="index.php">
 				<div class="form-groups">
 					<label for="nameInput">Name</label>
@@ -185,7 +167,7 @@
 					<label for="emailInput">Email</label>
 					<input type="text" class="form-control" id="emailInput" name="emailInput" placeholder="Enter email">
 				</div>
-				<div class="form-group">
+				<div class="form-groups">
 					<label for="proficiencySelect">What is your level of proficiency with technology?</label>
 					<select class="form-control" id="proficiencySelect" name="proficiencySelect">
 						<option value="1">I use a computer sometimes</option>
@@ -196,7 +178,7 @@
 						<option value="6">I can use regex on HTML</option>
 					</select>
 				</div>
-				<div class="form-group">
+				<div class="form-groups">
 					<label for="interestSelect">How familiar are you with blockchains?</label>
 					<select class="form-control" id="interestSelect" name="interestSelect">
 						<option value="1">What's a blockchain?</option>
@@ -206,15 +188,16 @@
 						<option value="5">I've developed Dapps and software around them</option>
 					</select>
 				</div>
-				<input type="submit" name="form_submit" class="btn btn-secondary">
+				<input id="submission" type="submit" name="form_submit" class="btn btn-secondary">
 			</form>
 
         </div>
     </div>
-    <footer>
+
+    <div class="footer">
         <p>8 Hearts 1 Beat, 2018 | DECO3801 | <a href="metrics.php" id="metrics">Metrics</a></p>
-		
-    </footer>
+	</div>
+	</div>
 </body>
 
 </html>
