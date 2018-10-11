@@ -123,7 +123,7 @@ form > .form-groups {
 }
 
 #logo {
-  background-image: url("../src/console_active.png");
+  background-image: url("../blocknet-logo.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
