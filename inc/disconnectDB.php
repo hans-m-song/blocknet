@@ -1,3 +1,3 @@
 <?php 
-    $_SESSION["DBLink"] = null;
+    $db = null;
 ?>

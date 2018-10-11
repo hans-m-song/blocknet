@@ -2,22 +2,55 @@
 	require("inc/connectDB.php");
 	include("inc/sessionStart.php");
 
-	if (isset($_POST['form_submit'])) {
-		$form_name = test_input($_POST["nameInput"]);		
-		$form_email = test_input($_POST["emailInput"]);
-		$form_proficiency = test_input($_POST["proficiencySelect"]);
-		$form_interest = test_input($_POST["interestSelect"]);
-
+	static $recorded = false;
+	if(!$recorded) {
 		try {
-			$stmt = $db->prepare("INSERT INTO InterestedParty (Name, Email, Proficiency, Interest) VALUES (:form_name, :form_email, :form_proficiency, :form_interest)");
-			$stmt->execute(array(':form_name' => $form_name,
-								':form_email' => $form_email,
-								'form_proficiency' => $form_proficiency,
-								'form_interest' => $form_interest
-								)
-							);
+                $date = date("Y-m-d");
+                $stmt = $db->prepare("UPDATE WebsiteMetrics SET Visits = Visits + 1 WHERE day = :day");
+                $stmt->execute(array(':day' => $date));
+            if($stmt->rowCount() == 0) {
+                $date = date("Y-m-d");
+                $stmt = $db->prepare("INSERT INTO WebsiteMetrics (Day, Visits, Submissions) VALUES (:day, :visits, :submissions)");
+                $stmt->execute(array(':day' => $date,
+                                    ':visits' => 1,
+                                    ':submissions' => 0
+                                    )
+                                );
+			}
+			$recorded = true;
 		} catch (PDOException $ex) {
 			exit();
+		}
+	}
+
+    static $submitted = false;
+	if (isset($_POST['form_submit'])) {
+		if(!$submitted) {
+			$form_name = test_input($_POST["nameInput"]);		
+			$form_email = test_input($_POST["emailInput"]);
+			$form_proficiency = test_input($_POST["proficiencySelect"]);
+			$form_interest = test_input($_POST["interestSelect"]);
+
+			try {
+				$stmt = $db->prepare("INSERT INTO InterestedParty (Name, Email, Proficiency, Interest) VALUES (:form_name, :form_email, :form_proficiency, :form_interest)");
+				$stmt->execute(array(':form_name' => $form_name,
+									':form_email' => $form_email,
+									':form_proficiency' => $form_proficiency,
+									':form_interest' => $form_interest
+									)
+								);
+			} catch (PDOException $ex) {
+				exit();
+			}
+
+			try {
+				$date = date("Y-m-d");
+				$stmt = $db->prepare("UPDATE WebsiteMetrics SET Submissions = Submissions + 1 WHERE day = :day");
+				$stmt->execute(array(':day' => $date));
+			} catch (PDOException $ex) {
+				exit();
+			}
+			$submitted = true;
 		}
 	}
 

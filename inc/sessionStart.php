@@ -1,10 +1,10 @@
 <?php
 session_start();
 //include("inc/logDBerror.php");    // Function definition for any DB calls
-/*
+
 // php error logging directives (changes the state in the current PHP runtime/process only, it does not set the ini file)
-ini_set("display_errors", 0);           // Don't display errors...
-ini_set("log_errors", 1);               // but log them...
+ini_set("display_errors", 1);           // display errors...
+ini_set("log_errors", 1);               // log them...
 ini_set("error_log", "phpErrors.log");  // here
 
 // Disable all attacks on session variables through GET and POST requests
@@ -22,5 +22,5 @@ if ($rg || $rg=="") {
       unset($GLOBALS[$key]);
     }
   }
-}*/
+}
 ?>

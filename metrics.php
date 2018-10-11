@@ -16,6 +16,8 @@
 	//  "groups" — a list of AD and LDAP groups the user is a member of
 		$UQ = auth_get_payload();
 	}
+
+	
 ?>
 
 <!DOCTYPE html>
