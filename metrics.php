@@ -30,9 +30,9 @@
 
     static $days = array();
     $current_day = date('Y-m-d');
-    for($i = 0; $i < 7; $i++) {
+    for($i = 1; $i <= 7; $i++) {
     	$days[] = $current_day;
-    	$current_day = date('Y-m-d', strtotime("-1 days"));
+    	$current_day = date('Y-m-d', strtotime("-". $i ." days"));
     }
 
     echo "<script>var days = ". json_encode($days) .";</script>";
@@ -52,7 +52,11 @@
         }
 
         foreach($days as $day) {
-
+        	$stmt = $db->prepare("SELECT * FROM WebsiteMetrics WHERE Day = {$day}");
+            $stmt->execute();
+            $result = $stmt->fetch();
+            echo "<script>alert(". $result .");</script>";
+            return $result;
         }
 
 	echo "<script>var proficient_data = ". json_encode($proficient_data) .";</script>";
