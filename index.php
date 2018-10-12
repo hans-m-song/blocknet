@@ -1,3 +1,97 @@
+<?php
+	require("inc/connectDB.php");
+	include("inc/sessionStart.php");
+
+	static $recorded = false;
+	if(!$recorded) {
+		try {
+                $date = date("Y-m-d");
+                $stmt = $db->prepare("UPDATE WebsiteMetrics SET Visits = Visits + 1 WHERE day = :day");
+                $stmt->execute(array(':day' => $date));
+            if($stmt->rowCount() == 0) {
+                $date = date("Y-m-d");
+                $stmt = $db->prepare("INSERT INTO WebsiteMetrics (Day, Visits, Submissions) VALUES (:day, :visits, :submissions)");
+                $stmt->execute(array(':day' => $date,
+                                    ':visits' => 1,
+                                    ':submissions' => 0
+                                    )
+                                );
+			}
+			$recorded = true;
+		} catch (PDOException $ex) {
+			exit();
+		}
+	}
+
+	if (isset($_POST['form_submit'])) {
+
+        $form_name = "";
+        if(isset($_POST['nameInput'])) {
+			$form_name = test_input($_POST["nameInput"]);
+            unset($_POST['nameInput']);	
+        }	
+
+        $form_email = "";
+        if(isset($_POST['emailInput'])) {
+			$form_email = test_input($_POST["emailInput"]);
+            unset($_POST['emailInput']);
+        }
+
+        $form_proficient = "";
+        if(isset($_POST['Proficient'])) {
+			$form_proficient = test_input($_POST["Proficient"]);
+            unset($_POST['Proficient']);
+        }
+
+        $form_familiar = "";
+        if(isset($_POST['Familiar'])) {
+			$form_familiar = test_input($_POST["Familiar"]);
+            unset($_POST['Familiar']);
+        }
+
+        $form_features = "";
+        if(isset($_POST['fav-feature'])) {
+            $favs = $_POST["fav-feature"];
+
+            foreach($favs as $fav) {
+                $form_features .= $fav . " ";
+            }
+            unset($_POST['fav-feature']);
+        }
+
+			try {
+				$stmt = $db->prepare("INSERT INTO InterestedParty (Name, Email, Proficient, Familiar, Features) VALUES (:form_name, :form_email, :form_proficient, :form_familiar, :form_features)");
+				$stmt->execute(array(':form_name' => $form_name,
+									':form_email' => $form_email,
+									':form_proficient' => $form_proficient,
+									':form_familiar' => $form_familiar,
+                                    ':form_features' => $form_features
+									)
+								);
+			} catch (PDOException $ex) {
+				exit();
+			}
+
+			try {
+				$date = date("Y-m-d");
+				$stmt = $db->prepare("UPDATE WebsiteMetrics SET Submissions = Submissions + 1 WHERE day = :day");
+				$stmt->execute(array(':day' => $date));
+			} catch (PDOException $ex) {
+				exit();
+			}
+
+			unset($_POST['form_submit']);
+            header("Location: index.php");
+
+	}
+
+	function test_input($data) {
+		$data = trim($data);
+		$data = stripslashes($data);
+		$data = htmlspecialchars($data);
+		return $data;
+	}
+?>
 <!DOCTYPE html>
 <html>
 
