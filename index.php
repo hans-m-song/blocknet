@@ -114,11 +114,11 @@
 <body>
 			
 	<div class="header navbar-fixed-top">
-        <div>
-			<h1 class="title">Block<span id="logo-holder">
-				<img id="logo" src="src/console_active.png">
-			</span>Net</h1>
-		</div>
+	<a href="index.php" id="header-logo">
+            <h1 class="title">Block<span id="logo-holder">
+                <img id="logo" src="src/console_active.png">
+            </span>Net</h1>
+        </a>
 		
 		<button type="button" class="navbar-toggle navbar-toggle-dark collapsed glyphicon glyphicon-menu-hamburger" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></button>
 
