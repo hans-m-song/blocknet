@@ -38,9 +38,9 @@
         }
 
         $form_age = "";
-        if(isset($_POST['ageGroup'])) {
-			$form_age = test_input($_POST["ageGroup"]);
-            unset($_POST['ageGroup']);
+        if(isset($_POST['ageBracket'])) {
+			$form_age = test_input($_POST["ageBracket"]);
+            unset($_POST['ageBracket']);
         }
 
         $form_proficient = "";
