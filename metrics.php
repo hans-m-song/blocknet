@@ -35,6 +35,7 @@
     	$current_day = date('Y-m-d', strtotime("-". $i ." days"));
     }
 
+    $days = array_reverse($days);
     echo "<script>var days = ". json_encode($days) .";</script>";
 
     try {
@@ -52,7 +53,7 @@
         }
 
         foreach($days as $day) {
-        	$stmt = $db->prepare("SELECT * FROM WebsiteMetrics WHERE Day = {$day}");
+        	$stmt = $db->prepare("SELECT * FROM WebsiteMetrics WHERE Day = '{$day}'");
             $stmt->execute();
             $result = $stmt->fetch();
             $visit = $result["Visits"];
@@ -61,13 +62,12 @@
             $submissions_data[] = $submission;
         }
 
-
-            	echo "<script>alert(". $visits_data .");</script>";
-
 	echo "<script>var proficient_data = ". json_encode($proficient_data) .";</script>";
 	echo "<script>var familiar_data = ". json_encode($familiar_data) .";</script>";
 	echo "<script>var features_data = ". json_encode($features_data) .";</script>";
 	echo "<script>var age_data = ". json_encode($age_data) .";</script>";
+	echo "<script>var visits_data = ". json_encode($visits_data) .";</script>";
+	echo "<script>var submissions_data = ". json_encode($submissions_data) .";</script>";
 
 
     } catch(PDOException $ex) {

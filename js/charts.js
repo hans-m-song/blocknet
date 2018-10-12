@@ -144,7 +144,7 @@ var myChart = new Chart(ctx, {
         labels: days,
         datasets: [{
             label: 'Number of visits per day',
-            data: [2, 2, 2, 2, 2, 2],//visits_data,
+            data: visits_data,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -184,7 +184,7 @@ var myChart = new Chart(ctx, {
         labels: days,
         datasets: [{
             label: 'Number of submissions per day',
-            data: [2, 2, 2, 2, 2, 2],//submissions_data,
+            data: submissions_data,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
