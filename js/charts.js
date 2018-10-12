@@ -141,7 +141,7 @@ var ctx = document.getElementById("myChart4").getContext('2d');
 var myChart = new Chart(ctx, {
     type: 'line',
     data: {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        labels: days,
         datasets: [{
             label: 'Number of visits per day',
             data: visits_data,
@@ -181,7 +181,7 @@ var ctx = document.getElementById("myChart5").getContext('2d');
 var myChart = new Chart(ctx, {
     type: 'line',
     data: {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        labels: days,
         datasets: [{
             label: 'Number of submissions per day',
             data: submissions_data,
