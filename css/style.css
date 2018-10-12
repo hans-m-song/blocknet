@@ -65,7 +65,7 @@ body {
 }
 
 .centre {
-  width : 40vw;
+  width : 50vw;
   margin : auto;
 }
 
@@ -73,6 +73,16 @@ body {
   width: 80vw;
   background-color: rgb(20, 20, 20);
   box-shadow: 0  0 5px 5px #161616;
+}
+
+.section {
+  /*min-height : 90vh;*/
+  padding-bottom: 50px;
+}
+
+.white {
+  background-color : white;
+  color : black;
 }
 
 .carousel-container {

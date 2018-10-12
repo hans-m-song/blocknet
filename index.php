@@ -136,8 +136,8 @@
 	<div class="container-fluid content">
     <div class="centre">
 		<div class="padding"></div>
-        <div id="blocknet" class="carousel-container">
-            <h2>About Block Net</h2>
+        <div id="blocknet" class="carousel-container section">
+            <h2>What is Block Net?</h2>
 			<div id="myCarousel" class="carousel slide" data-ride="carousel">
 				<ol class="carousel-indicators">
 					<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -185,15 +185,15 @@
 				</a>
 			</div>
         </div>
-        <div id="demo" class="mvp-video">
-            <h2>Demonstration</h2>
+        <div id="demo" class="mvp-video section">
+            <h2>Video Demonstration</h2>
 				<div class="video-frame">
 				<iframe width="560" height="315" src="https://www.youtube.com/embed/FBGG9YmHcwo" frameborder="0" allow="autoplay; encrypted-media"
                 allowfullscreen></iframe>
 			</div>
         </div>
-		<div id="blockchain" class="blockchain-cards">
-			<h2> The Blockchain </h2>
+		<div id="blockchain" class="blockchain-cards section">
+			<h2>The Technology</h2>
 				<div class="row justify-content-center no-gutters">
 					<div class="col-md-4 tech-logo-container">
 						<embed class="tech-logo" type="image/svg+xml" src="https://upload.wikimedia.org/wikipedia/commons/0/05/Ethereum_logo_2014.svg">
@@ -229,34 +229,24 @@
 				</div>
 
 		</div>
-        <div id="about" class="about-us">
+        <div id="about" class="about-us section">
             <h2>Team 8 Hearts 1 Beat</h2>
-            <p>We're a group of 3rd year undergraduates at the University of Queensland. This project was undertaken under the course DECO3801 for our client Ben </p>
-			<h2>Express Your Interest</h2>
-			<h4>Let people know about us</h4>
-			<div class="social-media">
-				<iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2F8hearts1beat.uqcloud.net&width=96&layout=button&action=like&size=small&show_faces=true&share=true&height=65&appId=206978356552149" 
-					width="96" height="20" 
-					style="border:none;overflow:hidden" 
-					scrolling="no" 
-					frameborder="0" allowTransparency="true" 
-					allow="encrypted-media">
-				</iframe>
-	
-				<a 
-					href="https://twitter.com/share?ref_src=twsrc%5Etfw" 
-					class="twitter-share-button" 
-					data-show-count="false"
-					data-text="Check out Block Net! A serverless, blockchain based forum"
-					data-url="https://8hearts1beat.uqcloud.net"
-					data-hashtags="blockchain,ethereum,ipfs,forum">
-					Tweet
-				</a>
-				<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-				<script src="https://platform.linkedin.com/in.js" type="text/javascript"> lang: en_US</script>
-				<script type="IN/Share" data-url="https://8hearts1beat.uqcloud.net"></script>
-			</div>
+			<p>Team 8 Hearts 1 Beat is a group of 3rd year undergraduates at the University of Queensland. The team was formed for the purpose of this project which is being undertaken as part of the DECO3801 Design Studio 3 course.</p>
+			<p>Block Net is being completed for our industry client Ben Rose of <a href="http://mindfire.io/">Mindfire Design and Development</a>.</p>
+			<p>Team members:</p>
+			<ul>
+				<li>Hans Song</li>
+				<li>Asher Leung</li>
+				<li>Bodhi Howe</li>
+				<li>Craig Harvey</li>
+				<li>Hernan Isaac Ocana Flores</li>
+				<li>Yuki Nakazawa</li>
+				<li>Simon Curtis</li>
+				<li>James Fechner</li>
+			</ul>
+		</div>
+		<div id="register-interest" class="register-interest section">
+			<h2>Register Your Interest</h2>
 			<h4>Let us know about you</h4>
 			<form method="post" action="">
 				<div class="form-groups">
@@ -312,7 +302,32 @@
 				</div>
 				<input id="submission" type="submit" name="form_submit" class="btn btn-secondary">
 			</form>
+		</div>
+		<div id="social-media" class="social-media section">
+			<h4>Let people know about us</h4>
+			<div class="social-media">
+				<iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2F8hearts1beat.uqcloud.net&width=96&layout=button&action=like&size=small&show_faces=true&share=true&height=65&appId=206978356552149" 
+					width="96" height="20" 
+					style="border:none;overflow:hidden" 
+					scrolling="no" 
+					frameborder="0" allowTransparency="true" 
+					allow="encrypted-media">
+				</iframe>
+	
+				<a 
+					href="https://twitter.com/share?ref_src=twsrc%5Etfw" 
+					class="twitter-share-button" 
+					data-show-count="false"
+					data-text="Check out Block Net! A serverless, blockchain based forum"
+					data-url="https://8hearts1beat.uqcloud.net"
+					data-hashtags="blockchain,ethereum,ipfs,forum">
+					Tweet
+				</a>
+				<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
+				<script src="https://platform.linkedin.com/in.js" type="text/javascript"> lang: en_US</script>
+				<script type="IN/Share" data-url="https://8hearts1beat.uqcloud.net"></script>
+			</div>
         </div>
     </div>
 
