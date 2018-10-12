@@ -114,6 +114,19 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-md-6">
+                <div class="chart-container">
+                    <canvas id="myChart5" width="400" height="400" float: left></canvas>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="chart-container">
+                    <canvas id="myChart6" width="400" height="400" float: left></canvas>
+                </div>
+            </div>
+        </div>
+
     <script type="text/javascript" src="js/charts.js"></script>
 
     <div class="footer">
