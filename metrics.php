@@ -87,6 +87,7 @@
         </a>
     </div>
     <div class="container content">
+    <div class="padding"></div>
     <h1 style="text-align: center;">Site Statistics</h1> 
         <div class="row">
             <div class="col-md-6">

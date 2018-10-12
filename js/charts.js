@@ -144,7 +144,7 @@ var myChart = new Chart(ctx, {
         labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
         datasets: [{
             label: 'Number of visits per day',
-            data: [12, 19, 3, 5, 2, 3],
+            data: visits_data,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -176,15 +176,15 @@ var myChart = new Chart(ctx, {
 });
 
 
-//var submissions = <?php echo json_encode($submissions_data); ?>;
+//var submissions_data = <?php echo json_encode($submissions_data); ?>;
 var ctx = document.getElementById("myChart5").getContext('2d');
 var myChart = new Chart(ctx, {
     type: 'line',
     data: {
         labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
         datasets: [{
-            label: 'Number of visits per day',
-            data: [12, 19, 3, 5, 2, 3],
+            label: 'Number of submissions per day',
+            data: submissions_data,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -219,12 +219,12 @@ var myChart = new Chart(ctx, {
 //var age_data = <?php echo json_encode($age_data); ?>;
 var ctx = document.getElementById("myChart6").getContext('2d');
 var myChart = new Chart(ctx, {
-    type: 'line',
+    type: 'bar',
     data: {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        labels: ["No answer", "12-17", "18-24", "25-34", "35-44", "45-54", "55-64", "65+"],
         datasets: [{
-            label: 'Number of visits per day',
-            data: [12, 19, 3, 5, 2, 3],
+            label: 'Age of participants',
+            data: age_data,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
