@@ -41,7 +41,7 @@
 
     function retrieveDB($db, $table, $col, $value) {
         try {
-            $stmt = $db->prepare("SELECT COUNT({$col}) FROM ${table} WHERE {$col} LIKE %{$value}%");
+            $stmt = $db->prepare("SELECT COUNT({$col}) FROM ${table} WHERE {$col} LIKE '%{$value}%'");
             $stmt->execute();
             $result = $stmt->fetchColumn();
             return $result;

@@ -1,4 +1,4 @@
-
+var proficient_data = <?php echo json_encode($proficient_data); ?>;
 var ctx = document.getElementById("myChart").getContext('2d');
 var myChart = new Chart(ctx, {
     type: 'bar',
@@ -9,7 +9,8 @@ var myChart = new Chart(ctx, {
 		display: false,
 		text:'Number of people Profient with Technology at a paricular Level'
 	    },
-            data: [12, 19, 3, 5, 2],
+            label: '# of Votes',
+            data: proficient_data,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -32,7 +33,7 @@ var myChart = new Chart(ctx, {
     options: {
 	title: {
             display: true,
-            text: 'Number of people Profient with Technology at a paricular Level'
+            text: 'Number of people Proficient with Technology at a particular Level'
         },
 	legend: {
         display: false
@@ -47,15 +48,16 @@ var myChart = new Chart(ctx, {
     }
 });
 
+var familiar_data = <?php echo json_encode($familiar_data); ?>;
 var ctx = document.getElementById("myChart2").getContext('2d');
 var myChart = new Chart(ctx, {
     type: 'bar',
-    titel: 'a title',
+    title: 'a title',
     data: {
-        labels: ["Unfamiliar", "Novice", "Medium", "Proficiant", "Knowledgable"],
+        labels: ["Unfamiliar", "Novice", "Medium", "Proficient", "Knowledgeable"],
         datasets: [{
             label: '# of Votes',
-            data: [12, 19, 3, 5, 2],
+            data: familiar_data,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -78,7 +80,7 @@ var myChart = new Chart(ctx, {
     options: {
 	title: {
             display: true,
-            text: 'Number of people Profient with BlockChain at a paricular Level'
+            text: 'Number of people Familiar with BlockChain at a particular Level'
         },
 	legend: {
         display: false
@@ -93,6 +95,7 @@ var myChart = new Chart(ctx, {
     }
 });
 
+var features_data = <?php echo json_encode($features_data); ?>;
 var ctx = document.getElementById("myChart3").getContext('2d');
 var myChart = new Chart(ctx, {
     type: 'pie',
@@ -104,7 +107,7 @@ var myChart = new Chart(ctx, {
 		display: false,
 		text:'Number of people Profient with Technology at a paricular Level'
 	    },
-            data: [12, 19, 3, 5, 2],
+            data: features_data,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
