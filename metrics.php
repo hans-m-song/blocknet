@@ -112,11 +112,6 @@
             </div>
         </div>
 
-<<<<<<< Updated upstream
-    </div>
-
-<script type="text/javascript" src="js/charts.js"></script>
-=======
     <script type="text/javascript" src="js/charts.js"></script>
 
     <div class="footer">
@@ -124,7 +119,6 @@
 	</div>
 
     </div>
->>>>>>> Stashed changes
 
 </body>
 
