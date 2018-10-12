@@ -85,16 +85,6 @@
                 <img id="logo" src="src/console_active.png">
             </span>Net</h1>
         </a>
-        
-        <button type="button" class="navbar-toggle navbar-toggle-dark collapsed glyphicon glyphicon-menu-hamburger" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></button>
-
-        <nav class="nav header-nav collapse navbar-collapse" id="navbar-collapse">
-            <a class="nav-item btn" href="index.php#blocknet">About Block Net</a>
-            <a class="nav-item btn" href="index.php#demo">Demonstration</a>
-            <a class="nav-item btn" href="index.php#blockchain">The Blockchain</a>
-            <a class="nav-item btn" href="index.php#about">About Us</a>
-        </nav>
-
     </div>
     <div class="container content">
     <h1 style="text-align: center;">Site Statistics</h1> 
@@ -117,6 +107,11 @@
                     <canvas id="myChart3" width="400" height="400" float: left></canvas>
                 </div>
             </div>
+            <div class="col-md-6">
+                <div class="chart-container">
+                    <canvas id="myChart4" width="400" height="400" float: left></canvas>
+                </div>
+            </div>
         </div>
 
     <script type="text/javascript" src="js/charts.js"></script>
@@ -124,8 +119,6 @@
     <div class="footer">
         <p>8 Hearts 1 Beat, 2018 | DECO3801 | <a href="index.php" id="home-footer">Home</a></p>
 	</div>
-
-    </div>
 
 </body>
 
