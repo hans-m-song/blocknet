@@ -55,7 +55,6 @@
         	$stmt = $db->prepare("SELECT * FROM WebsiteMetrics WHERE Day = {$day}");
             $stmt->execute();
             $result = $stmt->fetchColumn(1);
-            echo "<script>alert(". $result .");</script>";
         }
 
 	echo "<script>var proficient_data = ". json_encode($proficient_data) .";</script>";
