@@ -217,20 +217,33 @@
 						</p>
 				</div>
 			</div>
-				<div class="row justify-content-center no-gutters">
+			<div class="row justify-content-center no-gutters">
+				<div class="col-md-4 tech-logo-container">
+					<embed class="tech-logo" type="image/svg+xml" src="src/ipfs-logo.svg">
+				</div>
+				<div class="col-md-8 tech-intro">
+					<h5><a class="intro-link" href="https://ipfs.io/">IPFS (Inter-Planetary File System)</a></h5>
+					<p>
+						One major drawback of using the Ethereum blockchain is the verification time for creating each block (around 17
+						seconds).
+						To get around having to wait for each new block to retrieve messages and avoid the transaction cost of each
+						message,
+						messages are stored in IPFS repositories which provide a distributed storage solution, providing both data
+						redundancy and annonymity.
+						Additionally, users can create their own 
+					</p>
+					</div>
+			</div>
+			<div class="row justify-content-center no-gutters">
 					<div class="col-md-4 tech-logo-container">
-						<embed class="tech-logo" type="image/svg+xml" src="src/ipfs-logo.svg">
+						<img class="tech-logo" src="blocknet-logo.png">
 					</div>
 					<div class="col-md-8 tech-intro">
-						<h5><a class="intro-link" href="https://ipfs.io/">IPFS (Inter-Planetary File System)</a></h5>
+						<h5><a class="intro-link" href="https://ipfs.io/">Block Net</a></h5>
 						<p>
-							One major drawback of using the Ethereum blockchain is the verification time for creating each block (around 17
-							seconds).
-							To get around having to wait for each new block to retrieve messages and avoid the transaction cost of each
-							message,
-							messages are stored in IPFS repositories which provide a distributed storage solution, providing both data
-							redundancy and annonymity.
-							Additionally, users can create their own 
+							Our application provides a client-based communication solution in which the users can decide how they want their experience.
+							Each room is unique with its own smart contract deployed onto the blockchain and with your messages store in IPFS repositories,
+							you don't need to worry about your messages going missing.
 						</p>
 						</div>
 				</div>
