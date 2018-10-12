@@ -174,6 +174,19 @@
 					<input type="text" class="form-control" id="emailInput" name="emailInput" placeholder="Enter email">
 				</div>
 				<div class="form-groups">
+					<label for="ageGroup">Age group</label>
+						<select name="Age">
+						<option value="12" name="ageGroup">12-17</option>
+						<option value="18" name="ageGroup">18-24</option>
+						<option value="25" name="ageGroup">25-34</option>
+						<option value="35" name="ageGroup">35-44</option>
+						<option value="45" name="ageGroup">45-54</option>
+						<option value="55" name="ageGroup">55-64</option>
+						<option value="65" name="ageGroup">65+</option>
+						<option value="noanswer" name="ageGroup">Prefer not to answer</option>
+					</select> 
+				</div>
+				<div class="form-groups">
 					<label for="proficiencySelect">What is your level of proficiency with technology?</label>
 						<ul class="likert">
 							<li class="likert"> Unfamiliar <input id="radProfStart" type="radio" name="Proficient" value="1" required/>
