@@ -146,6 +146,11 @@ form > .form-groups {
   padding-top: 40px;
 }
 
+#header-logo {
+  color : white;
+  text-decoration: none;
+}
+
 #logo-holder {
   height: 30px;
   width: 30px;
