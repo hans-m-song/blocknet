@@ -23,35 +23,28 @@
     static $visits_data = array();
     static $submissions_data = array();
 
-	retrieveFamiliar();
+    $likert_options = array("1", "2", "3", "4", "5");
+    $features = array("data", "tech", "friends", "community", "learn");
 
+    try {
+        foreach($likert_options as $option) {
+            $proficient_data[] = retrieveDB($db, "InterestedParty", "Proficient", $option);
+            $familiar_data[] = retrieveDB($db, "InterestedParty", "Familiar", $option);
+        }
+        foreach($features as $feature) {
+        	$features_data[] = retrieveDB($db, "InterestedParty", "Features", $feature);
+        }
+    } catch(PDOException $ex) {
+        error_log($ex->getMessage());
+        exit();
+    }
 
-    function retrieveFamiliar() {
+    function retrieveDB($db, $table, $col, $value) {
         try {
-            $stmt = $db->prepare("SELECT COUNT(Familiar) FROM InterestedParty WHERE Familiar = 1;");
+            $stmt = $db->prepare("SELECT COUNT({$col}) FROM ${table} WHERE {$col} LIKE %{$value}%");
             $stmt->execute();
-            $result = $stmt->fetch();
-            $familiar_data[] = $result;
-
-            $stmt = $db->prepare("SELECT COUNT(Familiar) FROM InterestedParty WHERE Familiar = 2;");
-            $stmt->execute();
-            $result = $stmt->fetch();
-            $familiar_data[] = $result;
-
-            $stmt = $db->prepare("SELECT COUNT(Familiar) FROM InterestedParty WHERE Familiar = 3;");
-            $stmt->execute();
-            $result = $stmt->fetch();
-            $familiar_data[] = $result;
-
-            $stmt = $db->prepare("SELECT COUNT(Familiar) FROM InterestedParty WHERE Familiar = 4;");
-            $stmt->execute();
-            $result = $stmt->fetch();
-            $familiar_data[] = $result;
-
-            $stmt = $db->prepare("SELECT COUNT(Familiar) FROM InterestedParty WHERE Familiar = 5;");
-            $stmt->execute();
-            $result = $stmt->fetch();
-            $familiar_data[] = $result;
+            $result = $stmt->fetchColumn();
+            return $result;
         } catch(PDOException $ex) {
             error_log($ex->getMessage());
             exit();
@@ -96,6 +89,7 @@
 	<canvas id="myChart3" width="400" height="400" float: left></canvas>
 </div>
 <script>
+var proficient_data = <?php echo json_encode($proficient_data) ?>;
 var ctx = document.getElementById("myChart").getContext('2d');
 var myChart = new Chart(ctx, {
     type: 'bar',
@@ -106,7 +100,8 @@ var myChart = new Chart(ctx, {
 		display: false,
 		text:'Number of people Profient with Technology at a paricular Level'
 	    },
-            data: [12, 19, 3, 5, 2],
+            label: '# of Votes',
+            data: proficient_data,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -148,15 +143,16 @@ myChart.defaults.global.legend.display = false;
 
 
 <script>
+var familiar_data = <?php echo json_encode($familiar_data) ?>;
 var ctx = document.getElementById("myChart2").getContext('2d');
 var myChart = new Chart(ctx, {
     type: 'bar',
     titel: 'a title',
     data: {
-        labels: ["Unfamiliar", "Novice", "Medium", "Proficiant", "Knowledgable"],
+        labels: ["Unfamiliar", "Novice", "Medium", "Proficient", "Knowledgeable"],
         datasets: [{
             label: '# of Votes',
-            data: <?php echo $familiar_data; ?>,
+            data: familiar_data,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -197,6 +193,7 @@ var myChart = new Chart(ctx, {
 
 
 <script>
+var features_data = <?php echo json_encode($features_data) ?>;
 var ctx = document.getElementById("myChart3").getContext('2d');
 var myChart = new Chart(ctx, {
     type: 'pie',
@@ -208,7 +205,7 @@ var myChart = new Chart(ctx, {
 		display: false,
 		text:'Number of people Profient with Technology at a paricular Level'
 	    },
-            data: [12, 19, 3, 5, 2],
+            data: features_data,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
