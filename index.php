@@ -37,6 +37,12 @@
             unset($_POST['emailInput']);
         }
 
+        $form_age = "";
+        if(isset($_POST['ageGroup'])) {
+			$form_age = test_input($_POST["ageGroup"]);
+            unset($_POST['ageGroup']);
+        }
+
         $form_proficient = "";
         if(isset($_POST['Proficient'])) {
 			$form_proficient = test_input($_POST["Proficient"]);
@@ -60,9 +66,10 @@
         }
 
 			try {
-				$stmt = $db->prepare("INSERT INTO InterestedParty (Name, Email, Proficient, Familiar, Features) VALUES (:form_name, :form_email, :form_proficient, :form_familiar, :form_features)");
+				$stmt = $db->prepare("INSERT INTO InterestedParty (Name, Email, Age, Proficient, Familiar, Features) VALUES (:form_name, :form_email, :form_age, :form_proficient, :form_familiar, :form_features)");
 				$stmt->execute(array(':form_name' => $form_name,
 									':form_email' => $form_email,
+									':form_age' => $form_age,
 									':form_proficient' => $form_proficient,
 									':form_familiar' => $form_familiar,
                                     ':form_features' => $form_features

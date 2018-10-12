@@ -1,4 +1,4 @@
-var proficient_data = <?php echo json_encode($proficient_data); ?>;
+//var proficient_data = <?php echo json_encode($proficient_data); ?>;
 var ctx = document.getElementById("myChart").getContext('2d');
 var myChart = new Chart(ctx, {
     type: 'bar',
@@ -48,7 +48,7 @@ var myChart = new Chart(ctx, {
     }
 });
 
-var familiar_data = <?php echo json_encode($familiar_data); ?>;
+//var familiar_data = <?php echo json_encode($familiar_data); ?>;
 var ctx = document.getElementById("myChart2").getContext('2d');
 var myChart = new Chart(ctx, {
     type: 'bar',
@@ -95,7 +95,7 @@ var myChart = new Chart(ctx, {
     }
 });
 
-var features_data = <?php echo json_encode($features_data); ?>;
+//var features_data = <?php echo json_encode($features_data); ?>;
 var ctx = document.getElementById("myChart3").getContext('2d');
 var myChart = new Chart(ctx, {
     type: 'pie',

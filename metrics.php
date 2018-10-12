@@ -34,6 +34,13 @@
         foreach($features as $feature) {
         	$features_data[] = retrieveDB($db, "InterestedParty", "Features", $feature);
         }
+
+
+	echo "<script>var proficient_data = ". json_encode($proficient_data) .";</script>";
+	echo "<script>var familiar_data = ". json_encode($familiar_data) .";</script>";
+	echo "<script>var features_data = ". json_encode($features_data) .";</script>";
+
+
     } catch(PDOException $ex) {
         error_log($ex->getMessage());
         exit();
