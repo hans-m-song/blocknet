@@ -79,9 +79,25 @@
 </head>
     <title>Site Statistics</title> 
 <body>
-    <h1>Site Statistics</h1> 
+    <!--div class="header navbar-fixed-top">
+        <div>
+            <h1 class="title">Block<span id="logo-holder">
+                <img id="logo" src="src/console_active.png">
+            </span>Net</h1>
+        </div>
+        
+        <button type="button" class="navbar-toggle navbar-toggle-dark collapsed glyphicon glyphicon-menu-hamburger" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></button>
 
-    <div class="container">
+        <nav class="nav header-nav collapse navbar-collapse" id="navbar-collapse">
+            <a class="nav-item btn" href="#blocknet">About Block Net</a>
+            <a class="nav-item btn" href="#demo">Demonstration</a>
+            <a class="nav-item btn" href="#blockchain">The Blockchain</a>
+            <a class="nav-item btn" href="#about">About Us</a>
+        </nav>
+
+    </div-->
+    <div class="container content">
+    <h1 style="text-align: center;">Site Statistics</h1> 
         <div class="row">
             <div class="col-md-6">
                 <div class="chart-container"> 
