@@ -118,9 +118,11 @@
 			<h1 class="title">Block<span id="logo-holder">
 				<img id="logo" src="src/console_active.png">
 			</span>Net</h1>
-        </div>
+		</div>
+		
+		<button type="button" class="navbar-toggle navbar-toggle-dark collapsed glyphicon glyphicon-menu-hamburger" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></button>
 
-        <nav class="nav header-nav ">
+        <nav class="nav header-nav collapse navbar-collapse" id="navbar-collapse">
             <a class="nav-item btn" href="#blocknet">About Block Net</a>
             <a class="nav-item btn" href="#demo">Demonstration</a>
             <a class="nav-item btn" href="#blockchain">The Blockchain</a>
