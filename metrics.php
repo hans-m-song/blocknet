@@ -17,7 +17,46 @@
 		$UQ = auth_get_payload();
 	}
 
-	
+    static $proficient_data = array();
+    static $familiar_data = array();
+    static $features_data = array();
+    static $visits_data = array();
+    static $submissions_data = array();
+
+	retrieveFamiliar();
+
+
+    function retrieveFamiliar() {
+        try {
+            $stmt = $db->prepare("SELECT COUNT(Familiar) FROM InterestedParty WHERE Familiar = 1;");
+            $stmt->execute();
+            $result = $stmt->fetch();
+            $familiar_data[] = $result;
+
+            $stmt = $db->prepare("SELECT COUNT(Familiar) FROM InterestedParty WHERE Familiar = 2;");
+            $stmt->execute();
+            $result = $stmt->fetch();
+            $familiar_data[] = $result;
+
+            $stmt = $db->prepare("SELECT COUNT(Familiar) FROM InterestedParty WHERE Familiar = 3;");
+            $stmt->execute();
+            $result = $stmt->fetch();
+            $familiar_data[] = $result;
+
+            $stmt = $db->prepare("SELECT COUNT(Familiar) FROM InterestedParty WHERE Familiar = 4;");
+            $stmt->execute();
+            $result = $stmt->fetch();
+            $familiar_data[] = $result;
+
+            $stmt = $db->prepare("SELECT COUNT(Familiar) FROM InterestedParty WHERE Familiar = 5;");
+            $stmt->execute();
+            $result = $stmt->fetch();
+            $familiar_data[] = $result;
+        } catch(PDOException $ex) {
+            error_log($ex->getMessage());
+            exit();
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -117,7 +156,7 @@ var myChart = new Chart(ctx, {
         labels: ["Unfamiliar", "Novice", "Medium", "Proficiant", "Knowledgable"],
         datasets: [{
             label: '# of Votes',
-            data: [12, 19, 3, 5, 2],
+            data: <?php echo $familiar_data; ?>,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
