@@ -130,7 +130,7 @@
             </div>
             <div class="col-md-6">
                 <div class="chart-container">
-                    <canvas id="myChart4" width="400" height="400" float: left></canvas>
+                    <canvas id="myChart6" width="400" height="400" float: left></canvas>
                 </div>
             </div>
         </div>
@@ -143,7 +143,7 @@
             </div>
             <div class="col-md-6">
                 <div class="chart-container">
-                    <canvas id="myChart6" width="400" height="400" float: left></canvas>
+                    <canvas id="myChart4" width="400" height="400" float: left></canvas>
                 </div>
             </div>
         </div>
