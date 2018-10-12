@@ -154,28 +154,33 @@
 				</ol>
 				<div class="carousel-inner">
 					<div class="item active">
-							<img class="d-block w-100" img src="https://drive.google.com/uc?id=1_0Q-tE86SUVCfrzMQZt1ZM5qj-9lwqD1" alt="First slide">
-						<div class="carousel-caption">
-							<h2>True P2P Online Messaging</h2>
-							<p>Block Net offers messaging through IPFS decentralised storage and the blockchain</p>
+							<!--img class="d-block w-100" img src="https://drive.google.com/uc?id=1_0Q-tE86SUVCfrzMQZt1ZM5qj-9lwqD1" alt="First slide"-->
+						<div class="d-block w-100" style="height: 300px;" >
+						</div>
+						<div class="carousel-caption" >
+							<h2>Blockchain Messaging</h2>
+							<p>Block Net is a distributed messaging application that allows its users to communicate with one another in public and private rooms</p>
 						</div>
 					</div>
 					<div class="item">
-							<img class="d-block w-100" img src="https://drive.google.com/uc?id=1_0Q-tE86SUVCfrzMQZt1ZM5qj-9lwqD1" alt="Second slide">
+						<div class="d-block w-100" style="height: 300px;" >
+						</div>
 						<div class="carousel-caption">
 							<h2>Your messages are valuable</h2>
 							<p>Block Net messages use a token economy system to ensure you receive only the most important messages</p>
 						</div>
 					</div>
 					<div class="item">
-							<img class="d-block w-100" img src="https://drive.google.com/uc?id=1_0Q-tE86SUVCfrzMQZt1ZM5qj-9lwqD1" alt="Third slide">
+						<div class="d-block w-100" style="height: 300px;" >
+						</div>
 						<div class="carousel-caption">
 							<h2>Private messages are actually private</h2>
 							<p>Instead of throwing them onto a server, messages are stored by you</p>
 						</div>
 					</div>
 					<div class="item">
-							<img class="d-block w-100" img src="https://drive.google.com/uc?id=1_0Q-tE86SUVCfrzMQZt1ZM5qj-9lwqD1" alt="Fourth slide">
+						<div class="d-block w-100" style="height: 300px;" >
+						</div>
 						<div class="carousel-caption">
 							<h2>We have private rooms too</h2>
 							<p>Block Net allows you to change everything about your chat rooms, from message cost to custom emotes</p>
@@ -250,20 +255,22 @@
 
 		</div>
         <div id="about" class="about-us section">
-            <h2>Team 8 Hearts 1 Beat</h2>
-			<p>Team 8 Hearts 1 Beat is a group of 3rd year undergraduates at the University of Queensland. The team was formed for the purpose of this project which is being undertaken as part of the DECO3801 Design Studio 3 course.</p>
-			<p>Block Net is being completed for our industry client Ben Rose of <a href="http://mindfire.io/">Mindfire Design and Development</a>.</p>
-			<p>Team members:</p>
-			<ul>
-				<li>Hans Song</li>
-				<li>Asher Leung</li>
-				<li>Bodhi Howe</li>
-				<li>Craig Harvey</li>
-				<li>Hernan Isaac Ocana Flores</li>
-				<li>Yuki Nakazawa</li>
-				<li>Simon Curtis</li>
-				<li>James Fechner</li>
-			</ul>
+			<h2>Team 8 Hearts 1 Beat</h2>
+			<div class="about-us-text">
+				<p>Team 8 Hearts 1 Beat is a group of 3rd year undergraduates at the University of Queensland. The team was formed for the purpose of this project which is being undertaken as part of the DECO3801 Design Studio 3 course.</p>
+				<p>Block Net is being completed for our industry client Ben Rose of <a href="http://mindfire.io/">Mindfire Design and Development</a>.</p>
+				<p>Team members:</p>
+				<ul>
+					<li>Hans Song</li>
+					<li>Asher Leung</li>
+					<li>Bodhi Howe</li>
+					<li>Craig Harvey</li>
+					<li>Hernan Isaac Ocana Flores</li>
+					<li>Yuki Nakazawa</li>
+					<li>Simon Curtis</li>
+					<li>James Fechner</li>
+				</ul>
+			</div>
 		</div>
 		<div id="register-interest" class="register-interest section">
 			<h2>Register Your Interest</h2>

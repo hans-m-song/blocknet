@@ -80,17 +80,28 @@ body {
   padding-bottom: 50px;
 }
 
+.about-us-text {
+  
+}
+
 .white {
   background-color : white;
   color : black;
 }
 
 .carousel-container {
-	padding-top: 60px;
+	padding-top: 0px;
 }
 
 .carousel-inner {
+  background-color: rgb(49, 49, 49);
+  box-shadow: 5px 5px 5px rgb(0, 0, 0);
 	overflow: hidden;
+}
+
+.carousel-caption {
+  top: 35px;
+  margin : auto;
 }
 
 .item img {
