@@ -219,7 +219,7 @@ var myChart = new Chart(ctx, {
 //var age_data = <?php echo json_encode($age_data); ?>;
 var ctx = document.getElementById("myChart6").getContext('2d');
 var myChart = new Chart(ctx, {
-    type: 'bar',
+    type: 'pie',
     data: {
         labels: ["No answer", "12-17", "18-24", "25-34", "35-44", "45-54", "55-64", "65+"],
         datasets: [{

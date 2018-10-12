@@ -20,25 +20,45 @@
     static $proficient_data = array();
     static $familiar_data = array();
     static $features_data = array();
+    static $age_data = array();
     static $visits_data = array();
     static $submissions_data = array();
 
     $likert_options = array("1", "2", "3", "4", "5");
     $features = array("data", "tech", "friends", "community", "learn");
+    $ages = array("0", "1", "2", "3", "4", "5", "6", "7");
+
+    static $days = array();
+    $current_day = date('Y-m-d');
+    for($i = 0; $i < 7; $i++) {
+    	$days[] = $current_day;
+    	$current_day = date('Y-m-d', strtotime("-1 days"));
+    }
+
+    echo "<script>var days = ". json_encode($days) .";</script>";
 
     try {
         foreach($likert_options as $option) {
             $proficient_data[] = retrieveDB($db, "InterestedParty", "Proficient", $option);
             $familiar_data[] = retrieveDB($db, "InterestedParty", "Familiar", $option);
         }
+        
         foreach($features as $feature) {
         	$features_data[] = retrieveDB($db, "InterestedParty", "Features", $feature);
         }
 
+        foreach($ages as $age) {
+        	$age_data[] = retrieveDB($db, "InterestedParty", "Age", $age);
+        }
+
+        foreach($days as $day) {
+
+        }
 
 	echo "<script>var proficient_data = ". json_encode($proficient_data) .";</script>";
 	echo "<script>var familiar_data = ". json_encode($familiar_data) .";</script>";
 	echo "<script>var features_data = ". json_encode($features_data) .";</script>";
+	echo "<script>var age_data = ". json_encode($age_data) .";</script>";
 
 
     } catch(PDOException $ex) {
