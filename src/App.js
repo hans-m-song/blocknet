@@ -17,6 +17,12 @@ import { ConsoleScreen } from './modules/ConsoleScreen'
 import InactiveLogo from './console_inactive.png'
 import ActiveLogo from './console_active.png'
 
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faPlus)
+
 /* Unused components
 LeftPanel,
 SectionButton,
@@ -73,6 +79,8 @@ class Backend extends Component {
         super(props);
         this.sendMessage = this.sendMessage.bind(this);
         this.claimTokens = this.claimMessageTokens.bind(this);
+        this.addRoom = this.addRoom.bind(this);
+        this.rooms = ["BlockNet", "Programming", "Gaming", "Random"];
     }
 
 
@@ -382,6 +390,7 @@ class Backend extends Component {
         return (
             <div className="front-app">
                 <Frontend
+                    rooms={this.rooms}
                     claimTokens={this.claimTokens}
                     state={this.state}
                     sendMessage={this.sendMessage}
@@ -389,10 +398,20 @@ class Backend extends Component {
                     messageHistory={this.state.messageHistory}
                     currentState={this.state}
                     consoleActive={this.props.consoleActive}
+                    addRoom={this.addRoom}
                 />
-
             </div>
             );
+        }
+
+        /**
+         * Add a room to the backend's room registry
+         */
+        addRoom(data) {
+            //console.log(data);
+            //this.rooms.push(data);
+            this.rooms.push(data.roomName);
+            console.log(this.rooms);
         }
     }
 
@@ -422,10 +441,12 @@ class Backend extends Component {
                             consoleActive={this.state.consoleActive}
                         />
                         <MainPage
+                            rooms={this.props.rooms}
                             sendMessage={this.props.sendMessage}
                             messageHistory={this.props.state.messageHistory}
                             setRoom={this.props.setRoom}
                             currentState={this.props.state}
+                            addRoom={this.props.addRoom}
                         />
                         <ConsoleScreen 
                             currentState={this.props.state}
