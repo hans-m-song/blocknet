@@ -308,8 +308,6 @@ content-page {
     background-color : white;
 }
 
-
-
 .console-top {
     display : flex;
     flex : auto;
@@ -328,7 +326,6 @@ content-page {
     align-items : stretch;
     /*overflow : auto;*/
 }
-
 
 .properties {
     display : flex;
@@ -477,10 +474,7 @@ content-page {
     color: #14130a;
 }
 
-/*Styling for the plus icon for adding rooms*/
-.plus-icon {
-}
-
+/*************Room navigation menu style*************/
 .room-menu-button:hover .plus-icon {
     background-color: white;
 }
@@ -529,7 +523,11 @@ content-page {
     }
 }
 
-/******Message Box Related CSS******/
+/************Create Room Screen**************/
+
+
+
+/******Message Box Related******/
 /*.scroll-container {
     position: relative;
     height: 69vh;
