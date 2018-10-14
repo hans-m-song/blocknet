@@ -144,27 +144,6 @@ export class Properties extends Component {
         this.state = this.props.currentState;
     }
 
-    /*
-    render() {
-        return (
-            <div className="properties">
-                <div className="properties-title">
-                    <h4> Properties </h4>
-                </div>
-                <div className="properties-content">
-                <p>account address: {this.state.accounts[this.state.selectedAccountIndex]}</p>
-                    <p>local ipfs hash: {this.state.ipfsHash}}</p>
-                    <p>claimableTokens: {this.state.claimableTokens}</p>
-                    <p>latestBlockNo: {this.state.latestBlockNo}</p>
-                    <p>tokensPerMessage: {this.state.tokensPermessage}</p>
-                    <p>dailyTokensNo: {this.state.dailyTokensNo}</p>
-                    <p>blocksPerClaim: {this.state.blocksPerClaim}</p>
-                </div>
-            </div>
-        );
-    }
-    */
-
    render() {
     return (
         <div className="properties console-content-section">
@@ -245,7 +224,7 @@ export class MessageGraph extends Component {
 
 /**
  * Log is the log of actions that the application has performed
- *      -log prop is an array that contains all the lines to be printed, + their time,
+ *      -props.backendLog is an array that contains a log object describing the time the log was made (log.time) in 24hr time and the message to be rendered (log.message)
  */
 export class ConsoleLog extends Component {
     constructor(props) {
@@ -259,6 +238,7 @@ export class ConsoleLog extends Component {
             <LogParagraph
                 time={log.time}
                 message={log.message}
+                waiting={log.waiting}
             />
         );
         return (
@@ -281,19 +261,54 @@ export class ConsoleLog extends Component {
 export class LogParagraph extends Component {
     constructor(props) {
         super(props);
+        console.log(this.props.message + " | " + this.props.waiting);
     }
 
     render() {
-        const time = "12:28:23";
-
         return (
             <div>
                 <p>
                     <span className="log-time"> {this.props.time}</span>
                     <span className="log-divider"> </span>
                     <span className="log-message">{this.props.message}</span>
+                    {this.props.waiting && 
+                        <WaitingAnimation />
+                    }
                 </p>
             </div>
         )
+    }
+}
+
+export class WaitingAnimation extends Component {
+    constructor(props) {
+        super(props)
+        this.frames = ['|', '/', '-', '\\'];
+        this.state = {currentFrame: ''}
+        this.index = 0;
+    }
+
+    componentDidMount() {
+       this.animateID = setInterval(
+           () => this.animate(),
+           100
+       );
+    }
+
+    animate() {
+        this.setState({ currentFrame: this.frames[this.index] });
+        (this.index === this.frames.length-1) ? this.index=0 : this.index++;
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.animationID);
+    }
+
+    render() {
+        return (
+            <span>
+                {this.state.currentFrame}
+            </span>
+        );
     }
 }

@@ -89,29 +89,42 @@ class Backend extends Component {
         //this.updateLog("test message");
     }
 
-    /*Create a log entry that is rendered in the console. Log entry comprises the time that this function is called and the message provided as parameter.
-    
-        params: msg
-            Message content of log
-
-        to do:
-            >allow multiple message params for multi-line messages ie:
-            
-            "
-            12:34:23 Room set to [Random] 
-                     Previous messages:
-                        -
-                        -
-            "
-
-    */
-    updateLog(msg) {
+    /**
+     * Create a log entry that is rendered in the console. Log entry comprises the time that this function is called and the message provided as parameter.
+     * 
+     * @param msg 
+     *      Message content of log
+     * @param waiting
+     *      Whether or not the message is referring to an action that will eventually complete (i.e. is waiting) 
+     * 
+     * @return index
+     *      index of created message in backendLog array 
+     */
+    updateLog(msg, waiting = false) {
         let log = { time: new Date().toLocaleTimeString('en-US', { hour12: false }), message: msg };
+        waiting ? log.waiting=true : log.waiting=false;
         let tempLog = this.state.backendLog;
-        tempLog.push(log);
+        let index = tempLog.push(log);
         this.setState({ backendLog: tempLog });
+        return index;
+    }
+  
+    /**
+     * Set a message in backendLog specified by index to not be waiting (finished). Default sets ALL logs to finished.
+     * 
+     * @param index
+     *      Index of log message that is to be set to be not waiting 
+     */
+    setLogFinished(index = -1) {
+        if (index === -1) {
+            let tempLog = this.state.backendLog;
+            tempLog.forEach(function(log) {
+                log.waiting = false;
+            });
+        } else {
+            this.state.backendLog[index].waiting = false;
         }
-
+    }
 
     // Connection handler for web3
     componentDidMount = async () => {
@@ -318,12 +331,13 @@ class Backend extends Component {
                     content: Buffer.from(JSON.stringify(messageHistory, null, 4))
                 })
                 this.updateLog("Successfully added new message file: [" + filesAdded[0].hash + "] to room: [" + this.state.latestHash + "]")
-                this.updateLog("Sending new hash through contract and awaiting response from Ethereum network...")
+                let waitingLogMessage = this.updateLog("Sending new hash through contract and awaiting response from Ethereum network...", true)
                 // Send the new hash through the contract
                 console.log('added file:', filesAdded[0].path, filesAdded[0].hash)
                 await contract.methods.sendHash(this.state.currentRoom, filesAdded[0].hash)
                     .send({ gas: '2352262', from })
                 console.log('Hash ')
+                this.setLogFinished(waitingLogMessage)
                 this.updateLog("Success: IPFS now points to updated message")
             }
             this.syncData()
@@ -332,6 +346,7 @@ class Backend extends Component {
         } catch (err) {
             alert('transaction rejected, console for details')
             console.log(err)
+            this.setLogFinished();
             this.updateLog("An error occurred: message has failed to be added to the room's message list")
         }
     }

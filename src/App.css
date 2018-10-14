@@ -415,6 +415,10 @@ content-page {
     margin-right: 0;
 }
 
+.log-time {
+
+}
+
 .token-manager {
     display: flex;
 }
