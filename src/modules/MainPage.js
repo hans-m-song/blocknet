@@ -14,15 +14,10 @@ export class Header extends Component {
         super(props);
         this.claimTokens = this.claimTokens.bind(this);
         this.consoleClick = this.consoleClick.bind(this);
-        console.log("console status at constructor: " + this.props.consoleActive);
-
     }
 
     consoleClick() {
-        console.log("console status: " + this.props.consoleActive);
         this.props.consoleClick();
-        console.log("console status: " + this.props.consoleActive);
-
     }
 
     claimTokens() {
@@ -40,26 +35,6 @@ export class Header extends Component {
             </div>
         );
     }
-
-    /*Old version with token manager and links*/
-    /*
-    render() {
-        return (
-            <div className="header">
-                <h1 className="title text-unselectable hover-cursor">BLOCK NET >></h1>
-                <TokenManager claimTokens={this.claimTokens} state={this.props.state} />
-                <nav className="header-nav">
-                    <div>
-                        <a href="#">Dev Blog</a>
-                    </div>
-                    <div>
-                        <a href="#">About Us</a>
-                    </div>
-                </nav>
-            </div>
-        );
-    }
-    */
 }
 
 /**
@@ -77,8 +52,6 @@ export class ConsoleHeaderButton extends Component {
         console.log(this.props.active);
         this.props.consoleClick();
     }
-
-    //var classes = `${selectedStatus} section-button text-unselectable`;
 
     render() {
         let classes;

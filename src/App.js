@@ -72,7 +72,9 @@ class Backend extends Component {
         currentRoom: "BlockNet",
         tokensPerMessage: 0,
         DailyTokensNo: 0,
-        latestBlockNo: 0
+        latestBlockNo: 0,
+        backendLog: [],
+        latestHash: ""
     }
 
     constructor(props) {
@@ -80,8 +82,35 @@ class Backend extends Component {
         this.sendMessage = this.sendMessage.bind(this);
         this.claimTokens = this.claimMessageTokens.bind(this);
         this.addRoom = this.addRoom.bind(this);
+        /*Storing this.rooms in backend for each user would allow users to have their own saved favourite rooms
+            -Rooms also probably should be updated to using unique ID's on both front and backend
+        */
         this.rooms = ["BlockNet", "Programming", "Gaming", "Random"];
+        //this.updateLog("test message");
     }
+
+    /*Create a log entry that is rendered in the console. Log entry comprises the time that this function is called and the message provided as parameter.
+    
+        params: msg
+            Message content of log
+
+        to do:
+            >allow multiple message params for multi-line messages ie:
+            
+            "
+            12:34:23 Room set to [Random] 
+                     Previous messages:
+                        -
+                        -
+            "
+
+    */
+    updateLog(msg) {
+        let log = { time: new Date().toLocaleTimeString('en-US', { hour12: false }), message: msg };
+        let tempLog = this.state.backendLog;
+        tempLog.push(log);
+        this.setState({ backendLog: tempLog });
+        }
 
 
     // Connection handler for web3
@@ -90,6 +119,7 @@ class Backend extends Component {
             const web3 = await getWeb3()
             const accounts = await web3.eth.getAccounts()
             console.log("using address", contractAddress)
+            this.updateLog("Web3 Loaded | using contract address: " + contractAddress);
             const contract = new web3.eth.Contract(abi, contractAddress)
             contract.setProvider(web3.currentProvider)
             const networkType = await web3.eth.net.getNetworkType()
@@ -97,9 +127,11 @@ class Backend extends Component {
             this.setState({ web3, accounts, contract, web3InvalidNetwork }, this.syncData)
             if (accounts[this.state.selectedAccountIndex]) {
                 this.setState({ metamaskOnline: true })
+                this.updateLog("Successfully connected to client's MetaMask wallet")
             }
         } catch (error) {
             alert('Failed to initialize connection, check console for specifics')
+            this.updateLog("Failed to initialize connection")
             this.setState({ web3GetError: true })
             console.log(error)
         }
@@ -111,6 +143,7 @@ class Backend extends Component {
             ipfs.on('ready', async () => {
                 this.setState({ ipfsIsOnline: true })
                 console.log("IPFS initalized")
+                this.updateLog("IPFS has been connected to and is initialized")
             })
 
             ipfs.once('start', async () => {
@@ -118,15 +151,18 @@ class Backend extends Component {
                 const info = await ipfs.id()
                 const ipfsHash = info.id
                 console.log("IPFS version", version.version, "started\nat:", ipfsHash)
+                this.updateLog("Using IPFS version: " + version.version + ", started at: " + ipfsHash)
                 // in case you're getting websock 502, its a known issue: https://github.com/ipfs/js-ipfs/issues/941
                 // once everything has been initialized
                 this.interval = setInterval(() => this.syncData(), 1000)
+                this.updateLog("IPFS data synchronization interval set to 1000 ms")
             })
 
         } catch (error) {
             alert('Failed to initalize IPFS, check console for specifics')
             this.setState({ ipfsGetError: true })
             console.log(error)
+            this.updateLog("Failure to initialize IPFS")
         }
     }
 
@@ -168,6 +204,7 @@ class Backend extends Component {
         const { contract } = this.state
         // Read the latest message (hash)
         var latestHash = await contract.methods.getHash(this.state.currentRoom).call()
+        this.setState({ latestHash: latestHash })
         //console.log('attempting to read file at: ', latestHash)
         var messageHistory = []
         try {
@@ -235,11 +272,13 @@ class Backend extends Component {
     // TODO determine gas cost
     // get tokens to use to send messages
     claimMessageTokens = () => {
+        this.updateLog("Sending request to contract to claim tokens")
         const { accounts, contract, selectedAccountIndex } = this.state
         const from = accounts[selectedAccountIndex]
 
         contract.methods.claim().send({ gas: '2352262', from })
             .then((x) => { this.syncData() })
+        this.updateLog("Tokens successfully claimed")
     }
 
     /*
@@ -260,6 +299,7 @@ class Backend extends Component {
         // Add message to current room messages
         var message = {user: from, date: getTime(), message: msg}
         console.log('attempting to send from:', from, '\nmessage:', message)
+        this.updateLog("Attempting to send message: [" + message.message + "] from address: [" + from + "]");
         try {
             if (this.state.ipfsHash) {
                 messageHistory.push(message)
@@ -277,11 +317,14 @@ class Backend extends Component {
                     path: `${this.state.currentRoom}.json`,
                     content: Buffer.from(JSON.stringify(messageHistory, null, 4))
                 })
+                this.updateLog("Successfully added new message file: [" + filesAdded[0].hash + "] to room: [" + this.state.latestHash + "]")
+                this.updateLog("Sending new hash through contract and awaiting response from Ethereum network...")
                 // Send the new hash through the contract
                 console.log('added file:', filesAdded[0].path, filesAdded[0].hash)
                 await contract.methods.sendHash(this.state.currentRoom, filesAdded[0].hash)
                     .send({ gas: '2352262', from })
-                console.log('sent hash')
+                console.log('Hash ')
+                this.updateLog("Success: IPFS now points to updated message")
             }
             this.syncData()
             //this.addressInput.value = ''
@@ -289,11 +332,19 @@ class Backend extends Component {
         } catch (err) {
             alert('transaction rejected, console for details')
             console.log(err)
+            this.updateLog("An error occurred: message has failed to be added to the room's message list")
         }
     }
 
     setRoom = async (room) => {
         this.state.currentRoom = room
+        this.updateLog("Room set to [" + room + "] | Room hash: [" + this.state.latestHash + "]")
+        this.updateLog("Previous messages:")
+        /*Would be good to display an expandable list of the messages comprising the message history on load 
+            seems to require:
+                -getting the message list here to print when first loading room, and;
+                -nice formatting to allow for expanding (because message history could be quite long)
+        */
     }
 
     render() {
@@ -399,6 +450,7 @@ class Backend extends Component {
                     currentState={this.state}
                     consoleActive={this.props.consoleActive}
                     addRoom={this.addRoom}
+                    backendLog={this.state.backendLog}
                 />
             </div>
             );
@@ -451,14 +503,12 @@ class Backend extends Component {
                         <ConsoleScreen 
                             currentState={this.props.state}
                             consoleActive={this.state.consoleActive}
-
+                            backendLog={this.props.backendLog}
                         />
                     </div>
                 </div>
             );
         }
-    }
-
-
+    }   
 
     export default App

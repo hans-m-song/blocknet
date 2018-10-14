@@ -14,7 +14,6 @@ export class ConsoleScreen extends Component {
 
     activateSection(section) {
         this.setState({ activeSection: section});
-        console.log("clicked a console nav button");
     }
 
     render() {
@@ -35,6 +34,7 @@ export class ConsoleScreen extends Component {
                     currentState={this.currentState}
                     activateSection={this.activateSection}
                     activeSection={this.state.activeSection}
+                    backendLog={this.props.backendLog}
                 />
             </div>
         );
@@ -111,7 +111,9 @@ class ConsoleContent extends Component {
         switch (this.props.activeSection) {
             case "Log":
                 return (
-                    <ConsoleLog />
+                    <ConsoleLog 
+                        backendLog={this.props.backendLog}
+                    />
                 );
 
             case "Properties":
@@ -165,7 +167,7 @@ export class Properties extends Component {
 
    render() {
     return (
-        <div className="properties">
+        <div className="properties console-content-section">
             <div className="properties-content">
             <p>account address: </p>
                 <p>local ipfs hash: </p>
@@ -227,7 +229,7 @@ export class MessageGraph extends Component {
 
     render() {
         return (
-            <div className = "graphbox">
+            <div className = "graphbox console-content-section">
                 <div className="graph-title">
                     <h2> #No. of Messages sent in last 12 Hours </h2>
                 </div>
@@ -241,6 +243,10 @@ export class MessageGraph extends Component {
     }
 }
 
+/**
+ * Log is the log of actions that the application has performed
+ *      -log prop is an array that contains all the lines to be printed, + their time,
+ */
 export class ConsoleLog extends Component {
     constructor(props) {
         super(props);
@@ -248,31 +254,46 @@ export class ConsoleLog extends Component {
         }
     }
 
+    renderLog() {
+        let consoleParagraphs = this.props.backendLog.map((log) =>
+            <LogParagraph
+                time={log.time}
+                message={log.message}
+            />
+        );
+        return (
+            consoleParagraphs
+        );
+    }
+
     render() {
         return (
-            <div className="consolelog">
+            <div className="consolelog console-content-section">
                 <div className="consolelog-content">
-                    <p>>Loading Components...</p>
-                    <p>>Using address >> 0x6c568c66b75259fa8b47853cD56aF396b728FBE5</p>
-                    <p>>Metamask acount loaded...</p>
-                    <p>>Connection to Rinkeby Test Network established</p>
-                    <p>>IPFS initialized >> Using IPFS local hash QmT4owZoqCLUMyai8qGtAKFYbEjg1su3KfvzqoE8vkDy9U</p>
-                    <p>>Updating Blockchain... Receiving latest messages</p>
-                    <p>>Block #3021383, Block #3021384 downladed</p>
-                    <p>>Blockchain verified...</p>
-                    <p>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>></p>
-                    <p>>Block #3021384 has been verified by ethereum network</p>
-                    <p>>Client transmitting message to block #3021385</p>
-                    <p>>Block #3021385 currently 50% full</p>
-                    <p>>Expected wait time till message is sent ~2 minutes</p>
-                    <p>></p>
-                    <p>></p>
-                    <p>></p>
-                    <p>></p>
-                    <p>></p>
-                    <p>></p>
+                    {this.renderLog()}
                 </div>
             </div>
         );
+    }
+}
+
+
+export class LogParagraph extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        const time = "12:28:23";
+
+        return (
+            <div>
+                <p>
+                    <span className="log-time"> {this.props.time}</span>
+                    <span className="log-divider"> </span>
+                    <span className="log-message">{this.props.message}</span>
+                </p>
+            </div>
+        )
     }
 }
