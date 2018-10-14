@@ -289,7 +289,7 @@ export class WaitingAnimation extends Component {
     }
 
     componentDidMount() {
-       this.animateID = setInterval(
+       this.animationID = setInterval(
            () => this.animate(),
            100
        );

@@ -104,7 +104,7 @@ class Backend extends Component {
         let log = { time: new Date().toLocaleTimeString('en-US', { hour12: false }), message: msg };
         waiting ? log.waiting=true : log.waiting=false;
         let tempLog = this.state.backendLog;
-        let index = tempLog.push(log);
+        let index = tempLog.push(log)-1;
         this.setState({ backendLog: tempLog });
         return index;
     }
