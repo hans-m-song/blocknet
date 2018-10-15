@@ -17,27 +17,25 @@ export class ConsoleScreen extends Component {
     }
 
     render() {
-        let classes;
         if (this.props.consoleActive) {
-            classes = `console console-active`;
+            return (
+                //<div className={classes}>
+                <div className="console console-active">
+                    <ConsoleNav 
+                        activeSection={this.state.activeSection}
+                        activateSection={this.activateSection}
+                    />
+                    <ConsoleContent 
+                        currentState={this.currentState}
+                        activateSection={this.activateSection}
+                        activeSection={this.state.activeSection}
+                        backendLog={this.props.backendLog}
+                    />
+                </div>
+            );
         } else {
-            classes = `console console-inactive`;
+            return null;
         }
-
-        return (
-            <div className={classes}>
-                <ConsoleNav 
-                    activeSection={this.state.activeSection}
-                    activateSection={this.activateSection}
-                />
-                <ConsoleContent 
-                    currentState={this.currentState}
-                    activateSection={this.activateSection}
-                    activeSection={this.state.activeSection}
-                    backendLog={this.props.backendLog}
-                />
-            </div>
-        );
     }
 }
 
@@ -227,10 +225,9 @@ export class MessageGraph extends Component {
  *      -props.backendLog is an array that contains a log object describing the time the log was made (log.time) in 24hr time and the message to be rendered (log.message)
  */
 export class ConsoleLog extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        }
+    componentDidMount() {
+        var logContainer = document.getElementsByClassName("consolelog");
+        logContainer[0].scrollTop = logContainer[0].scrollHeight;
     }
 
     renderLog() {
@@ -264,11 +261,18 @@ export class LogParagraph extends Component {
         console.log(this.props.message + " | " + this.props.waiting);
     }
 
+    componentDidMount() {
+        var logContainer = document.getElementsByClassName("consolelog");
+        logContainer[0].scrollTop = logContainer[0].scrollHeight;
+    }
+
     render() {
         return (
             <div>
                 <p>
-                    <span className="log-time"> {this.props.time}</span>
+                    <span className="log-time">
+                        <strong>{this.props.time}</strong>
+                    </span>
                     <span className="log-divider"> </span>
                     <span className="log-message">{this.props.message}</span>
                     {this.props.waiting && 

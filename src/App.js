@@ -86,7 +86,6 @@ class Backend extends Component {
             -Rooms also probably should be updated to using unique ID's on both front and backend
         */
         this.rooms = ["BlockNet", "Programming", "Gaming", "Random"];
-        //this.updateLog("test message");
     }
 
     /**
@@ -488,6 +487,14 @@ class Backend extends Component {
             this.switchConsole = this.switchConsole.bind(this);
             this.state={consoleActive: false}
         }
+
+        onTildePress(e) {
+            console.log("key pressed >" + e.keyCode);
+            if (e.keyCode === 192) {
+                e.preventDefault();
+                this.switchConsole();
+            }
+        }
         
         /**
          * This sets whether the console is showing or not
@@ -499,7 +506,7 @@ class Backend extends Component {
 
         render() {
             return (
-                <div className="frontend">
+                <div className="frontend" tabIndex="0" onKeyDown={(e) => this.onTildePress(e)}>
                     <div className="content-page">
                         <Header 
                             claimTokens={this.props.claimTokens} 
