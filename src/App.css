@@ -417,7 +417,11 @@ content-page {
 }
 
 .log-time {
+    font-weight: bold;
+}
 
+.log-indent {
+    visibility : hidden;
 }
 
 .token-manager {

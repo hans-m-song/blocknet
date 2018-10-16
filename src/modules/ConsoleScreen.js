@@ -236,6 +236,7 @@ export class ConsoleLog extends Component {
                 time={log.time}
                 message={log.message}
                 waiting={log.waiting}
+                indents={log.indents}
             />
         );
         return (
@@ -259,26 +260,35 @@ export class LogParagraph extends Component {
     constructor(props) {
         super(props);
         console.log(this.props.message + " | " + this.props.waiting);
+        this.msg = this.props.message;
     }
 
     componentDidMount() {
-        var logContainer = document.getElementsByClassName("consolelog");
+        let logContainer = document.getElementsByClassName("consolelog");
         logContainer[0].scrollTop = logContainer[0].scrollHeight;
+    }
+
+    parseMessage() {
+        let msg = this.props.message; //props are immutable
+        let indent = [];
+        for (var i=0; i<this.props.indents; i++) {
+            indent.push(<span className="log-indent">....</span>)
+        }
+        return (
+            <p>
+                <span className="log-time">{this.props.time}</span>
+                <span className="log-divider"> </span>
+                { this.props.indents>0 && indent }
+                <span className="log-message">{this.props.message}</span>
+                { this.props.waiting && <WaitingAnimation /> }
+            </p>
+        ); 
     }
 
     render() {
         return (
             <div>
-                <p>
-                    <span className="log-time">
-                        <strong>{this.props.time}</strong>
-                    </span>
-                    <span className="log-divider"> </span>
-                    <span className="log-message">{this.props.message}</span>
-                    {this.props.waiting && 
-                        <WaitingAnimation />
-                    }
-                </p>
+                {this.parseMessage()}
             </div>
         )
     }
@@ -311,7 +321,7 @@ export class WaitingAnimation extends Component {
     render() {
         return (
             <span>
-                {this.state.currentFrame}
+                ...{this.state.currentFrame}
             </span>
         );
     }
