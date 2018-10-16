@@ -86,22 +86,28 @@ class Backend extends Component {
             -Rooms also probably should be updated to using unique ID's on both front and backend
         */
         this.rooms = ["BlockNet", "Programming", "Gaming", "Random"];
-        //this.updateLog("test message");
     }
 
     /**
-     * Create a log entry that is rendered in the console. Log entry comprises the time that this function is called and the message provided as parameter.
+     * Create a log entry that is rendered in the console. Log entry comprises the time that this function is called, the message provided as parameter, indent level, and whether it is waiting to be finished or not.
      * 
      * @param msg 
-     *      Message content of log
+     *      {string} Message content of log
+     * @param tab
+     *      {integer} Indent level; 4 spaces per indent.
      * @param waiting
-     *      Whether or not the message is referring to an action that will eventually complete (i.e. is waiting) 
+     *      {boolean} Whether or not the message is referring to an action that will eventually complete (i.e. is waiting)
+     *          >To set complete: call setLogFinished(index) where index is the value returned by this function. 
      * 
      * @return index
-     *      index of created message in backendLog array 
+     *      {int} index of created message in backendLog array 
      */
-    updateLog(msg, waiting = false) {
-        let log = { time: new Date().toLocaleTimeString('en-US', { hour12: false }), message: msg };
+    updateLog(msg, tab = 0, waiting = false) {
+        let log = { 
+            time: new Date().toLocaleTimeString('en-US', { hour12: false }), 
+            message: msg,
+            indents: tab
+        };
         waiting ? log.waiting=true : log.waiting=false;
         let tempLog = this.state.backendLog;
         let index = tempLog.push(log)-1;
@@ -113,7 +119,7 @@ class Backend extends Component {
      * Set a message in backendLog specified by index to not be waiting (finished). Default sets ALL logs to finished.
      * 
      * @param index
-     *      Index of log message that is to be set to be not waiting 
+     *      {int} Index of log message that is to be set to be not waiting 
      */
     setLogFinished(index = -1) {
         if (index === -1) {
@@ -131,8 +137,10 @@ class Backend extends Component {
         try {
             const web3 = await getWeb3()
             const accounts = await web3.eth.getAccounts()
+            
             console.log("using address", contractAddress)
-            this.updateLog("Web3 Loaded | using contract address: " + contractAddress);
+            this.updateLog("Web3 Loaded | using contract address: " + contractAddress)
+
             const contract = new web3.eth.Contract(abi, contractAddress)
             contract.setProvider(web3.currentProvider)
             const networkType = await web3.eth.net.getNetworkType()
@@ -330,15 +338,15 @@ class Backend extends Component {
                     path: `${this.state.currentRoom}.json`,
                     content: Buffer.from(JSON.stringify(messageHistory, null, 4))
                 })
-                this.updateLog("Successfully added new message file: [" + filesAdded[0].hash + "] to room: [" + this.state.latestHash + "]")
-                let waitingLogMessage = this.updateLog("Sending new hash through contract and awaiting response from Ethereum network...", true)
+                this.updateLog("Successfully added new message file: [" + filesAdded[0].hash + "] to room: [" + this.state.latestHash + "]", 1)
+                let waitingLogMessage = this.updateLog("Sending new hash through contract and awaiting response from Ethereum network", 1, true)
                 // Send the new hash through the contract
                 console.log('added file:', filesAdded[0].path, filesAdded[0].hash)
                 await contract.methods.sendHash(this.state.currentRoom, filesAdded[0].hash)
                     .send({ gas: '2352262', from })
                 console.log('Hash ')
                 this.setLogFinished(waitingLogMessage)
-                this.updateLog("Success: IPFS now points to updated message")
+                this.updateLog("Success: IPFS now points to updated message", 1)
             }
             this.syncData()
             //this.addressInput.value = ''
@@ -347,7 +355,7 @@ class Backend extends Component {
             alert('transaction rejected, console for details')
             console.log(err)
             this.setLogFinished();
-            this.updateLog("An error occurred: message has failed to be added to the room's message list")
+            this.updateLog("An error occurred: message has failed to be added to the room's message list", 1)
         }
     }
 
@@ -488,6 +496,14 @@ class Backend extends Component {
             this.switchConsole = this.switchConsole.bind(this);
             this.state={consoleActive: false}
         }
+
+        onTildePress(e) {
+            console.log("key pressed >" + e.keyCode);
+            if (e.keyCode === 192) {
+                e.preventDefault();
+                this.switchConsole();
+            }
+        }
         
         /**
          * This sets whether the console is showing or not
@@ -499,7 +515,7 @@ class Backend extends Component {
 
         render() {
             return (
-                <div className="frontend">
+                <div className="frontend" tabIndex="0" onKeyDown={(e) => this.onTildePress(e)}>
                     <div className="content-page">
                         <Header 
                             claimTokens={this.props.claimTokens} 

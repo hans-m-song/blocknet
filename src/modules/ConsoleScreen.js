@@ -17,27 +17,25 @@ export class ConsoleScreen extends Component {
     }
 
     render() {
-        let classes;
         if (this.props.consoleActive) {
-            classes = `console console-active`;
+            return (
+                //<div className={classes}>
+                <div className="console console-active">
+                    <ConsoleNav 
+                        activeSection={this.state.activeSection}
+                        activateSection={this.activateSection}
+                    />
+                    <ConsoleContent 
+                        currentState={this.currentState}
+                        activateSection={this.activateSection}
+                        activeSection={this.state.activeSection}
+                        backendLog={this.props.backendLog}
+                    />
+                </div>
+            );
         } else {
-            classes = `console console-inactive`;
+            return null;
         }
-
-        return (
-            <div className={classes}>
-                <ConsoleNav 
-                    activeSection={this.state.activeSection}
-                    activateSection={this.activateSection}
-                />
-                <ConsoleContent 
-                    currentState={this.currentState}
-                    activateSection={this.activateSection}
-                    activeSection={this.state.activeSection}
-                    backendLog={this.props.backendLog}
-                />
-            </div>
-        );
     }
 }
 
@@ -227,10 +225,9 @@ export class MessageGraph extends Component {
  *      -props.backendLog is an array that contains a log object describing the time the log was made (log.time) in 24hr time and the message to be rendered (log.message)
  */
 export class ConsoleLog extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        }
+    componentDidMount() {
+        var logContainer = document.getElementsByClassName("consolelog");
+        logContainer[0].scrollTop = logContainer[0].scrollHeight;
     }
 
     renderLog() {
@@ -239,6 +236,7 @@ export class ConsoleLog extends Component {
                 time={log.time}
                 message={log.message}
                 waiting={log.waiting}
+                indents={log.indents}
             />
         );
         return (
@@ -262,19 +260,35 @@ export class LogParagraph extends Component {
     constructor(props) {
         super(props);
         console.log(this.props.message + " | " + this.props.waiting);
+        this.msg = this.props.message;
+    }
+
+    componentDidMount() {
+        let logContainer = document.getElementsByClassName("consolelog");
+        logContainer[0].scrollTop = logContainer[0].scrollHeight;
+    }
+
+    parseMessage() {
+        let msg = this.props.message; //props are immutable
+        let indent = [];
+        for (var i=0; i<this.props.indents; i++) {
+            indent.push(<span className="log-indent">....</span>)
+        }
+        return (
+            <p>
+                <span className="log-time">{this.props.time}</span>
+                <span className="log-divider"> </span>
+                { this.props.indents>0 && indent }
+                <span className="log-message">{this.props.message}</span>
+                { this.props.waiting && <WaitingAnimation /> }
+            </p>
+        ); 
     }
 
     render() {
         return (
             <div>
-                <p>
-                    <span className="log-time"> {this.props.time}</span>
-                    <span className="log-divider"> </span>
-                    <span className="log-message">{this.props.message}</span>
-                    {this.props.waiting && 
-                        <WaitingAnimation />
-                    }
-                </p>
+                {this.parseMessage()}
             </div>
         )
     }
@@ -307,7 +321,7 @@ export class WaitingAnimation extends Component {
     render() {
         return (
             <span>
-                {this.state.currentFrame}
+                ...{this.state.currentFrame}
             </span>
         );
     }

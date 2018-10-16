@@ -7,6 +7,10 @@
     border-color : white;
 }
 
+div {
+    outline: none;
+}
+
 /************     Chrome Scrollbars      ***********/
 /*These will only work on chrome; if we convert to Electron application this will still apply and we won't have to worry about cross-browser support*/
 div::-webkit-scrollbar {
@@ -255,12 +259,12 @@ content-page {
 
 /*****************Console Related CSS*************************/
 .console {
+    display : flex;
     flex-direction : column;
     width : 100%;
     height : 50%;
     position : absolute;
     bottom : 0;
-    overflow : auto;
     border-top : 1px solid white;
 }
 
@@ -269,16 +273,17 @@ content-page {
     font-size: 0.92em;
 }
 
+.console-content-section {
+    overflow : auto;
+    border-top: 1px solid;
+}
+
 .console p {
     margin : 0;
 }
 
 .console-active {
     display : flex;
-}
-
-.console-inactive {
-    display : none;
 }
 
 .console * {
@@ -291,13 +296,12 @@ content-page {
     overflow-x : auto;
     display: flex;
     flex-direction: row;
-    border-bottom: 1px solid;
     flex-shrink: 0;
     font-family: 'Do Hyeon', sans-serif;
 }
 
 .console-nav div {
-    padding: 11px 15px 10px 15px;
+    padding: 5px 15px 5px 15px;
     flex-shrink : 0;
     margin : 0;
     cursor : pointer;
@@ -342,7 +346,6 @@ content-page {
     flex : auto;
     flex-grow : 1;
     order : 1;
-    border: 1px solid;
     text-align: left;
 }
 
@@ -379,7 +382,6 @@ content-page {
     display : flex;
     flex-direction : row;
     flex : auto;
-    border : 1px solid;
     padding-left : 10px;
     padding-right : 10px;
 }
@@ -392,7 +394,6 @@ content-page {
     display : flex;
     flex : 1;
     flex-direction : column;
-    border: 1px solid;
     text-align: left;
 }
 
@@ -416,7 +417,11 @@ content-page {
 }
 
 .log-time {
+    font-weight: bold;
+}
 
+.log-indent {
+    visibility : hidden;
 }
 
 .token-manager {
