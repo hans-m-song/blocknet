@@ -30,7 +30,7 @@ export class Message extends Component {
                     endIndex = i+code.length;
                     emojiString = userString.substring(startIndex+code.length, endIndex-code.length);
                     emoji = this.props.map.get(emojiString);
-                    if (emoji != undefined) {
+                    if (emoji !== undefined) {
                         userString = (userString.substring(0, startIndex)) + emoji + (userString.substring(endIndex, userString.length));
                         i = i-(endIndex-startIndex);
                     }
@@ -61,12 +61,12 @@ export class Menu extends Component {
         super();
 
         this.state = {
-
             showMenu: false,
         };
-
+//according to the tutorila site on React of event handling this should take care of the rendering 
         this.showMenu = this.showMenu.bind(this);
         this.closeMenu = this.closeMenu.bind(this);
+
     }
 
     showMenu(event) {
@@ -76,15 +76,12 @@ export class Menu extends Component {
             document.addEventListener('click', this.closeMenu);
         });
     }
-
+//The error of type seems to be once the new component is renderer and element becomes null 
+// last resourse fix: implement the close state in all the other components  
     closeMenu(event) {
-
         if (!this.dropdownMenu.contains(event.target)) {
-
             this.setState({ showMenu: false }, () => {
-                document.removeEventListener('click', this.closeMenu);
-            });
-
+                document.addEventListener(); });
         }
     }
 }
@@ -104,6 +101,7 @@ export class MessageHeader extends Menu {
 
                                         ref={(element) => {
                                             this.dropdownMenu = element;
+
                                         }}
                                     >
                                         <button className="inner-invite-menu" n> Invite to private chat  </button>
