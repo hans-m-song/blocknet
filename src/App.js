@@ -136,11 +136,9 @@ class Backend extends Component {
     componentDidMount = async () => {
         try {
             const web3 = await getWeb3()
-            const accounts = await web3.eth.getAccounts()
-            
+            const accounts = await web3.eth.getAccounts()    
             console.log("using address", contractAddress)
-            this.updateLog("Web3 Loaded | using contract address: " + contractAddress)
-
+            this.updateLog("w{Web3||https://github.com/ethereum/web3.js}w Loaded | using w{contract||https://en.wikipedia.org/wiki/Smart_contract}w address: " + contractAddress)
             const contract = new web3.eth.Contract(abi, contractAddress)
             contract.setProvider(web3.currentProvider)
             const networkType = await web3.eth.net.getNetworkType()
@@ -148,7 +146,7 @@ class Backend extends Component {
             this.setState({ web3, accounts, contract, web3InvalidNetwork }, this.syncData)
             if (accounts[this.state.selectedAccountIndex]) {
                 this.setState({ metamaskOnline: true })
-                this.updateLog("Successfully connected to client's MetaMask wallet")
+                this.updateLog("Successfully connected to client's w{MetaMask||https://github.com/MetaMask/metamask-extension}w w{wallet||https://en.wikipedia.org/wiki/Cryptocurrency_wallet}w")
             }
         } catch (error) {
             alert('Failed to initialize connection, check console for specifics')
@@ -164,7 +162,7 @@ class Backend extends Component {
             ipfs.on('ready', async () => {
                 this.setState({ ipfsIsOnline: true })
                 console.log("IPFS initalized")
-                this.updateLog("IPFS has been connected to and is initialized")
+                this.updateLog("w{IPFS||https://en.wikipedia.org/wiki/InterPlanetary_File_System}w has been connected to and is initialized")
             })
 
             ipfs.once('start', async () => {

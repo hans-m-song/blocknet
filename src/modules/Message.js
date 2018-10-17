@@ -15,9 +15,10 @@ export class Message extends Component {
         messageContainer[0].scrollTop = messageContainer[0].scrollHeight;
     }
 
+    /*Text within two "::" (i.e. ::smile::) will be swapped with emoji if a correct emoji code is given*/
     renderEmoji() {
         let emoji = "";
-        let code = "~!";
+        let code = "::";
         let startIndex = -1;
         let endIndex = -1;
         let userString = this.props.message;
@@ -28,7 +29,7 @@ export class Message extends Component {
                     startIndex = i;
                 } else {
                     endIndex = i+code.length;
-                    emojiString = userString.substring(startIndex+code.length, endIndex-code.length);
+                    emojiString = userString.substring(startIndex+code.length, i); //endIndex-code.length
                     emoji = this.props.map.get(emojiString);
                     if (emoji !== undefined) {
                         userString = (userString.substring(0, startIndex)) + emoji + (userString.substring(endIndex, userString.length));

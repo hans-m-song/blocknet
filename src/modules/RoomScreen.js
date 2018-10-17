@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { CreateRoomScreen } from './CreateRoomScreen' 
+import { ManageRoomsScreen } from './ManageRoomsScreen' 
 import { ChatBox } from './ChatBox'
 import { Message } from './Message'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -68,7 +68,7 @@ export class RoomScreen extends Component {
                         activeRoom={this.state.activeRoom} 
                         creatingRoom={this.state.creatingRoom}
                     />
-                    <CreateRoomScreen
+                    <ManageRoomsScreen
                         activateRoom={this.activateRoom}
                         addRoom={this.props.addRoom}
                     />
