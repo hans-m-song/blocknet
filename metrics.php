@@ -23,6 +23,7 @@
     static $age_data = array();
     static $visits_data = array();
     static $submissions_data = array();
+    static $rows_data = array();
 
     $likert_options = array("1", "2", "3", "4", "5");
     $features = array("data", "tech", "friends", "community", "learn");
@@ -62,13 +63,20 @@
             $submissions_data[] = $submission;
         }
 
+        $stmt = $db->prepare("SELECT * FROM InterestedParty");
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        foreach($result as $row) {
+            $rows_data[] = $row;
+        }
+
 	echo "<script>var proficient_data = ". json_encode($proficient_data) .";</script>";
 	echo "<script>var familiar_data = ". json_encode($familiar_data) .";</script>";
 	echo "<script>var features_data = ". json_encode($features_data) .";</script>";
 	echo "<script>var age_data = ". json_encode($age_data) .";</script>";
 	echo "<script>var visits_data = ". json_encode($visits_data) .";</script>";
 	echo "<script>var submissions_data = ". json_encode($submissions_data) .";</script>";
-
+    echo "<script>var rows_data = ". json_encode($rows_data) .";</script>";
 
     } catch(PDOException $ex) {
         error_log($ex->getMessage());
@@ -157,11 +165,51 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-md-6">
+                <div class="chart-container">
+                    <table id="formTable" width = "400" height = "400" float: left>
+                      <tr>
+                        <th>Time</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Age</th>
+                        <th>Proficiency</th>
+                        <th>Familiarity</th>
+                        <th>Features</th>
+                      </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
     <script type="text/javascript" src="js/charts.js"></script>
 
     <div class="footer">
         <p>8 Hearts 1 Beat, 2018 | DECO3801 | <a href="index.php" id="home-footer">Home</a></p>
 	</div>
+
+    <script>
+        var table = document.getElementById("formTable");
+        for(var i = 0; i < rows_data.length; i++) {
+            var row = table.insertRow();
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3);
+            var cell5 = row.insertCell(4);
+            var cell6 = row.insertCell(5);
+            var cell7 = row.insertCell(6);
+            cell1.appendChild(document.createTextNode(rows_data[i]["Time"]));
+            cell2.appendChild(document.createTextNode(rows_data[i]["Name"]));
+            cell3.appendChild(document.createTextNode(rows_data[i]["Email"]));
+            cell4.appendChild(document.createTextNode(rows_data[i]["Age"]));
+            cell5.appendChild(document.createTextNode(rows_data[i]["Proficient"]));
+            cell6.appendChild(document.createTextNode(rows_data[i]["Familiar"]));
+            cell7.appendChild(document.createTextNode(rows_data[i]["Features"]));
+        }
+    </script>
+
 
 </body>
 
