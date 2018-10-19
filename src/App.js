@@ -401,7 +401,8 @@ class Backend extends Component {
         const address = accounts[selectedAccountIndex]
 
         /*Render login screen*/
-        if (!loggedIn) {
+        //if you want to see the log in screen make the below if statement check for !loggenIn
+        if (loggedIn) {
             return (
                 <div className="purgatory-content">
                     <LoadingScreen />
