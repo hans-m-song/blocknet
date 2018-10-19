@@ -33,7 +33,7 @@ export class NewRoomForm extends Component {
     /*Maps the inner state of the the form to the state of the overall component to establish the component as the "one source of truth"*/
     handleInputChange(event) {
         const target = event.target;
-        const value = target.value;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
 
         this.setState({
@@ -74,10 +74,10 @@ export class NewRoomForm extends Component {
                         <br/>
                     </div>
                     <div className="new-room-privacy input-div">
-                        <label>Privacy:</label><br/>
+                        <label>Private?</label><br/>
                         <input 
-                            type="text" 
-                            name="privacy"
+                            type="checkbox" 
+                            name="private"
                             onChange={this.handleInputChange}
                             />
                         <br/>

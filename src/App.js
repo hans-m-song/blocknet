@@ -323,7 +323,9 @@ class Backend extends Component {
         this.updateLog("Attempting to send message: [" + message.message + "] from address: [" + from + "]");
         try {
             if (this.state.ipfsHash) {
-                messageHistory.push(message)
+                var tempHistory = messageHistory.slice(0)
+                tempHistory.push(message)
+
 
                 /*fs.writeFileSync('/Rooms/BlockNet.json', JSON.stringify(messageHistory, null, 4), (err) => {
                     if (err) {
@@ -336,7 +338,7 @@ class Backend extends Component {
                 // Create a new file on ipfs with new message
                 const filesAdded = await ipfs.files.add({
                     path: `${this.state.currentRoom}.json`,
-                    content: Buffer.from(JSON.stringify(messageHistory, null, 4))
+                    content: Buffer.from(JSON.stringify(tempHistory, null, 4))
                 })
                 this.updateLog("Successfully added new message file: [" + filesAdded[0].hash + "] to room: [" + this.state.latestHash + "]", 1)
                 let waitingLogMessage = this.updateLog("Sending new hash through contract and awaiting response from Ethereum network", 1, true)
@@ -359,8 +361,29 @@ class Backend extends Component {
         }
     }
 
+    // TODO: Implement and finish
+    createRoom = async (room, private, dailyTokens = 0, tokensPerUpdate = 0, updateRate = 0, tokensPerMessage = 0) => {
+        /*const { contract, messageHistory, currentRoom } = this.state
+        messageHistory = []
+        currentRoom = room
+        try {
+            await contract.methods.newRoom(room, private, dailyTokens, tokensPerUpdate, updateRate, tokensPerMessage)
+            console.log("New Room ", room, " successfully created.")
+            await this.setState({ messageHistory, currentRoom })
+            await this.sendMessage("Created the Room.")
+        } catch (err) {
+            console.error(err)
+        }*/
+    }
+
+    /* Set currently selected room to 'room'
+     * 
+     * @param String room -> name of room to set as selected
+     */
     setRoom = async (room) => {
-        this.state.currentRoom = room
+        const { currentRoom } = this.state
+        currentRoom = room
+        this.setState({ currentRoom }) 
         this.updateLog("Room set to [" + room + "] | Room hash: [" + this.state.latestHash + "]")
         this.updateLog("Previous messages:")
         /*Would be good to display an expandable list of the messages comprising the message history on load 
@@ -486,6 +509,7 @@ class Backend extends Component {
             //console.log(data);
             //this.rooms.push(data);
             this.rooms.push(data.roomName);
+            this.createRoom(data.roomName, data.private/*, data.messageCost*/);
             console.log(this.rooms);
         }
     }
