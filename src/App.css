@@ -542,7 +542,24 @@ content-page {
 }
 
 /************Create Room Screen**************/
+.create-room-screen {
+    display: flex;
+    flex-direction: row;
+}
 
+.form-container {
+    flex-basis : 50%;
+    flex-shrink: 0;
+    flex-grow : 0;
+}
+
+.form-container div {
+    padding-bottom: 5px;
+}
+
+.new-room-description {
+    width: 100%;
+}
 
 
 /******Message Box Related******/

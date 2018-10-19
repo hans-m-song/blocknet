@@ -3,11 +3,11 @@ import React, { Component } from 'react'
 /**
  * Add room screen. GUI for creating and specifying rooms.
  */
-export class CreateRoomScreen extends Component {
+export class ManageRoomsScreen extends Component {
     render() {
         return (
             <div className="create-room-screen">
-                <NewRoomForm
+                <CreateRoomForm
                     addRoom={this.props.addRoom}
                     activateRoom={this.props.activateRoom}
                 />
@@ -16,7 +16,7 @@ export class CreateRoomScreen extends Component {
     }
 }
 
-export class NewRoomForm extends Component {
+export class CreateRoomForm extends Component {
     constructor(props) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -88,6 +88,48 @@ export class NewRoomForm extends Component {
                             type="submit" 
                             value="Submit" 
                             name="submit"
+                        />
+                        <br/>
+                    </div>
+                </form>
+            </div>
+        );
+    }
+}
+
+export class RemoveRooms extends Component {
+    render() {
+        return (
+            <div className="form-container">
+                <h1>Remove Room</h1>
+                <form onSubmit={this.handleSubmit}>
+                    <div className="remove-room input-div">
+                        <label>Room name:</label><br/>
+                        <input 
+                            type="text" 
+                            name="roomName"
+                            onChange={this.handleInputChange}
+                        />
+                        <br/>
+                    </div>
+                </form>
+            </div>
+        );
+    }
+}
+
+export class JoinRoom extends Component {
+    render() {
+        return (
+            <div className="form-container">
+                <h1>Join Room</h1>
+                <form onSubmit={this.handleSubmit}>
+                    <div className="join-room input-div">
+                        <label>Room name:</label><br/>
+                        <input 
+                            type="text" 
+                            name="roomName"
+                            onChange={this.handleInputChange}
                         />
                         <br/>
                     </div>

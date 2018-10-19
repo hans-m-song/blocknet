@@ -268,8 +268,80 @@ export class LogParagraph extends Component {
         logContainer[0].scrollTop = logContainer[0].scrollHeight;
     }
 
+    convertLinks(message) {
+
+    }
+
+    /*Links specified as: w{title||http://www.wikipedia.com/web3}w*/
+    findLinks(message) {
+        let startLinkCode="w{";
+        let titleSeparator="||";
+        let endLinkCode="}w";
+        let startIndex = -1;
+        let endIndex = -1;
+        let separatorIndex = -1;
+        let title;
+        let link;
+        let messageChunk
+        let chunkedMessage = [];
+        let foundLink = false;
+        for (let i=0; i<message.length; i++) {
+            if (message[i] === startLinkCode[0] && message[i+1] === startLinkCode[1]) {
+                if (startIndex === -1) {
+                    //found an opening linkCode
+                    startIndex = i;
+                }
+            }
+            if (startIndex !== -1 && separatorIndex === -1) {
+                //Found and opening link code but not separator yet
+                if (message[i] === titleSeparator[0] && message[i+1] === titleSeparator[1]) {
+                    //Found title separator; before is title, after is link
+                    separatorIndex = i+titleSeparator.length;
+                    title = message.substring(startIndex+startLinkCode.length, i);
+                    
+                }
+            }
+            if (message[i] === endLinkCode[0] && message[i+1] === endLinkCode[1]) {
+                if (separatorIndex !== -1) {
+                    //found a terminating linkCode
+                    endIndex = i+endLinkCode.length;
+                    link = message.substring(separatorIndex, i);
+                    chunkedMessage.push( {priorText: message.substring(0, startIndex), linkText: title, url: link} );
+                    message = message.substring(i+endLinkCode.length, message.length);
+                    i = 0;
+                    foundLink = true;
+                    startIndex = -1;
+                    separatorIndex = -1;
+                    endIndex = -1;
+                }
+            }
+        }
+        console.log(JSON.stringify(chunkedMessage[0]));
+        if (foundLink) {
+            chunkedMessage.push( {priorText: message.substring(0, message.length), linkText: "", url: ""} ); //push remainder of string to array
+            return chunkedMessage
+        } else {
+            return false;
+        }
+    }
+
     parseMessage() {
         let msg = this.props.message; //props are immutable
+        let hyperlinkMessage = this.findLinks(msg);
+        let message = <span>an error occurred parsed console log message</span>;
+        if (hyperlinkMessage) {
+            //construct hyperlinks
+            message = hyperlinkMessage.map((chunk) =>
+                <span>{chunk.priorText}
+                    <a href={chunk.url}>{chunk.linkText}</a>
+                </span>
+            );
+        } else {
+            //use this.props.message
+            message = <span>{this.props.message}</span>
+        }
+
+        
         let indent = [];
         for (var i=0; i<this.props.indents; i++) {
             indent.push(<span className="log-indent">....</span>)
@@ -279,7 +351,7 @@ export class LogParagraph extends Component {
                 <span className="log-time">{this.props.time}</span>
                 <span className="log-divider"> </span>
                 { this.props.indents>0 && indent }
-                <span className="log-message">{this.props.message}</span>
+                <span className="log-message">{message}</span>
                 { this.props.waiting && <WaitingAnimation /> }
             </p>
         ); 
