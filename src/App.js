@@ -137,6 +137,7 @@ class Backend extends Component {
     handleLogin = async (mode) => {
         // can use this to set states for login and such
         this.setState({ loggedIn: true });
+        console.log("logging in with mode: " + mode);
         this.initWeb3(mode);
     }
 

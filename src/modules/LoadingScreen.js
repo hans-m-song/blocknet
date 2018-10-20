@@ -11,7 +11,9 @@ export class LoadingScreen extends Component {
 
     render() {
         return (
-            <LoginScreen />
+            <LoginScreen 
+                handleLogin={this.props.handleLogin}
+            />
         );
     }
 }
@@ -64,6 +66,7 @@ export class LoginScreen extends Component {
                 <div className="login-input-container">
                     <LoginUserInput 
                         selectedOption={this.state.selectedLogin}
+                        handleLogin={this.props.handleLogin}
                     />
                 </div>
             </div>
@@ -146,45 +149,71 @@ export class LoginOptionHelp extends Component {
 export class LoginUserInput extends Component {
     constructor(props) {
         super(props);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+        switch (this.props.selectedOption) {
+            case "anon":
+                this.props.handleLogin("default");
+                break;
+            case "metamask":
+                this.props.handleLogin("metamask");
+                break
+            case "mnemonic":
+                //get mnemonic
+                let mnemonic = "test"
+                this.props.handleLogin(mnemonic);
+                break;
+        }
     }
 
     anonInput() {
         return(
-            <form className="login-form">
-                <input type="submit" value="Enter" name="submit"></input>
-            </form>
+            <input type="submit" value="Enter" name="submit"></input>
         );
     }
 
     metamaskInput() {
         return(
-            <form>
-                <input type="submit" value="Check for Meta Mask" name="submit"></input>
-            </form>
+            <input type="submit" value="Check for Meta Mask" name="submit"></input>
         );
     }
 
     mnemonicInput() {
         return(
-            <form className="login-form">
+            <div>
                 <textarea
                     rows="3"
                     cols="40"
                     placeholder="Enter your twelve word mnemonic..."
                 /><br/>
                 <input type="submit" value="Log in" name="submit"></input>
-            </form>
+            </div>
         );
     }
 
     render() {
         switch (this.props.selectedOption) {
             case "anon":
-                return (this.anonInput());
+                return (
+                    <form className="login-form" onSubmit={this.handleSubmit}>
+                        {this.anonInput()}
+                    </form>  
+                );
             case "metamask":
-                return (this.metamaskInput());
+                return (
+                    <form className="login-form" onSubmit={this.handleSubmit}>
+                        {this.metamaskInput()}
+                    </form>
+                );
             case "mnemonic":
-                return (this.mnemonicInput());
+                return (
+                    <form className="login-form" onSubmit={this.handleSubmit}>
+                        {this.mnemonicInput()}
+                    </form>
+                );
         }
     }
 }
