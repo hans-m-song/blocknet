@@ -232,13 +232,19 @@ export class MessageContainer extends Component {
 
     renderTemp() {
         if (this.props.lastMessage !== null) {
-            return <Message
-                key={this.props.lastMessage.date}
-                user={this.props.lastMessage.user.toString()}
-                date={this.props.lastMessage.date.toString()}
-                message={this.props.lastMessage.message.toString()}
-                map={this.generateEmojiMap()}
-            />
+            return <div className="temporary-message">
+                <Message
+                    key={this.props.lastMessage.date}
+                    user={this.props.lastMessage.user.toString()}
+                    date={this.props.lastMessage.date.toString()}
+                    message={this.props.lastMessage.message.toString()}
+                    map={this.generateEmojiMap()}
+                />
+                <div>
+                    <img className="sending-message" src="https://drive.google.com/uc?id=1V5tY3mtS2cQh6Zr-z9NdpAXDTUBAyCAt"/>
+                    <p className="icon-caption">Sending message...</p>
+                </div>
+            </div>
         }
     }
 
@@ -247,9 +253,7 @@ export class MessageContainer extends Component {
         return (
             <div className="message-container">
                 {this.renderMessages()}
-                <div className="temporary-message">
-                    {this.renderTemp()}
-                </div>
+                {this.renderTemp()}
             </div>
         );
     }

@@ -669,8 +669,29 @@ content-page {
 .message-container * {
 }
 
+.temporary-message {
+	position: relative;
+}
+
 .temporary-message * {
 	color: grey;
+}
+
+.temporary-message img {
+	position: absolute;
+	display: flex;
+	top: 0;
+	width: 75px;
+	left: 50%;
+	margin: auto;
+}
+
+.icon-caption {
+	position: absolute;
+	display: flex;
+	top: 70px;
+	left: 47%;
+	margin: 0;
 }
 
 /*Discrete message styling*/
@@ -681,7 +702,7 @@ content-page {
     margin-right: 5px;
 }
 
-.message:last-child {
+.message:last-of-type {
     border-bottom: none;
 }
 
