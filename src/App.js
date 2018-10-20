@@ -85,6 +85,7 @@ class Backend extends Component {
             -Rooms also probably should be updated to using unique ID's on both front and backend
         */
         this.rooms = ["BlockNet", "Programming", "Gaming", "Random"];
+        this.initWeb3 = this.initWeb3.bind(this);
     }
 
     /**
@@ -131,28 +132,40 @@ class Backend extends Component {
         }
     }
 
+    /**
+     * handles login for user
+     * assumes some form of checking is done before this is called
+     * 
+     * @param {string} mode either "metamask", "default" or a 12 word mnemonic
+     */
+    initWeb3 = async (mode) => {
+        const web3 = await getWeb3(mode)
+        const accounts = await web3.eth.getAccounts()    
+        console.log("using address", contractAddress)
+        this.updateLog("w{Web3||https://github.com/ethereum/web3.js}w Loaded | using w{contract||https://en.wikipedia.org/wiki/Smart_contract}w address: " + contractAddress)
+        const contract = new web3.eth.Contract(abi, contractAddress)
+        contract.setProvider(web3.currentProvider)
+        const networkType = await web3.eth.net.getNetworkType()
+        const web3InvalidNetwork = networkType !== 'rinkeby'
+        this.setState({ web3, accounts, contract, web3InvalidNetwork }, this.syncData)
+        if (accounts[this.state.selectedAccountIndex]) {
+            this.setState({ metamaskOnline: true })
+            this.updateLog("Successfully connected to client's w{MetaMask||https://github.com/MetaMask/metamask-extension}w w{wallet||https://en.wikipedia.org/wiki/Cryptocurrency_wallet}w")
+        }
+    }
+
     // Connection handler for web3
     componentDidMount = async () => {
+        /* 
         try {
-            const web3 = await getWeb3()
-            const accounts = await web3.eth.getAccounts()    
-            console.log("using address", contractAddress)
-            this.updateLog("w{Web3||https://github.com/ethereum/web3.js}w Loaded | using w{contract||https://en.wikipedia.org/wiki/Smart_contract}w address: " + contractAddress)
-            const contract = new web3.eth.Contract(abi, contractAddress)
-            contract.setProvider(web3.currentProvider)
-            const networkType = await web3.eth.net.getNetworkType()
-            const web3InvalidNetwork = networkType !== 'rinkeby'
-            this.setState({ web3, accounts, contract, web3InvalidNetwork }, this.syncData)
-            if (accounts[this.state.selectedAccountIndex]) {
-                this.setState({ metamaskOnline: true })
-                this.updateLog("Successfully connected to client's w{MetaMask||https://github.com/MetaMask/metamask-extension}w w{wallet||https://en.wikipedia.org/wiki/Cryptocurrency_wallet}w")
-            }
+            this.initWeb3();
         } catch (error) {
             alert('Failed to initialize connection, check console for specifics')
             this.updateLog("Failed to initialize connection")
             this.setState({ web3GetError: true })
             console.log(error)
         }
+        */
 
         try {
             ipfs = await getIPFS()
@@ -237,6 +250,11 @@ class Backend extends Component {
 
     // get info from deployed decentralised application (dapp) and sync with session state
     syncData = async () => {
+        if(this.state.loggedIn === false) {
+            console.log("waiting for login")
+            return; // wait until user has logged in
+        }
+
         const { web3, accounts, contract, selectedAccountIndex } = this.state
         const from = accounts[selectedAccountIndex]
 
@@ -270,26 +288,27 @@ class Backend extends Component {
         var ipfsPeers = { __html: '' }
         if (this.state.ipfsIsOnline) {
             ipfsPeers = { __html: await this.refreshPeerList() }
-    }
+            
+        }
 
-    var latestMessage = await this.readHash()
+        var latestMessage = await this.readHash()
 
-    //console.log(latestMessage)
+        //console.log(latestMessage)
 
-    this.setState({
-        ipfsHash,
-        ipfsAddr,
-        ipfsPeers,
-        balance,
-        //messageHistory,
-        blocksTilClaim,
-        claimableTokens,
-        blocksPerClaim,
-        tokensPerMessage,
-        dailyTokensNo,
-        latestBlockNo
-        //latestMessage
-    })
+        this.setState({
+            ipfsHash,
+            ipfsAddr,
+            ipfsPeers,
+            balance,
+            //messageHistory,
+            blocksTilClaim,
+            claimableTokens,
+            blocksPerClaim,
+            tokensPerMessage,
+            dailyTokensNo,
+            latestBlockNo
+            //latestMessage
+        })
     }
 
     // TODO determine gas cost
@@ -405,7 +424,8 @@ class Backend extends Component {
         if (loggedIn) {
             return (
                 <div className="purgatory-content">
-                    <LoadingScreen />
+                    <LoadingScreen 
+                        login={this.handleLogin}/>
                 </div>
             )
         }
