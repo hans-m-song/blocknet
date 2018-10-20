@@ -77,7 +77,7 @@ export class CreateRoomForm extends Component {
                         <label>Private?</label><br/>
                         <input 
                             type="checkbox" 
-                            name="private"
+                            name="is_private"
                             onChange={this.handleInputChange}
                             />
                         <br/>

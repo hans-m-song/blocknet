@@ -360,12 +360,12 @@ class Backend extends Component {
     }
 
     // TODO: Implement and finish
-    createRoom = async (room, private, dailyTokens = 0, tokensPerUpdate = 0, updateRate = 0, tokensPerMessage = 0) => {
+    createRoom = async (room, is_private, dailyTokens = 0, tokensPerUpdate = 0, updateRate = 0, tokensPerMessage = 0) => {
         /*const { contract, messageHistory, currentRoom } = this.state
         messageHistory = []
         currentRoom = room
         try {
-            await contract.methods.newRoom(room, private, dailyTokens, tokensPerUpdate, updateRate, tokensPerMessage)
+            await contract.methods.newRoom(room, is_private, dailyTokens, tokensPerUpdate, updateRate, tokensPerMessage)
             console.log("New Room ", room, " successfully created.")
             await this.setState({ messageHistory, currentRoom })
             await this.sendMessage("Created the Room.")
@@ -379,8 +379,7 @@ class Backend extends Component {
      * @param String room -> name of room to set as selected
      */
     setRoom = async (room) => {
-        const { currentRoom } = this.state
-        currentRoom = room
+        var currentRoom = room
         this.setState({ currentRoom }) 
         this.updateLog("Room set to [" + room + "] | Room hash: [" + this.state.latestHash + "]")
         this.updateLog("Previous messages:")
@@ -507,7 +506,7 @@ class Backend extends Component {
             //console.log(data);
             //this.rooms.push(data);
             this.rooms.push(data.roomName);
-            this.createRoom(data.roomName, data.private/*, data.messageCost*/);
+            this.createRoom(data.roomName, data.is_private/*, data.messageCost*/);
             console.log(this.rooms);
         }
     }
