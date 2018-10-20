@@ -108,7 +108,7 @@ export class LoginOptionHelp extends Component {
     metamaskHelp() {
         return (
             <div className="login-explanation">
-                <p>Logging with Meta Mask: </p>
+                <p>Logging in with Meta Mask: </p>
                 <ul>
                     <li>Allows you to save personal settings and favourite rooms</li>
                     <li>Requires a Meta Mask account and browser extension</li>
@@ -121,7 +121,7 @@ export class LoginOptionHelp extends Component {
     mnemonicHelp() {
         return (
             <div className="login-explanation">
-                <p>Logging with mnemonic: </p>
+                <p>Logging in with mnemonic: </p>
                 <ul>
                     <li>Allows you to save personal settings and favourite rooms</li>
                     <li>Requires an existing cryptocurrency wallet and associated twelve word mnemonic</li>
