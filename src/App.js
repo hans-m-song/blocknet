@@ -13,7 +13,9 @@ import {
     Header,
     MainPage
 } from './modules/MainPage'
-import { ConsoleScreen } from './modules/ConsoleScreen'
+import { 
+    ConsoleScreen,
+    WaitingAnimation } from './modules/ConsoleScreen'
 import { LoadingScreen } from './modules/LoadingScreen'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
@@ -325,7 +327,9 @@ class Backend extends Component {
         this.updateLog("Attempting to send message: [" + message.message + "] from address: [" + from + "]");
         try {
             if (this.state.ipfsHash) {
-                messageHistory.push(message)
+                var tempHistory = messageHistory.slice(0)
+                tempHistory.push(message)
+
 
                 /*fs.writeFileSync('/Rooms/BlockNet.json', JSON.stringify(messageHistory, null, 4), (err) => {
                     if (err) {
@@ -338,7 +342,7 @@ class Backend extends Component {
                 // Create a new file on ipfs with new message
                 const filesAdded = await ipfs.files.add({
                     path: `${this.state.currentRoom}.json`,
-                    content: Buffer.from(JSON.stringify(messageHistory, null, 4))
+                    content: Buffer.from(JSON.stringify(tempHistory, null, 4))
                 })
                 this.updateLog("Successfully added new message file: [" + filesAdded[0].hash + "] to room: [" + this.state.latestHash + "]", 1)
                 let waitingLogMessage = this.updateLog("Sending new hash through contract and awaiting response from Ethereum network", 1, true)
@@ -361,8 +365,28 @@ class Backend extends Component {
         }
     }
 
+    // TODO: Implement and finish
+    createRoom = async (room, is_private, dailyTokens = 0, tokensPerUpdate = 0, updateRate = 0, tokensPerMessage = 0) => {
+        /*const { contract, messageHistory, currentRoom } = this.state
+        messageHistory = []
+        currentRoom = room
+        try {
+            await contract.methods.newRoom(room, is_private, dailyTokens, tokensPerUpdate, updateRate, tokensPerMessage)
+            console.log("New Room ", room, " successfully created.")
+            await this.setState({ messageHistory, currentRoom })
+            await this.sendMessage("Created the Room.")
+        } catch (err) {
+            console.error(err)
+        }*/
+    }
+
+    /* Set currently selected room to 'room'
+     * 
+     * @param String room -> name of room to set as selected
+     */
     setRoom = async (room) => {
-        this.state.currentRoom = room
+        var currentRoom = room
+        this.setState({ currentRoom }) 
         this.state.loadingRoom.status = true
         this.state.loadingRoom.index = this.updateLog("Room set to " + room + ". Loading messages", 0, true)
 
@@ -415,8 +439,10 @@ class Backend extends Component {
             console.log('Loading components')
             return (
                 <div className="purgatory-content">
-                    <p className="warning-message">loading components</p>
-                    
+                    <div className="warning-message">
+                        <span>loading components</span>
+                        <WaitingAnimation />    
+                    </div>
                 </div>
             )
         }
@@ -501,6 +527,7 @@ class Backend extends Component {
             //console.log(data);
             //this.rooms.push(data);
             this.rooms.push(data.roomName);
+            this.createRoom(data.roomName, data.is_private/*, data.messageCost*/);
             console.log(this.rooms);
         }
     }

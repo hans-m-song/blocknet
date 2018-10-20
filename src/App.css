@@ -30,6 +30,10 @@ div {
     cursor: pointer;
 }
 
+.spinner {
+    font-family: 'Roboto Mono', monospace;
+}
+
 
 /************     Chrome Scrollbars      ***********/
 /*These will only work on chrome; if we convert to Electron application this will still apply and we won't have to worry about cross-browser support*/

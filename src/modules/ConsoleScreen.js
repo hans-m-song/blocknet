@@ -278,11 +278,9 @@ export class LogParagraph extends Component {
         let titleSeparator="||";
         let endLinkCode="}w";
         let startIndex = -1;
-        let endIndex = -1;
         let separatorIndex = -1;
         let title;
         let link;
-        let messageChunk
         let chunkedMessage = [];
         let foundLink = false;
         for (let i=0; i<message.length; i++) {
@@ -304,7 +302,6 @@ export class LogParagraph extends Component {
             if (message[i] === endLinkCode[0] && message[i+1] === endLinkCode[1]) {
                 if (separatorIndex !== -1) {
                     //found a terminating linkCode
-                    endIndex = i+endLinkCode.length;
                     link = message.substring(separatorIndex, i);
                     chunkedMessage.push( {priorText: message.substring(0, startIndex), linkText: title, url: link} );
                     message = message.substring(i+endLinkCode.length, message.length);
@@ -312,11 +309,9 @@ export class LogParagraph extends Component {
                     foundLink = true;
                     startIndex = -1;
                     separatorIndex = -1;
-                    endIndex = -1;
                 }
             }
         }
-        console.log(JSON.stringify(chunkedMessage[0]));
         if (foundLink) {
             chunkedMessage.push( {priorText: message.substring(0, message.length), linkText: "", url: ""} ); //push remainder of string to array
             return chunkedMessage
@@ -333,7 +328,7 @@ export class LogParagraph extends Component {
             //construct hyperlinks
             message = hyperlinkMessage.map((chunk) =>
                 <span>{chunk.priorText}
-                    <a href={chunk.url}>{chunk.linkText}</a>
+                    <a href={chunk.url} target="_blank">{chunk.linkText}</a>
                 </span>
             );
         } else {
@@ -392,7 +387,7 @@ export class WaitingAnimation extends Component {
 
     render() {
         return (
-            <span>
+            <span className="spinner">
                 ...{this.state.currentFrame}
             </span>
         );
