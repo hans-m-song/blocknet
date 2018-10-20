@@ -13,7 +13,9 @@ import {
     Header,
     MainPage
 } from './modules/MainPage'
-import { ConsoleScreen } from './modules/ConsoleScreen'
+import { 
+    ConsoleScreen,
+    WaitingAnimation } from './modules/ConsoleScreen'
 import { LoadingScreen } from './modules/LoadingScreen'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
@@ -427,7 +429,7 @@ class Backend extends Component {
 
         /*Render login screen*/
         //if you want to see the log in screen make the below if statement check for !loggenIn
-        if (loggedIn) {
+        if (!loggedIn) {
             return (
                 <div className="purgatory-content">
                     <LoadingScreen 
@@ -441,8 +443,10 @@ class Backend extends Component {
             console.log('Loading components')
             return (
                 <div className="purgatory-content">
-                    <p className="warning-message">loading components</p>
-                    
+                    <div className="warning-message">
+                        <span>loading components</span>
+                        <WaitingAnimation />    
+                    </div>
                 </div>
             )
         }
