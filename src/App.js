@@ -404,7 +404,7 @@ class Backend extends Component {
 
         /*Render login screen*/
         //if you want to see the log in screen make the below if statement check for !loggenIn
-        if (loggedIn) {
+        if (!loggedIn) {
             return (
                 <div className="purgatory-content">
                     <LoadingScreen />
