@@ -57,11 +57,10 @@ let ipfs
 class Backend extends Component {
     // global vars for the current session state
     state = {
-        web3GetError: false,
         ipfsGetError: false,
         web3InvalidNetwork: false,
         ipfsIsOnline: false,
-        metamaskOnline: false,
+        web3Online: false,
         accounts: [],
         claimableTokens: 0,
         selectedAccountIndex: 0,
@@ -134,48 +133,38 @@ class Backend extends Component {
         }
     }
 
-    handleLogin = async (mode) => {
-        // can use this to set states for login and such
-        this.setState({ loggedIn: true });
-        console.log("logging in with mode: " + mode);
-        this.initWeb3(mode);
-    }
-
     /**
      * handles login for user
      * assumes some form of checking is done before this is called
      * 
      * @param {string} mode either "metamask", "default" or a 12 word mnemonic
      */
-    async initWeb3(mode) {
-        const web3 = await getWeb3(mode)
-        const accounts = await web3.eth.getAccounts()    
-        console.log("using address", contractAddress)
-        this.updateLog("w{Web3||https://github.com/ethereum/web3.js}w Loaded | using w{contract||https://en.wikipedia.org/wiki/Smart_contract}w address: " + contractAddress)
-        const contract = new web3.eth.Contract(abi, contractAddress)
-        contract.setProvider(web3.currentProvider)
-        const networkType = await web3.eth.net.getNetworkType()
-        const web3InvalidNetwork = networkType !== 'rinkeby'
-        this.setState({ web3, accounts, contract, web3InvalidNetwork }, this.syncData)
-        if (accounts[this.state.selectedAccountIndex]) {
-            this.setState({ metamaskOnline: true })
-            this.updateLog("Successfully connected to client's w{MetaMask||https://github.com/MetaMask/metamask-extension}w w{wallet||https://en.wikipedia.org/wiki/Cryptocurrency_wallet}w")
+    handleLogin = async (mode) => {
+        try {
+            const web3 = await getWeb3(mode)
+            console.log("web3 loaded")
+            const accounts = await web3.eth.getAccounts()    
+            this.setState({ loggedIn: true });
+            console.log("using address", contractAddress)
+            this.updateLog("w{Web3||https://github.com/ethereum/web3.js}w Loaded | using w{contract||https://en.wikipedia.org/wiki/Smart_contract}w address: " + contractAddress)
+            const contract = new web3.eth.Contract(abi, contractAddress)
+            contract.setProvider(web3.currentProvider)
+            const networkType = await web3.eth.net.getNetworkType()
+            const web3InvalidNetwork = networkType !== 'rinkeby'
+            this.setState({ web3, accounts, contract, web3InvalidNetwork }, this.syncData)
+            if (accounts[this.state.selectedAccountIndex]) {
+                this.setState({ web3Online: true })
+                this.updateLog("Successfully connected to client's w{MetaMask||https://github.com/MetaMask/metamask-extension}w w{wallet||https://en.wikipedia.org/wiki/Cryptocurrency_wallet}w")
+            }
+        } catch (error) {
+            alert('Failed to initialize connection, check console for specifics')
+            this.updateLog("Failed to initialize connection")
+            console.log(error)
         }
     }
 
     // Connection handler for web3
     componentDidMount = async () => {
-        /* 
-        try {
-            this.initWeb3();
-        } catch (error) {
-            alert('Failed to initialize connection, check console for specifics')
-            this.updateLog("Failed to initialize connection")
-            this.setState({ web3GetError: true })
-            console.log(error)
-        }
-        */
-
         try {
             ipfs = await getIPFS()
             //Buffer = ipfs.types.Buffer
@@ -259,7 +248,7 @@ class Backend extends Component {
 
     // get info from deployed decentralised application (dapp) and sync with session state
     syncData = async () => {
-        if(this.state.loggedIn === false) {
+        if(this.state.loggedIn === false || this.state.web3Online === false) {
             console.log("waiting for login")
             return; // wait until user has logged in
         }
@@ -404,10 +393,9 @@ class Backend extends Component {
 
     render() {
         const {
-            web3GetError,
             ipfsGetError,
             ipfsIsOnline,
-            metamaskOnline,
+            web3Online,
             ipfsHash,
             web3InvalidNetwork,
             accounts,
@@ -439,8 +427,8 @@ class Backend extends Component {
             )
         }
 
-        if ((accounts.length <= 0 && !web3GetError && !web3InvalidNetwork && !ipfsGetError) ||
-                !ipfsHash || !ipfsIsOnline || !metamaskOnline) {
+        if ((accounts.length <= 0 && !web3InvalidNetwork && !ipfsGetError) ||
+                !ipfsHash || !ipfsIsOnline || !web3Online) {
             console.log('Loading components')
             return (
                 <div className="purgatory-content">
@@ -449,13 +437,6 @@ class Backend extends Component {
                         <WaitingAnimation />    
                     </div>
                 </div>
-            )
-        }
-
-        if (web3GetError) {
-            console.log('unable to load web3, make sure metamask is installed')
-            return (
-                <p className="warning-message">unable to load web3, make sure metamask is installed</p>
             )
         }
 
