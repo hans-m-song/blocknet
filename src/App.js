@@ -137,11 +137,12 @@ class Backend extends Component {
      * handles login for user
      * assumes some form of checking is done before this is called
      * 
-     * @param {string} mode either "metamask", "default" or a 12 word mnemonic
+     * @param {string} mode either "metamask", "mnemonic" or anything
+     * @param {string} mnemonic optional parameter if mode === "mnemonic", used for openning the wallet
      */
-    handleLogin = async (mode) => {
+    handleLogin = async (mode, mnemonic) => {
         try {
-            const web3 = await getWeb3(mode)
+            const web3 = await getWeb3(mode, mnemonic)
             console.log("web3 loaded")
             const accounts = await web3.eth.getAccounts()    
             this.setState({ loggedIn: true });

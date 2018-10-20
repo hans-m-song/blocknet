@@ -6,14 +6,17 @@ const defaultMnemonic = 'quote ozone head labor fly ribbon zone amused confirm p
 
 /*
 * Function that checks if there is a web3 instance and deploys to it, otherwise uses localhost (ganache-cli required)
-* returns web3 A web3 instance
+* params: mode - either "mnemonic", "metamask" or it will use the default wallet
+*         mnemonic - optional parameter if mode is "mnemonic", used to open the wallet
+* returns: web3 A web3 instance
 */
-async function getWeb3(mode) {
+async function getWeb3(mode, mnemonic) {
     console.log("attempting to load web3 with " + mode)
     let web3 = window.web3
-    if(mode.split(" ").length === 12) {
-        // not sure how to check for invalid mnemonics
-        //throw new Error("invalid mnemonic")
+    if(mode === "mnemonic") {
+        if(mnemonic === undefined || mnemonic.split(" ").length !== 12) {
+            throw new Error("Invalid mnemonic")
+        }
         web3 = await new Web3(new HDWalletProvider(mode, InfuraEndPoint))
         console.log('Using users wallet')
     } else if(mode === "metamask") { // use metamask
