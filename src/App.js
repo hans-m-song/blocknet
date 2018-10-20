@@ -538,7 +538,6 @@ class Backend extends Component {
         }
 
         render() {
-            console.log(this.props.lastMessage)
             return (
                 <div className="frontend" tabIndex="0" onKeyDown={(e) => this.onTildePress(e)}>
                     <div className="content-page">

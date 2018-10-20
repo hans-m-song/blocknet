@@ -249,7 +249,6 @@ export class MessageContainer extends Component {
     }
 
     render() {
-        console.log(this.props.lastMessage)
         return (
             <div className="message-container">
                 {this.renderMessages()}
