@@ -85,7 +85,7 @@ class Backend extends Component {
             -Rooms also probably should be updated to using unique ID's on both front and backend
         */
         this.rooms = ["BlockNet", "Programming", "Gaming", "Random"];
-        this.initWeb3 = this.initWeb3.bind(this);
+        this.handleLogin = this.handleLogin.bind(this);
     }
 
     /**
@@ -132,13 +132,19 @@ class Backend extends Component {
         }
     }
 
+    handleLogin = async (mode) => {
+        // can use this to set states for login and such
+        this.setState({ loggedIn: true });
+        this.initWeb3(mode);
+    }
+
     /**
      * handles login for user
      * assumes some form of checking is done before this is called
      * 
      * @param {string} mode either "metamask", "default" or a 12 word mnemonic
      */
-    initWeb3 = async (mode) => {
+    async initWeb3(mode) {
         const web3 = await getWeb3(mode)
         const accounts = await web3.eth.getAccounts()    
         console.log("using address", contractAddress)
@@ -425,7 +431,7 @@ class Backend extends Component {
             return (
                 <div className="purgatory-content">
                     <LoadingScreen 
-                        login={this.handleLogin}/>
+                        handleLogin={this.handleLogin}/>
                 </div>
             )
         }
