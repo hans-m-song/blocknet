@@ -13,7 +13,9 @@ import {
     Header,
     MainPage
 } from './modules/MainPage'
-import { ConsoleScreen } from './modules/ConsoleScreen'
+import { 
+    ConsoleScreen,
+    WaitingAnimation } from './modules/ConsoleScreen'
 import { LoadingScreen } from './modules/LoadingScreen'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
@@ -415,8 +417,10 @@ class Backend extends Component {
             console.log('Loading components')
             return (
                 <div className="purgatory-content">
-                    <p className="warning-message">loading components</p>
-                    
+                    <div className="warning-message">
+                        <span>loading components</span>
+                        <WaitingAnimation />    
+                    </div>
                 </div>
             )
         }
