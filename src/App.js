@@ -75,7 +75,8 @@ class Backend extends Component {
         backendLog: [],
         loadingRoom: { status: false, index: -1 },
         latestHash: "",
-        loggedIn: false
+        loggedIn: false,
+        lastMessage: null
     }
 
     constructor(props) {
@@ -323,6 +324,7 @@ class Backend extends Component {
 
         // Add message to current room messages
         var message = {user: from, date: getTime(), message: msg}
+        this.setState({ lastMessage: message })
         console.log('attempting to send from:', from, '\nmessage:', message)
         this.updateLog("Attempting to send message: [" + message.message + "] from address: [" + from + "]");
         try {
@@ -351,6 +353,7 @@ class Backend extends Component {
                 console.log('Hash ')
                 this.setLogFinished(waitingLogMessage)
                 this.updateLog("Success: IPFS now points to updated message", 1)
+                this.setState({ lastMessage: null })
             }
             this.syncData()
             //this.addressInput.value = ''
@@ -360,6 +363,7 @@ class Backend extends Component {
             console.log(err)
             this.setLogFinished()
             this.updateLog("An error occurred: message has failed to be added to the room's message list", 1)
+            this.setState({ lastMessage: null })
         }
     }
 
@@ -404,7 +408,7 @@ class Backend extends Component {
 
         /*Render login screen*/
         //if you want to see the log in screen make the below if statement check for !loggenIn
-        if (!loggedIn) {
+        if (loggedIn) {
             return (
                 <div className="purgatory-content">
                     <LoadingScreen />
@@ -493,6 +497,7 @@ class Backend extends Component {
                     consoleActive={this.props.consoleActive}
                     addRoom={this.addRoom}
                     backendLog={this.state.backendLog}
+                    lastMessage={this.state.lastMessage}
                 />
             </div>
             );
@@ -533,6 +538,7 @@ class Backend extends Component {
         }
 
         render() {
+            console.log(this.props.lastMessage)
             return (
                 <div className="frontend" tabIndex="0" onKeyDown={(e) => this.onTildePress(e)}>
                     <div className="content-page">
@@ -549,6 +555,7 @@ class Backend extends Component {
                             setRoom={this.props.setRoom}
                             currentState={this.props.state}
                             addRoom={this.props.addRoom}
+                            lastMessage={this.props.lastMessage}
                         />
                         <ConsoleScreen 
                             currentState={this.props.state}

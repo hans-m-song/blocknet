@@ -669,6 +669,10 @@ content-page {
 .message-container * {
 }
 
+.temporary-message * {
+	color: grey;
+}
+
 /*Discrete message styling*/
 .message {
     border-bottom: solid 1px;

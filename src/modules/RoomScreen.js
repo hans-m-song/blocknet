@@ -86,6 +86,7 @@ export class RoomScreen extends Component {
                     <MessageContainer
                         ref={this.child}
                         messageHistory={this.props.messageHistory}
+                        lastMessage={this.props.lastMessage}
                     />
                     <ChatBox updateMessage={(e) => this.updateMessage(e)} />
                 </div>
@@ -229,10 +230,26 @@ export class MessageContainer extends Component {
         });
     }
 
+    renderTemp() {
+        if (this.props.lastMessage !== null) {
+            return <Message
+                key={this.props.lastMessage.date}
+                user={this.props.lastMessage.user.toString()}
+                date={this.props.lastMessage.date.toString()}
+                message={this.props.lastMessage.message.toString()}
+                map={this.generateEmojiMap()}
+            />
+        }
+    }
+
     render() {
+        console.log(this.props.lastMessage)
         return (
             <div className="message-container">
                 {this.renderMessages()}
+                <div className="temporary-message">
+                    {this.renderTemp()}
+                </div>
             </div>
         );
     }
