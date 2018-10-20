@@ -2,6 +2,9 @@
     /*font-family : 'Do Hyeon', sans-serif;*/
     font-family: 'Do Hyeon', sans-serif;
     font-size: 1em;
+}
+
+html * {
     background-color: #14130a;
     color: white;
     border-color : white;
@@ -10,6 +13,27 @@
 div {
     outline: none;
 }
+
+.cursor-invert:hover {
+    /*color*/
+    background-color: white;
+    color: #14130a;
+    /*interaction*/
+    cursor: pointer;
+}
+
+.cursor-invert:active {
+    /*color*/
+    background-color: #14130a;
+    color: white;
+    /*interaction*/
+    cursor: pointer;
+}
+
+.spinner {
+    font-family: 'Roboto Mono', monospace;
+}
+
 
 /************     Chrome Scrollbars      ***********/
 /*These will only work on chrome; if we convert to Electron application this will still apply and we won't have to worry about cross-browser support*/
@@ -67,16 +91,63 @@ button {
     font-family: 'Courier New', Courier, monospace 10px solid;
 }
 
-/********Loading**********/
-.loading-pic {
-    display: block;
-    margin-left : auto;
-    margin-right : auto;
-    margin-top : auto;
-    margin-bottom : auto;    
+
+/******** LOADING/LOGIN SCREEN CONTAINER **********/
+.purgatory-content {
+    width : 100%;
+    height : calc(100vh);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/*******Header*********/
+.purgatory-content h1 {
+    margin-top : 0;
+}
+
+.loading-pic {
+    width: 100%;
+    margin: 0 auto;    
+}
+
+/*************** LOG IN SCREEN *********************/
+.login-screen div {
+
+}
+
+.login-screen {
+    /*border: 1px blue solid;*/
+    padding : 10px;
+    width : 40%;
+    margin : auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction : column
+}
+
+.login-option {
+    padding: 5px;
+}
+
+.selected-login-option {
+    background-color : white;
+    color: #14130a;
+}
+
+.login-input-container {
+    min-height : 150px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+
+}
+
+.login-form input {
+    width: 100%;
+}
+
+/******* HEADER *********/
 .header {
     padding-left: 10px;
     padding-right: 20px;
@@ -99,36 +170,6 @@ button {
 .header>h3 {
     border: 1px solid;
 }
-
-/********Console header************/
-/*
-.console-header-button-inactive {
-    position : absolute;
-    top : 0;
-    right : 0;
-    margin-right : 20px;
-    margin-top : 10px
-}
-
-.console-header-button-active {
-    position : absolute;
-    top : 0;
-    right : 0;
-    margin-right : 20px;
-    margin-top : 10px
-}
-*/
-.console-header-button-active {
-    /*background-color : white;
-    color : #14130a;   */
-}
-
-.console-header-button-inactive {
-    /*background-color : #14130a;
-    color : white;
-    */
-}
-
 
 .header-nav {
     display: flex;

@@ -13,12 +13,11 @@ import {
     Header,
     MainPage
 } from './modules/MainPage'
-import { ConsoleScreen } from './modules/ConsoleScreen'
-import InactiveLogo from './console_inactive.png'
-import ActiveLogo from './console_active.png'
-
+import { 
+    ConsoleScreen,
+    WaitingAnimation } from './modules/ConsoleScreen'
+import { LoadingScreen } from './modules/LoadingScreen'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faPlus)
@@ -74,7 +73,9 @@ class Backend extends Component {
         DailyTokensNo: 0,
         latestBlockNo: 0,
         backendLog: [],
-        latestHash: ""
+        loadingRoom: { status: false, index: -1 },
+        latestHash: "",
+        loggedIn: false
     }
 
     constructor(props) {
@@ -261,6 +262,11 @@ class Backend extends Component {
         var ipfsHash
         if (ipfsInfo) {
             ipfsHash = ipfsInfo.id
+            if (this.state.loadingRoom.status === true) {
+                this.setLogFinished(this.state.loadingRoom.index)   //if user spams a room button before one is finished, the first doesn't get set to finished.
+                this.updateLog("Room messages successfully loaded", 1)
+                this.state.loadingRoom = { status: false, index: -1 }
+            }   
         }
         const ipfsAddr = ipfsInfo.addresses
         var ipfsPeers = { __html: '' }
@@ -354,7 +360,7 @@ class Backend extends Component {
         } catch (err) {
             alert('transaction rejected, console for details')
             console.log(err)
-            this.setLogFinished();
+            this.setLogFinished()
             this.updateLog("An error occurred: message has failed to be added to the room's message list", 1)
         }
     }
@@ -381,8 +387,10 @@ class Backend extends Component {
     setRoom = async (room) => {
         var currentRoom = room
         this.setState({ currentRoom }) 
-        this.updateLog("Room set to [" + room + "] | Room hash: [" + this.state.latestHash + "]")
-        this.updateLog("Previous messages:")
+        this.state.loadingRoom.status = true
+        this.state.loadingRoom.index = this.updateLog("Room set to " + room + ". Loading messages", 0, true)
+
+        //this.updateLog("Room set to [" + room + "] | Room hash: [" + this.state.latestHash + "]")
         /*Would be good to display an expandable list of the messages comprising the message history on load 
             seems to require:
                 -getting the message list here to print when first loading room, and;
@@ -412,39 +420,52 @@ class Backend extends Component {
             blocksTilClaim,
             latestMessage,
             hashContents,
+            loggedIn
         } = this.state
         const address = accounts[selectedAccountIndex]
 
-            if ((accounts.length <= 0 && !web3GetError && !web3InvalidNetwork && !ipfsGetError) ||
-                    !ipfsHash || !ipfsIsOnline || !metamaskOnline) {
-                console.log('loading components')
-                return (
-                    <div>
-                        <p className="warning-message">loading components</p>
-                        <img className="loading-pic" src={InactiveLogo} height="400" width="400"/>
+        /*Render login screen*/
+        //if you want to see the log in screen make the below if statement check for !loggenIn
+        if (loggedIn) {
+            return (
+                <div className="purgatory-content">
+                    <LoadingScreen />
+                </div>
+            )
+        }
+
+        if ((accounts.length <= 0 && !web3GetError && !web3InvalidNetwork && !ipfsGetError) ||
+                !ipfsHash || !ipfsIsOnline || !metamaskOnline) {
+            console.log('Loading components')
+            return (
+                <div className="purgatory-content">
+                    <div className="warning-message">
+                        <span>loading components</span>
+                        <WaitingAnimation />    
                     </div>
-                )
+                </div>
+            )
         }
 
-            if (web3GetError) {
-                console.log('unable to load web3, make sure metamask is installed')
-                return (
-                    <p className="warning-message">unable to load web3, make sure metamask is installed</p>
-                )
+        if (web3GetError) {
+            console.log('unable to load web3, make sure metamask is installed')
+            return (
+                <p className="warning-message">unable to load web3, make sure metamask is installed</p>
+            )
         }
 
-            if (ipfsGetError) {
-                console.log('unable to load ipfs, i dont know how to fix this yet')
-                return (
-                    <p className="warning-message">unable to load ipfs, i dont know how to fix this yet</p>
-                )
+        if (ipfsGetError) {
+            console.log('unable to load ipfs, i dont know how to fix this yet')
+            return (
+                <p className="warning-message">unable to load ipfs, i dont know how to fix this yet</p>
+            )
         }
 
-            if (web3InvalidNetwork) {
-                console.log('please change to the rinkeby network and refresh')
-                return (
-                    <p className="warning-message">please change to the rinkeby network and refresh</p>
-                )
+        if (web3InvalidNetwork) {
+            console.log('please change to the rinkeby network and refresh')
+            return (
+                <p className="warning-message">please change to the rinkeby network and refresh</p>
+            )
         }
             /*
             return (

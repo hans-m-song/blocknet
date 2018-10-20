@@ -48,8 +48,6 @@ export class ConsoleHeaderButton extends Component {
     }
 
     consoleClick() {
-        console.log("console clicked");
-        console.log(this.props.active);
         this.props.consoleClick();
     }
 
@@ -161,9 +159,6 @@ export class LeftPanel extends Component {
                         onSectionClick={this.activateSection}
                         activeSection={this.props.activeSection} />
                     <SectionButton sectionName="Messages"
-                        onSectionClick={this.activateSection}
-                        activeSection={this.props.activeSection} />
-                    <SectionButton sectionName="Console"
                         onSectionClick={this.activateSection}
                         activeSection={this.props.activeSection} />
                     <SectionButton sectionName="Settings"
