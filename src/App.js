@@ -370,8 +370,8 @@ class Backend extends Component {
         const { accounts, contract, selectedAccountIndex } = this.state
         const from = accounts[selectedAccountIndex]
         try {
-            var room_event = contract.once("RoomMade", {
-                filter: {creator: from}
+            contract.events.RoomMade({
+                filter: { creator: from }
             }, function (error, event) {
                     if (!error) {
                         this.rooms.set(parseInt(event.returnValues.roomID), roomName);
@@ -393,8 +393,10 @@ class Backend extends Component {
     joinRoom = async (data) => {
         var roomID = parseInt(data.roomID);
         const { contract } = this.state;
+        const { accounts, selectedAccountIndex } = this.state
+        const from = accounts[selectedAccountIndex]
         try {
-            var roomName = await contract.methods.getRoomName(roomID).call();
+            var roomName = await contract.methods.getRoomName(roomID).call({ from: from });
             if (roomName === undefined || roomName === '' || roomName === null) {
                 throw "Can't access room";
             }

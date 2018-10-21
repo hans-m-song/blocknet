@@ -208,7 +208,7 @@ contract MessageToken is BaseToken {
      */
     function sendHash(uint256 room, string _hash) public {
         if(rooms[room].exists) {
-            if(checkPermission(room)) {
+            if(checkPermission(room, msg.sender)) {
                 //require(balances[msg.sender] >= tokensPerMessage);
                 messageHistory[msg.sender].push(block.number - 1);
                 //balances[msg.sender] -= tokensPerMessage;
@@ -225,7 +225,7 @@ contract MessageToken is BaseToken {
      * returns: the stored IPNS hash 
      */
     function getHash(uint256 room) public view returns (string _hash) {
-        if(rooms[room].exists && checkPermission(room)) {
+        if(rooms[room].exists && checkPermission(room, msg.sender)) {
             return rooms[room].hash;
         }
     }
@@ -248,28 +248,30 @@ contract MessageToken is BaseToken {
         rooms[newid].exists = true;
 
         nextID++;
-		RoomMade(newid, msg.sender);
+		emit RoomMade(newid, msg.sender);
     }
 
 	function getRoomName(uint256 room) public view returns (string roomName) {
 	    if(rooms[room].exists) {
-	        if(checkPermission(room)) {
+	        if(checkPermission(room, msg.sender)) {
         	    return rooms[room].name;
 	        }
+	        return "Not Permitted";
 	    }
+	    return "Room Doesn't Exist";
 	}
 	
-	function setUserPermission(uint256 roomID, address user, bool permission) public {
-		if(rooms[roomID].exists) {
-			if(checkPermission(roomID)) {
-				rooms[roomID].permission_list[user] = permission;
+	function setUserPermission(uint256 room, address test_user, bool permission) public {
+		if(rooms[room].exists) {
+			if(checkPermission(room, msg.sender)) {
+				rooms[room].permission_list[test_user] = permission;
 			}
 		}
 	}
     
-    function checkPermission(uint256 room) private view returns (bool permission) {
+    function checkPermission(uint256 room, address test_user) private view returns (bool permission) {
         if(rooms[room].is_private) {
-            if(rooms[room].permission_list[msg.sender]) {
+            if(rooms[room].permission_list[test_user]) {
                 return true;
             }
             return false;
