@@ -129,6 +129,7 @@ export class MainPage extends Component {
                     <LeftPanel onSectionClick={this.activateSection} activeSection={this.state.activeSection} />
                     <Content
                         rooms={this.props.rooms}
+                        roomList={this.props.roomList}
                         manageRooms={this.props.manageRooms}
                         section={this.state.activeSection}
                         sendMessage={this.sendMessage}
@@ -136,6 +137,7 @@ export class MainPage extends Component {
                         messageHistory={this.props.messageHistory}
                         currentState={this.currentState}
                         addRoom={this.props.addRoom}
+                        joinRoom={this.props.joinRoom}
                     />
                 </div>
             </div>
@@ -232,11 +234,13 @@ export class Content extends Component {
                 return (
                     <RoomScreen
                         rooms={this.props.rooms}
+                        roomList={this.props.roomList}
                         manageRooms={this.props.manageRooms}
                         sendMessage={this.sendMessage}
                         messageHistory={this.props.messageHistory}
                         setRoom={this.props.setRoom}
                         addRoom={this.props.addRoom}
+                        joinRoom={this.props.joinRoom}
                     />
                 );
             case "Messages":
