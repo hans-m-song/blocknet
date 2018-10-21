@@ -45,7 +45,7 @@ export class LoginScreen extends Component {
                             onLoginOptionClick={this.onLoginOptionClick}
                         />
                         <LoginOption 
-                            text={"Log in using Meta Mask"}
+                            text={"Log in using MetaMask"}
                             id={"metamask"}
                             selectedOption={this.state.selectedLogin}
                             onLoginOptionClick={this.onLoginOptionClick}
@@ -111,11 +111,11 @@ export class LoginOptionHelp extends Component {
     metamaskHelp() {
         return (
             <div className="login-explanation">
-                <p>Logging in with Meta Mask: </p>
+                <p>Logging in with MetaMask: </p>
                 <ul>
                     <li>Allows you to save personal settings and favourite rooms</li>
-                    <li>Requires a Meta Mask account and browser extension</li>
-                    <li>Visit <a href="https://metamask.io/" target="_blank">Meta Mask</a> for how to get started with Meta Mask</li>
+                    <li>Requires a MetaMask account and browser extension</li>
+                    <li>Visit <a href="https://metamask.io/" target="_blank">MetaMask</a> for how to get started with MetaMask</li>
                 </ul>
             </div>
         );
@@ -150,6 +150,8 @@ export class LoginUserInput extends Component {
     constructor(props) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.state = { mnemonic : "" };
     }
 
     handleSubmit(event) {
@@ -162,22 +164,26 @@ export class LoginUserInput extends Component {
                 this.props.handleLogin("metamask");
                 break
             case "mnemonic":
-                //get mnemonic
-                let mnemonic = "test"
-                this.props.handleLogin(mnemonic);
+
+                this.props.handleLogin("mnemonic", this.state.mnemonic);
                 break;
         }
     }
 
+    handleInputChange(event) {
+        const input = event.target.value;
+        this.setState({ mnemonic: input });
+    }
+
     anonInput() {
         return(
-            <input type="submit" value="Enter" name="submit"></input>
+            <input className="black-submit" type="submit" value="Enter" name="submit"></input>
         );
     }
 
     metamaskInput() {
         return(
-            <input type="submit" value="Check for Meta Mask" name="submit"></input>
+            <input className="black-submit" type="submit" value="Check for MetaMask" name="submit"></input>
         );
     }
 
@@ -188,8 +194,9 @@ export class LoginUserInput extends Component {
                     rows="3"
                     cols="40"
                     placeholder="Enter your twelve word mnemonic..."
+                    onChange={this.handleInputChange}
                 /><br/>
-                <input type="submit" value="Log in" name="submit"></input>
+                <input className="black-submit" type="submit" value="Log in" name="submit"></input>
             </div>
         );
     }

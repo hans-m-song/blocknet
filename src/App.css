@@ -30,6 +30,15 @@ div {
     cursor: pointer;
 }
 
+.black-submit:hover {
+    cursor: pointer;
+}
+
+.black-submit:active {
+    background-color: white;
+    color: #14130a;
+}
+
 .spinner {
     font-family: 'Roboto Mono', monospace;
 }
@@ -630,7 +639,7 @@ content-page {
 }
 
 .form-container {
-    flex-basis : 50%;
+    flex-basis : 33%;
     flex-shrink: 0;
     flex-grow : 0;
 }
@@ -642,23 +651,6 @@ content-page {
 .new-room-description {
     width: 100%;
 }
-
-
-/******Message Box Related******/
-/*.scroll-container {
-    position: relative;
-    height: 69vh;
-    margin-top: 3px;
-    flex-shrink: 0;
-    overflow: hidden;
-}*/
-
-/*Container for all messages*/
-/*.message-container {
-    margin-bottom: 0px;
-    margin-top: 0px;
-    height: 50%;
-}*/
 
 .message-container {
     overflow : auto;
