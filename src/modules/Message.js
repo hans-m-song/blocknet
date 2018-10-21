@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-
+import Invite from './Invite.js';
+import './Invite.css';
 /*
  * Renders the header of the message, containing the username
  * and sent time, and the content, which contains the actual message
@@ -57,70 +58,31 @@ export class Message extends Component {
     }
 }
 
-export class Menu extends Component {
-    constructor() {
-        super();
-
-        this.state = {
-            showMenu: false,
-        };
-//according to the tutorila site on React of event handling this should take care of the rendering 
-        this.showMenu = this.showMenu.bind(this);
-        this.closeMenu = this.closeMenu.bind(this);
-
-    }
-
-    showMenu(event) {
-        event.preventDefault();
-
-        this.setState({ showMenu: true }, () => {
-            document.addEventListener('click', this.closeMenu);
-        });
-    }
-//The error of type seems to be once the new component is renderer and element becomes null 
-// last resourse fix: implement the close state in all the other components  
-    closeMenu(event) {
-        if (!this.dropdownMenu.contains(event.target)) {
-            this.setState({ showMenu: false }, () => {
-                document.addEventListener(); });
-        }
-    }
-}
-
-export class MessageHeader extends Menu {
+/*
+ * Contains the invitation menu
+ */
+export class MessageHeader extends Component {
     render() {
         return (
             <div className="message-header">
-                <div className="composer" onClick={this.showMenu}>
-                    <h3 className="message-username hover-hand hover-cursor">{this.props.user}</h3>
-                    {/* <!-- <button className="invite-button hover-cursor"> Invite </button> -->*/}
-                    <div className="invite-menu hover-hand hover-cursor">
-                        {
-                            this.state.showMenu
-                                ? (
-                                    <div
+                <div className="composer">
+				      <ul>
+						<Invite  className="message-username message-time hover-cursor inner-invite-menu" 
+						name={this.props.user} 
+						items={[' Invite to private chat', 'Invite someone to this room', 'Mute']}
+						/>
 
-                                        ref={(element) => {
-                                            this.dropdownMenu = element;
+					  </ul>
 
-                                        }}
-                                    >
-                                        <button className="inner-invite-menu" n> Invite to private chat  </button>
-                                        <button className="inner-invite-menu"> Invite Someone to this room </button>
-                                        <button className="inner-invite-menu"> Mute  </button>
-                                    </div>
-                                )
-                                : (
-                                    null
-                                )
-                        }
-                    </div>
+                    
                 </div>
+	
                 <h3 className="message-time hover-cursor">{this.props.date}</h3>
             </div>
         );
     }
 }
+
 
 /*
  * Contains the text for the messages

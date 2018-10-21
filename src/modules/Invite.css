@@ -1,0 +1,47 @@
+.visible{
+    display: block;
+	padding:inherit;
+	list-style-type: none;
+}
+.no-visible{
+    display:none;
+}
+
+.invite h3{
+	display:block;
+	background: black;
+	margin: 0px;
+	padding: 0 10px;
+}
+
+.invite ul li a {
+	width:150px;
+    margin: 0px 10px 10px 10px;
+    text-align: left;
+	padding-left: 10px;
+	margin-left: 10 px;
+	border: 1px none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+	display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+.invite ul li :hover {
+    background-color: white;
+    color: #14130a;
+    cursor: pointer;
+}
+
+.invite ul li :active {
+    background-color: #14130a;
+    color: white;
+    cursor: pointer;
+}
+
+
+
