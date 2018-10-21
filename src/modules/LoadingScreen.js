@@ -21,13 +21,21 @@ export class LoadingScreen extends Component {
 export class LoginScreen extends Component {
     constructor(props) {
         super(props);
-        this.state = { selectedLogin: "anon" }; 
+        this.state = { 
+            selectedLogin: "anon",
+            loginStatus: ""
+        }; 
         this.onLoginOptionClick = this.onLoginOptionClick.bind(this);
+        this.setLoginStatus = this.setLoginStatus.bind(this);
     }
 
     onLoginOptionClick(id) {
         this.setState({ selectedLogin: id });
+        this.setLoginStatus("");
+    }
 
+    setLoginStatus(status) {
+        this.setState({loginStatus: status});
     }
 
     render() {
@@ -67,7 +75,11 @@ export class LoginScreen extends Component {
                     <LoginUserInput 
                         selectedOption={this.state.selectedLogin}
                         handleLogin={this.props.handleLogin}
+                        setLoginStatus={this.setLoginStatus}
                     />
+                </div>
+                <div className="loginStatus">
+                    <p>{this.state.loginStatus}</p>
                 </div>
             </div>
         );
@@ -149,23 +161,34 @@ export class LoginOptionHelp extends Component {
 export class LoginUserInput extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            mnemonic: ""
+        }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.setLoginStatus = this.props.setLoginStatus.bind(this);
     }
 
     handleSubmit(event) {
         event.preventDefault();
+        this.setLoginStatus("");
         switch (this.props.selectedOption) {
             case "anon":
                 this.props.handleLogin("default");
                 break;
             case "metamask":
+                if(typeof window.web3 === 'undefined') {
+                    this.setLoginStatus("No MetaMask instance found");
+                    console.log("No MetaMask instance found");
+                    break;
+                }
                 this.props.handleLogin("metamask");
                 break
             case "mnemonic":
                 //console.log(this.state.mnemonic);
-                if(this.state.mnemonic === undefined) {
-
+                if(this.state.mnemonic.split(" ").length !== 12) {
+                    this.setLoginStatus("Invalid mnemonic");
+                    console.log("Invalid mnemonic");
                     break;
                 }
                 this.props.handleLogin("mnemonic", this.state.mnemonic);
