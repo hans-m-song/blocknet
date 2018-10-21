@@ -129,6 +129,7 @@ export class MainPage extends Component {
                     <LeftPanel onSectionClick={this.activateSection} activeSection={this.state.activeSection} />
                     <Content
                         rooms={this.props.rooms}
+                        manageRooms={this.props.manageRooms}
                         section={this.state.activeSection}
                         sendMessage={this.sendMessage}
                         setRoom={this.props.setRoom}
@@ -232,6 +233,7 @@ export class Content extends Component {
                 return (
                     <RoomScreen
                         rooms={this.props.rooms}
+                        manageRooms={this.props.manageRooms}
                         sendMessage={this.sendMessage}
                         messageHistory={this.props.messageHistory}
                         setRoom={this.props.setRoom}

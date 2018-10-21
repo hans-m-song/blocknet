@@ -11,7 +11,9 @@ export class LoadingScreen extends Component {
 
     render() {
         return (
-            <LoginScreen />
+            <LoginScreen 
+                handleLogin={this.props.handleLogin}
+            />
         );
     }
 }
@@ -43,7 +45,7 @@ export class LoginScreen extends Component {
                             onLoginOptionClick={this.onLoginOptionClick}
                         />
                         <LoginOption 
-                            text={"Log in using Meta Mask"}
+                            text={"Log in using MetaMask"}
                             id={"metamask"}
                             selectedOption={this.state.selectedLogin}
                             onLoginOptionClick={this.onLoginOptionClick}
@@ -64,6 +66,7 @@ export class LoginScreen extends Component {
                 <div className="login-input-container">
                     <LoginUserInput 
                         selectedOption={this.state.selectedLogin}
+                        handleLogin={this.props.handleLogin}
                     />
                 </div>
             </div>
@@ -108,11 +111,11 @@ export class LoginOptionHelp extends Component {
     metamaskHelp() {
         return (
             <div className="login-explanation">
-                <p>Logging in with Meta Mask: </p>
+                <p>Logging in with MetaMask: </p>
                 <ul>
                     <li>Allows you to save personal settings and favourite rooms</li>
-                    <li>Requires a Meta Mask account and browser extension</li>
-                    <li>Visit <a href="https://metamask.io/" target="_blank">Meta Mask</a> for how to get started with Meta Mask</li>
+                    <li>Requires a MetaMask account and browser extension</li>
+                    <li>Visit <a href="https://metamask.io/" target="_blank">MetaMask</a> for how to get started with MetaMask</li>
                 </ul>
             </div>
         );
@@ -146,45 +149,78 @@ export class LoginOptionHelp extends Component {
 export class LoginUserInput extends Component {
     constructor(props) {
         super(props);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.state = { mnemonic : "" };
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+        switch (this.props.selectedOption) {
+            case "anon":
+                this.props.handleLogin("default");
+                break;
+            case "metamask":
+                this.props.handleLogin("metamask");
+                break
+            case "mnemonic":
+
+                this.props.handleLogin("mnemonic", this.state.mnemonic);
+                break;
+        }
+    }
+
+    handleInputChange(event) {
+        const input = event.target.value;
+        this.setState({ mnemonic: input });
     }
 
     anonInput() {
         return(
-            <form className="login-form">
-                <input type="submit" value="Enter" name="submit"></input>
-            </form>
+            <input className="black-submit" type="submit" value="Enter" name="submit"></input>
         );
     }
 
     metamaskInput() {
         return(
-            <form>
-                <input type="submit" value="Check for Meta Mask" name="submit"></input>
-            </form>
+            <input className="black-submit" type="submit" value="Check for MetaMask" name="submit"></input>
         );
     }
 
     mnemonicInput() {
         return(
-            <form className="login-form">
+            <div>
                 <textarea
                     rows="3"
                     cols="40"
                     placeholder="Enter your twelve word mnemonic..."
+                    onChange={this.handleInputChange}
                 /><br/>
-                <input type="submit" value="Log in" name="submit"></input>
-            </form>
+                <input className="black-submit" type="submit" value="Log in" name="submit"></input>
+            </div>
         );
     }
 
     render() {
         switch (this.props.selectedOption) {
             case "anon":
-                return (this.anonInput());
+                return (
+                    <form className="login-form" onSubmit={this.handleSubmit}>
+                        {this.anonInput()}
+                    </form>  
+                );
             case "metamask":
-                return (this.metamaskInput());
+                return (
+                    <form className="login-form" onSubmit={this.handleSubmit}>
+                        {this.metamaskInput()}
+                    </form>
+                );
             case "mnemonic":
-                return (this.mnemonicInput());
+                return (
+                    <form className="login-form" onSubmit={this.handleSubmit}>
+                        {this.mnemonicInput()}
+                    </form>
+                );
         }
     }
 }

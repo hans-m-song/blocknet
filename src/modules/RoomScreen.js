@@ -71,6 +71,8 @@ export class RoomScreen extends Component {
                     <ManageRoomsScreen
                         activateRoom={this.activateRoom}
                         addRoom={this.props.addRoom}
+                        rooms={this.props.rooms}
+                        manageRooms={this.props.manageRooms}
                     />
                 </div>
         } else {
@@ -199,6 +201,10 @@ export class AddRoomButton extends Component {
 }
 
 export class MessageContainer extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { emojiMap: this.generateEmojiMap() };
+    }
     /**
      * Probably a good idea to copy verbatim the discord emoji shortcuts because it is familiar with our target audience
      */
@@ -225,7 +231,7 @@ export class MessageContainer extends Component {
                 user={message.user.toString()}
                 date={message.date.toString()}
                 message={message.message.toString()}
-                map={this.generateEmojiMap()}
+                map={this.state.emojiMap}
             />
         });
     }

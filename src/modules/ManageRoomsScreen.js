@@ -11,6 +11,11 @@ export class ManageRoomsScreen extends Component {
                     addRoom={this.props.addRoom}
                     activateRoom={this.props.activateRoom}
                 />
+                <JoinRoom />
+                <ManageRooms 
+                    rooms={this.props.rooms}
+                    manageRooms={this.props.manageRooms}
+                />
             </div>
         );
     }
@@ -97,23 +102,44 @@ export class CreateRoomForm extends Component {
     }
 }
 
-export class RemoveRooms extends Component {
+export class ManageRooms extends Component {
+    constructor(props) {
+        super(props);
+        this.generateRoomOptions = this.generateRoomOptions.bind(this);
+        console.log("calling arrange rooms next:")
+        //this.props.manageRooms("delete", 0);
+    }
+
+    generateRoomOptions() {
+        let roomOptions = (this.props.rooms).map((room) => 
+            <option value="">{room}</option>
+        );
+        return roomOptions;
+    }
+
     render() {
         return (
             <div className="form-container">
-                <h1>Remove Room</h1>
+                <h1>Manage Rooms</h1>
                 <form onSubmit={this.handleSubmit}>
                     <div className="remove-room input-div">
-                        <label>Room name:</label><br/>
-                        <input 
-                            type="text" 
-                            name="roomName"
-                            onChange={this.handleInputChange}
-                        />
-                        <br/>
+                        <label>Room list:
+                            <br/>
+                            <select multiple size="10">
+                                {this.generateRoomOptions()}
+                            </select>
+                        </label>
                     </div>
                 </form>
             </div>
+        );
+    }
+}
+
+export class roomOption extends Component {
+    render() {
+        return (
+            <option value="0">"this.props.name"</option>
         );
     }
 }
