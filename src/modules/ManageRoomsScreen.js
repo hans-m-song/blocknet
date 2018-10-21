@@ -6,12 +6,19 @@ import React, { Component } from 'react'
 export class ManageRoomsScreen extends Component {
     render() {
         return (
+            <div>
+            <div className="join-room-screen">
+                <JoinRoomForm
+                    joinRoom={this.props.joinRoom}
+                />
+            </div>
             <div className="create-room-screen">
                 <CreateRoomForm
                     addRoom={this.props.addRoom}
                     activateRoom={this.props.activateRoom}
                 />
-            </div>
+                </div>
+                </div>
         );
     }
 }
@@ -19,6 +26,7 @@ export class ManageRoomsScreen extends Component {
 export class CreateRoomForm extends Component {
     constructor(props) {
         super(props);
+        this.state = { is_private: false };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
     }
@@ -27,7 +35,7 @@ export class CreateRoomForm extends Component {
     handleSubmit(event) {
         event.preventDefault();
         this.props.addRoom(this.state);
-        this.props.activateRoom(this.state.roomName);
+        //this.props.activateRoom(this.state.roomID);
     }
 
     /*Maps the inner state of the the form to the state of the overall component to establish the component as the "one source of truth"*/
@@ -118,20 +126,52 @@ export class RemoveRooms extends Component {
     }
 }
 
-export class JoinRoom extends Component {
+export class JoinRoomForm extends Component {
+    constructor(props) {
+        super(props);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+    }
+
+    /*Pass the form data up*/
+    handleSubmit(event) {
+        event.preventDefault();
+        this.props.joinRoom(this.state);
+        //this.props.activateRoom(this.state.roomID);
+    }
+
+    /*Maps the inner state of the the form to the state of the overall component to establish the component as the "one source of truth"*/
+    handleInputChange(event) {
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+
+        this.setState({
+            [name]: value
+        });
+    }
     render() {
         return (
             <div className="form-container">
                 <h1>Join Room</h1>
                 <form onSubmit={this.handleSubmit}>
                     <div className="join-room input-div">
-                        <label>Room name:</label><br/>
+                        <label>Room ID:</label><br/>
                         <input 
-                            type="text" 
-                            name="roomName"
+                            type="number" 
+                            name="roomID"
                             onChange={this.handleInputChange}
                         />
                         <br/>
+                    </div>
+                    <div className="join-room-submit input-div">
+                        <br />
+                        <input
+                            type="submit"
+                            value="Submit"
+                            name="submit"
+                        />
+                        <br />
                     </div>
                 </form>
             </div>

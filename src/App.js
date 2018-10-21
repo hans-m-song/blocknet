@@ -68,7 +68,7 @@ class Backend extends Component {
         balance: 0,
         blocksTilClaim: 0,
         messageHistory: [],
-        currentRoom: "BlockNet",
+        currentRoom: 0,
         tokensPerMessage: 0,
         DailyTokensNo: 0,
         latestBlockNo: 0,
@@ -86,7 +86,7 @@ class Backend extends Component {
         /*Storing this.rooms in backend for each user would allow users to have their own saved favourite rooms
             -Rooms also probably should be updated to using unique ID's on both front and backend
         */
-        this.rooms = ["BlockNet", "Programming", "Gaming", "Random"];
+        this.rooms = new Map([[0, "Block Net"], [1, "Programming"], [2, "Gaming"], [3, "Random"]]);
     }
 
     /**
@@ -341,7 +341,7 @@ class Backend extends Component {
 
                 // Create a new file on ipfs with new message
                 const filesAdded = await ipfs.files.add({
-                    path: `${this.state.currentRoom}.json`,
+                    path: `BlockNetRoom${this.state.currentRoom}.json`,
                     content: Buffer.from(JSON.stringify(tempHistory, null, 4))
                 })
                 this.updateLog("Successfully added new message file: [" + filesAdded[0].hash + "] to room: [" + this.state.latestHash + "]", 1)
@@ -366,29 +366,56 @@ class Backend extends Component {
     }
 
     // TODO: Implement and finish
-    createRoom = async (room, is_private, dailyTokens = 0, tokensPerUpdate = 0, updateRate = 0, tokensPerMessage = 0) => {
-        /*const { contract, messageHistory, currentRoom } = this.state
-        messageHistory = []
-        currentRoom = room
+    createRoom = async (roomName, is_private, dailyTokens = 0, tokensPerUpdate = 0, updateRate = 0, tokensPerMessage = 0) => {
+        const { accounts, contract, selectedAccountIndex } = this.state
+        const from = accounts[selectedAccountIndex]
         try {
-            await contract.methods.newRoom(room, is_private, dailyTokens, tokensPerUpdate, updateRate, tokensPerMessage)
-            console.log("New Room ", room, " successfully created.")
-            await this.setState({ messageHistory, currentRoom })
-            await this.sendMessage("Created the Room.")
+            var room_event = contract.once("RoomMade", {
+                filter: {creator: from}
+            }, function (error, event) {
+                    if (!error) {
+                        this.rooms.set(parseInt(event.returnValues.roomID), roomName);
+                        console.log(this.rooms);
+                        this.setRoom(parseInt(event.returnValues.roomID));
+                        this.sendMessage("Created the Room.");
+                } else {
+                    console.err(error);
+                }
+                }.bind(this));
+            await contract.methods.newRoom(roomName, is_private, dailyTokens, tokensPerUpdate, updateRate, tokensPerMessage)
+                .send({ gas: '2352262', from })
+            console.log("New Room ", roomName, " successfully created.")
         } catch (err) {
             console.error(err)
-        }*/
+        }
+    }
+
+    joinRoom = async (data) => {
+        var roomID = parseInt(data.roomID);
+        const { contract } = this.state;
+        try {
+            var roomName = await contract.methods.getRoomName(roomID).call();
+            if (roomName === undefined || roomName === '' || roomName === null) {
+                throw "Can't access room";
+            }
+            console.log("Joining room ", roomID, " : ", roomName)
+            this.rooms.set(roomID, roomName);
+            console.log(this.rooms);
+            this.setRoom(roomID);
+        } catch (err) {
+            console.error(err);
+        }
     }
 
     /* Set currently selected room to 'room'
      * 
-     * @param String room -> name of room to set as selected
+     * @param int room -> name of room to set as selected
      */
     setRoom = async (room) => {
         var currentRoom = room
         this.setState({ currentRoom }) 
         this.state.loadingRoom.status = true
-        this.state.loadingRoom.index = this.updateLog("Room set to " + room + ". Loading messages", 0, true)
+        this.state.loadingRoom.index = this.updateLog("Room set to " + this.rooms.get(room) + ". Loading messages", 0, true)
 
         //this.updateLog("Room set to [" + room + "] | Room hash: [" + this.state.latestHash + "]")
         /*Would be good to display an expandable list of the messages comprising the message history on load 
@@ -514,6 +541,7 @@ class Backend extends Component {
                     currentState={this.state}
                     consoleActive={this.props.consoleActive}
                     addRoom={this.addRoom}
+                    joinRoom={this.joinRoom}
                     backendLog={this.state.backendLog}
                 />
             </div>
@@ -526,10 +554,10 @@ class Backend extends Component {
         addRoom(data) {
             //console.log(data);
             //this.rooms.push(data);
-            this.rooms.push(data.roomName);
             this.createRoom(data.roomName, data.is_private/*, data.messageCost*/);
             console.log(this.rooms);
-        }
+    }
+
     }
 
     class Frontend extends Component {
@@ -572,6 +600,7 @@ class Backend extends Component {
                             setRoom={this.props.setRoom}
                             currentState={this.props.state}
                             addRoom={this.props.addRoom}
+                            joinRoom={this.props.joinRoom}
                         />
                         <ConsoleScreen 
                             currentState={this.props.state}

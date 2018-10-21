@@ -28,9 +28,23 @@ contract MessageToken is BaseToken {
     mapping (address => uint[]) messageHistory;
     uint public blocksPerClaim = 100;
     string public ipfsHash;
-	mapping (string => string) roomHashes;
     string public latestMessage;
-
+    
+    struct Room {
+        string name;
+        bool is_private;
+        mapping (address => bool) permission_list;
+        uint256 dailyTokens;
+        uint256 tokensPerUpdate;
+        uint256 updateRate;
+        uint256 tokensPerMessage;
+        string hash;
+        bool exists;
+    }
+	
+	uint256 private nextID = 0;
+	mapping (uint256 => Room) rooms;
+	
     // emmitted events that can be caught (pending implementation)
     //event sendEvent(address addr, string latestMessage);
     //event hashUpdate(address addr, string ipfsHash);
@@ -192,21 +206,75 @@ contract MessageToken is BaseToken {
      * params:  _hash - (should be) an IPNS hash that points to a file containing 
      *                  messages from the room this contract belongs to
      */
-    function sendHash(string room, string _hash) public {
-        //require(balances[msg.sender] >= tokensPerMessage);
-        messageHistory[msg.sender].push(block.number - 1);
-        //balances[msg.sender] -= tokensPerMessage;
-        //balances[this] += tokensPerMessage;
-        
-        roomHashes[room] = _hash;
-        //emit hashUpdate(msg.sender, ipfsHash);
+    function sendHash(uint256 room, string _hash) public {
+        if(rooms[room].exists) {
+            if(checkPermission(room)) {
+                //require(balances[msg.sender] >= tokensPerMessage);
+                messageHistory[msg.sender].push(block.number - 1);
+                //balances[msg.sender] -= tokensPerMessage;
+                //balances[this] += tokensPerMessage;
+                
+                rooms[room].hash = _hash;
+                //emit hashUpdate(msg.sender, ipfsHash);
+            }
+        }
     }
 
     /*
      * retrieves the hash 
      * returns: the stored IPNS hash 
      */
-    function getHash(string room) public view returns (string _hash) {
-        return roomHashes[room];
+    function getHash(uint256 room) public view returns (string _hash) {
+        if(rooms[room].exists && checkPermission(room)) {
+            return rooms[room].hash;
+        }
+    }
+    
+	event RoomMade(
+		uint256 roomID,
+		address creator
+	);
+
+    function newRoom(string roomName, bool new_is_private, uint256 newDailyTokens, uint256 newTokensPerUpdate, uint256 newUpdateRate, uint256 newTokensPerMessage) public {
+        uint256 newid = nextID;
+        
+        rooms[newid].name = roomName;
+        rooms[newid].is_private = new_is_private;
+        rooms[newid].permission_list[msg.sender] = true;
+        rooms[newid].dailyTokens = newDailyTokens;
+        rooms[newid].tokensPerUpdate = newTokensPerUpdate;
+        rooms[newid].updateRate = newUpdateRate;
+        rooms[newid].tokensPerMessage = newTokensPerMessage;
+        rooms[newid].exists = true;
+
+        nextID++;
+		RoomMade(newid, msg.sender);
+    }
+
+	function getRoomName(uint256 room) public view returns (string roomName) {
+	    if(rooms[room].exists) {
+	        if(checkPermission(room)) {
+        	    return rooms[room].name;
+	        }
+	    }
+	}
+	
+	function setUserPermission(uint256 roomID, address user, bool permission) public {
+		if(rooms[roomID].exists) {
+			if(checkPermission(roomID)) {
+				rooms[roomID].permission_list[user] = permission;
+			}
+		}
+	}
+    
+    function checkPermission(uint256 room) private view returns (bool permission) {
+        if(rooms[room].is_private) {
+            if(rooms[room].permission_list[msg.sender]) {
+                return true;
+            }
+            return false;
+        } else {
+            return true;
+        }
     }
 }
