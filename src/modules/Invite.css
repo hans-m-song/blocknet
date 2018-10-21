@@ -43,5 +43,11 @@
     cursor: pointer;
 }
 
+.composer li {
+    list-style-type: none;
+}
 
+.composer ul {
+    padding : 0;
+}
 

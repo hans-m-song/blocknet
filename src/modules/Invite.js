@@ -20,7 +20,7 @@ class Invite extends Component{
       return (
         <div className="invite">
         <li>
-            <h3 className="hover-cursor section-button" onClick={this.handleClick.bind(this)}>{this.props.name}</h3>
+            <h3 className="hover-cursor" onClick={this.handleClick.bind(this)}>{this.props.name}</h3>
             <ul className={this.state.visible?'visible':'no-visible'} >
                 {this.props.items.map((item)=>{
                     return <MenuItem className="section-button" name={item} key={item}/>
