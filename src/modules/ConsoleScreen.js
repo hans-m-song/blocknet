@@ -9,21 +9,43 @@ export class ConsoleScreen extends Component {
         super(props);
         this.currentState = this.props.currentState;
         this.activateSection = this.activateSection.bind(this);
-        this.state = {activeSection: "Log"};
+        this.state = {activeSection: "Log", consoleHeight : "80%" ,mousedrag:"0"};
+        
+
     }
 
     activateSection(section) {
         this.setState({ activeSection: section});
     }
 
+    mouseMove(e){
+        if(this.state.mousedrag == "1") {
+            var newHeight = 20 + window.innerHeight - e.pageY;
+            this.setState({consoleHeight: newHeight}); 
+        }
+    }
+
+    mouseDown(e) {
+        this.setState({mousedrag: "1"});
+    }
+
+    mouseUp(e){
+        this.setState({mousedrag: "0"});
+    }
+
     render() {
         if (this.props.consoleActive) {
             return (
                 //<div className={classes}>
-                <div className="console console-active">
+                <div className="console console-active" 
+                        style = {{height: this.state.consoleHeight}}>
                     <ConsoleNav 
+                        onMouseMove={(e) => this.mouseMove(e)}
+                        onMouseDown={(e) => this.mouseDown(e)}
+                        onMouseUp={(e) => this.mouseUp(e)}
                         activeSection={this.state.activeSection}
                         activateSection={this.activateSection}
+                        consoleHeight={this.consoleHeight}
                     />
                     <ConsoleContent 
                         currentState={this.currentState}
@@ -50,10 +72,15 @@ export class ConsoleNav extends Component {
     activateSection(sectionName) {
         this.props.activateSection(sectionName);
     }
+
+    
     render() {
 
         return (
-            <div className="console-nav">
+            <div className="console-nav"  
+                        onMouseMove={(e) => this.props.onMouseMove(e)}   
+                        onMouseDown={(e) => this.props.onMouseDown(e)}
+                        onMouseUp={(e) => this.props.onMouseUp(e)}>
                 <ConsoleNavButton 
                     sectionName="Log" 
                     activateSection={this.props.activateSection}
@@ -72,6 +99,8 @@ export class ConsoleNav extends Component {
             </div>
         )
     }
+    
+    
 }
 
 class ConsoleNavButton extends Component {
