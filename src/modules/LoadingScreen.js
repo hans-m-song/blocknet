@@ -150,7 +150,7 @@ export class LoginUserInput extends Component {
     constructor(props) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.updateInput = this.updateInput.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
     }
 
     handleSubmit(event) {
@@ -173,20 +173,20 @@ export class LoginUserInput extends Component {
         }
     }
 
-    updateInput(event) {
-        event.preventDefault();
-        this.setState({mnemonic : event.target.value});
+    handleInputChange(event) {
+        const input = event.target.value;
+        this.setState({ mnemonic: input });
     }
 
     anonInput() {
         return(
-            <input type="submit" value="Enter" name="submit"></input>
+            <input className="black-submit" type="submit" value="Enter" name="submit"></input>
         );
     }
 
     metamaskInput() {
         return(
-            <input type="submit" value="Check for MetaMask" name="submit"></input>
+            <input className="black-submit" type="submit" value="Check for MetaMask" name="submit"></input>
         );
     }
 
@@ -197,9 +197,9 @@ export class LoginUserInput extends Component {
                     rows="3"
                     cols="40"
                     placeholder="Enter your twelve word mnemonic..."
-                    onChange={this.updateInput}
+                    onChange={this.handleInputChange}
                 /><br/>
-                <input type="submit" value="Log in" name="submit"></input>
+                <input className="black-submit" type="submit" value="Log in" name="submit"></input>
             </div>
         );
     }

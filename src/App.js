@@ -11,7 +11,8 @@ import { contractAddress } from './utils/getAddress'
 import './App.css'
 import {
     Header,
-    MainPage
+    MainPage,
+    ConsoleHeaderButton
 } from './modules/MainPage'
 import { 
     ConsoleScreen,
@@ -85,9 +86,81 @@ class Backend extends Component {
         /*Storing this.rooms in backend for each user would allow users to have their own saved favourite rooms
             -Rooms also probably should be updated to using unique ID's on both front and backend
         */
-        this.rooms = ["BlockNet", "Programming", "Gaming", "Random"];
+        this.rooms = ["BlockNet", "Programming", "Gaming", "Random"];   //might be better to make each an object and store its unique id with it
         this.handleLogin = this.handleLogin.bind(this);
+        this.manageRooms = this.manageRooms.bind(this);
     }
+
+    /**
+     * Rearrange the room storage variable which maps rooms to front-end components in order to rearrange their order of appearance
+     * 
+     * 
+     */
+    manageRooms(action, index) {
+        console.log("ARRANGE ROOMS CALLED");
+        if (action === "moveUp") {
+            this.moveRoomUp(index);
+            return;
+        } 
+        if (action === "moveDown") {
+            this.moveRoomDown(index);
+        }
+        if (action == "delete") {
+            this.deleteRoom(index);
+        }
+    }
+
+    /**
+     * Helper function for manageRooms to move rooms up array
+     * 
+     * @param {integer} index
+     *      index of room to be moved
+     * 
+     */
+    moveRoomUp(index) {
+        if (index > 0) {
+            let higherRoom = this.rooms[index-1];
+            this.rooms[index-1] = this.rooms[index];
+            this.rooms[index] = higherRoom;
+        }
+    }
+
+    /**
+     * Helper function for manageRooms to move rooms down array
+     * 
+     * @param {integer} index
+     *      index of room to be moved
+     * 
+     */
+    moveRoomDown(index) {
+        if (index < this.rooms.length-1) {
+            let lowerRoom = this.rooms[index+1];
+            this.rooms[index+1] = this.rooms[index];
+            this.rooms[index] = lowerRoom;
+        }
+    }
+
+    /**
+     * Helper function for manageRooms to delete rooms from room array
+     * 
+     * @param {integer} index
+     *      index of room to be deleted
+     * 
+     */
+    deleteRoom(index) {
+        if ((index > -1) && (index < this.rooms.length-1)) {
+            console.log("index: " + index + "|| length: " + this.rooms.length);
+            //this.rooms.splice(index, ((this.rooms.length)-(index)), this.rooms.slice(index+1, this.rooms.length));
+            this.rooms.splice(index, 1);
+        }
+    }
+/*
+    0 1 2 3
+    index = 1
+    length = 4
+    index+1 - length = amount to replace
+    index+1 -> length
+    */
 
     /**
      * Create a log entry that is rendered in the console. Log entry comprises the time that this function is called, the message provided as parameter, indent level, and whether it is waiting to be finished or not.
@@ -142,6 +215,7 @@ class Backend extends Component {
      */
     handleLogin = async (mode, mnemonic) => {
         try {
+            console.log("mode: " + mode + " || mnemonic: " + mnemonic);
             const web3 = await getWeb3(mode, mnemonic)
             console.log("web3 loaded")
             const accounts = await web3.eth.getAccounts()    
@@ -278,7 +352,7 @@ class Backend extends Component {
         if (ipfsInfo) {
             ipfsHash = ipfsInfo.id
             if (this.state.loadingRoom.status === true) {
-                this.setLogFinished(this.state.loadingRoom.index)   //if user spams a room button before one is finished, the first doesn't get set to finished.
+                this.setLogFinished()   //if user spams a room button before one is finished, the first doesn't get set to finished.
                 this.updateLog("Room messages successfully loaded", 1)
                 this.state.loadingRoom = { status: false, index: -1 }
             }   
@@ -515,6 +589,7 @@ class Backend extends Component {
             <div className="front-app">
                 <Frontend
                     rooms={this.rooms}
+                    manageRooms={this.manageRooms}
                     claimTokens={this.claimTokens}
                     state={this.state}
                     sendMessage={this.sendMessage}
@@ -576,11 +651,13 @@ class Backend extends Component {
                         />
                         <MainPage
                             rooms={this.props.rooms}
+                            manageRooms={this.props.manageRooms}
                             sendMessage={this.props.sendMessage}
                             messageHistory={this.props.state.messageHistory}
                             setRoom={this.props.setRoom}
                             currentState={this.props.state}
                             addRoom={this.props.addRoom}
+                            
                         />
                         <ConsoleScreen 
                             currentState={this.props.state}
