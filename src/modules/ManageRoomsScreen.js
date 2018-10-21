@@ -11,10 +11,13 @@ export class ManageRoomsScreen extends Component {
                     addRoom={this.props.addRoom}
                     activateRoom={this.props.activateRoom}
                 />
-                <JoinRoom />
+                <JoinRoom 
+                />
                 <ManageRooms 
                     rooms={this.props.rooms}
                     manageRooms={this.props.manageRooms}
+                />
+                <ManageWhitelist 
                 />
             </div>
         );
@@ -121,12 +124,47 @@ export class ManageRooms extends Component {
         return (
             <div className="form-container">
                 <h1>Manage Rooms</h1>
+                <label>Room list:</label>
+                <div className="manage-rooms-container">
+                    <div className="manage-rooms input-div">
+                        <select multiple size="10">
+                            {this.generateRoomOptions()}
+                        </select>
+                    </div>
+                    <div className="manage-rooms-button-container">
+                        <div className="manage-rooms-button">^</div>
+                        <div className="manage-rooms-button">v</div>
+                        <div className="manage-rooms-button">X</div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+}
+
+export class ManageRoomButton extends Component {
+    
+}
+
+export class ManageWhitelist extends Component {
+    generateWhitelist() {
+        let userList = ["user 1", "user 2", "user 3", "user 4"];
+        let whiteList = userList.map((user) => 
+            <option value="">{user}</option>
+        );
+        return whiteList;
+    }
+
+    render() {
+        return (
+            <div className="form-container">
+                <h1>`RoomName` Whitelist:</h1>
                 <form onSubmit={this.handleSubmit}>
                     <div className="remove-room input-div">
-                        <label>Room list:
+                        <label>Whitelist:
                             <br/>
                             <select multiple size="10">
-                                {this.generateRoomOptions()}
+                                {this.generateWhitelist()}
                             </select>
                         </label>
                     </div>
