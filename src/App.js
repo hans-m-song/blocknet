@@ -68,7 +68,7 @@ class Backend extends Component {
         balance: 0,
         blocksTilClaim: 0,
         messageHistory: [],
-        currentRoom: "BlockNet",
+        currentRoom: 0,
         tokensPerMessage: 0,
         DailyTokensNo: 0,
         latestBlockNo: 0,
@@ -87,9 +87,20 @@ class Backend extends Component {
         /*Storing this.rooms in backend for each user would allow users to have their own saved favourite rooms
             -Rooms also probably should be updated to using unique ID's on both front and backend
         */
-        this.rooms = ["BlockNet", "Programming", "Gaming", "Random"];   //might be better to make each an object and store its unique id with it
+        //this.rooms = ["BlockNet", "Programming", "Gaming", "Random"];   //might be better to make each an object and store its unique id with it
         this.handleLogin = this.handleLogin.bind(this);
         this.manageRooms = this.manageRooms.bind(this);
+        this.rooms = new Map([[0, "Block Net"], [1, "Programming"], [2, "Gaming"], [3, "Random"]]);
+        this.roomList = this.roomMapToArray();
+        console.log(this.roomList);
+    }
+
+    roomMapToArray() {
+        let roomList = [];
+        this.rooms.forEach(function(value, key, map) {
+            roomList.push(`${value}`);
+        })
+        return roomList;
     }
 
     /**
@@ -120,9 +131,9 @@ class Backend extends Component {
      */
     moveRoomUp(index) {
         if (index > 0) {
-            let higherRoom = this.rooms[index-1];
-            this.rooms[index-1] = this.rooms[index];
-            this.rooms[index] = higherRoom;
+            let higherRoom = this.roomList[index-1];
+            this.roomList[index-1] = this.roomList[index];
+            this.roomList[index] = higherRoom;
         }
     }
 
@@ -134,10 +145,10 @@ class Backend extends Component {
      * 
      */
     moveRoomDown(index) {
-        if (index < this.rooms.length-1) {
-            let lowerRoom = this.rooms[index+1];
-            this.rooms[index+1] = this.rooms[index];
-            this.rooms[index] = lowerRoom;
+        if (index < this.roomList.length-1) {
+            let lowerRoom = this.roomList[index+1];
+            this.roomList[index+1] = this.roomList[index];
+            this.roomList[index] = lowerRoom;
         }
     }
 
@@ -419,7 +430,9 @@ class Backend extends Component {
         this.updateLog("Attempting to send message: [" + message.message + "] from address: [" + from + "]");
         try {
             if (this.state.ipfsHash) {
-                messageHistory.push(message)
+                var tempHistory = messageHistory.slice(0)
+                tempHistory.push(message)
+
 
                 /*fs.writeFileSync('/Rooms/BlockNet.json', JSON.stringify(messageHistory, null, 4), (err) => {
                     if (err) {
@@ -431,8 +444,8 @@ class Backend extends Component {
 
                 // Create a new file on ipfs with new message
                 const filesAdded = await ipfs.files.add({
-                    path: `${this.state.currentRoom}.json`,
-                    content: Buffer.from(JSON.stringify(messageHistory, null, 4))
+                    path: `BlockNetRoom${this.state.currentRoom}.json`,
+                    content: Buffer.from(JSON.stringify(tempHistory, null, 4))
                 })
                 this.updateLog("Successfully added new message file: [" + filesAdded[0].hash + "] to room: [" + this.state.latestHash + "]", 1)
                 let waitingLogMessage = this.updateLog("Sending new hash through contract and awaiting response from Ethereum network", 1, true)
@@ -457,10 +470,59 @@ class Backend extends Component {
         }
     }
 
+    // TODO: Implement and finish
+    createRoom = async (roomName, is_private, dailyTokens = 0, tokensPerUpdate = 0, updateRate = 0, tokensPerMessage = 0) => {
+        const { accounts, contract, selectedAccountIndex } = this.state
+        const from = accounts[selectedAccountIndex]
+        try {
+            contract.events.RoomMade({
+                filter: { creator: from }
+            }, function (error, event) {
+                    if (!error) {
+                        this.rooms.set(parseInt(event.returnValues.roomID), roomName);
+                        console.log(this.rooms);
+                        this.setRoom(parseInt(event.returnValues.roomID));
+                        this.sendMessage("Created the Room.");
+                } else {
+                    console.err(error);
+                }
+                }.bind(this));
+            await contract.methods.newRoom(roomName, is_private, dailyTokens, tokensPerUpdate, updateRate, tokensPerMessage)
+                .send({ gas: '2352262', from })
+            console.log("New Room ", roomName, " successfully created.")
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    joinRoom = async (data) => {
+        var roomID = parseInt(data.roomID);
+        const { contract } = this.state;
+        const { accounts, selectedAccountIndex } = this.state
+        const from = accounts[selectedAccountIndex]
+        try {
+            var roomName = await contract.methods.getRoomName(roomID).call({ from: from });
+            if (roomName === undefined || roomName === '' || roomName === null) {
+                throw "Can't access room";
+            }
+            console.log("Joining room ", roomID, " : ", roomName)
+            this.rooms.set(roomID, roomName);
+            console.log(this.rooms);
+            this.setRoom(roomID);
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    /* Set currently selected room to 'room'
+     * 
+     * @param int room -> name of room to set as selected
+     */
     setRoom = async (room) => {
-        this.state.currentRoom = room
+        var currentRoom = room
+        this.setState({ currentRoom }) 
         this.state.loadingRoom.status = true
-        this.state.loadingRoom.index = this.updateLog("Room set to " + room + ". Loading messages", 0, true)
+        this.state.loadingRoom.index = this.updateLog("Room set to " + this.rooms.get(room) + ". Loading messages", 0, true)
 
         //this.updateLog("Room set to [" + room + "] | Room hash: [" + this.state.latestHash + "]")
         /*Would be good to display an expandable list of the messages comprising the message history on load 
@@ -571,6 +633,7 @@ class Backend extends Component {
             <div className="front-app">
                 <Frontend
                     rooms={this.rooms}
+                    roomList={this.roomList}
                     manageRooms={this.manageRooms}
                     claimTokens={this.claimTokens}
                     state={this.state}
@@ -580,6 +643,7 @@ class Backend extends Component {
                     currentState={this.state}
                     consoleActive={this.props.consoleActive}
                     addRoom={this.addRoom}
+                    joinRoom={this.joinRoom}
                     backendLog={this.state.backendLog}
                     lastMessage={this.state.lastMessage}
                 />
@@ -593,9 +657,11 @@ class Backend extends Component {
         addRoom(data) {
             //console.log(data);
             //this.rooms.push(data);
-            this.rooms.push(data.roomName);
+            this.createRoom(data.roomName, data.is_private/*, data.messageCost*/);
+            this.roomList = this.roomMapToArray();
             console.log(this.rooms);
-        }
+    }
+
     }
 
     class Frontend extends Component {
@@ -633,6 +699,7 @@ class Backend extends Component {
                         />
                         <MainPage
                             rooms={this.props.rooms}
+                            roomList={this.props.roomList}
                             manageRooms={this.props.manageRooms}
                             sendMessage={this.props.sendMessage}
                             messageHistory={this.props.state.messageHistory}
@@ -640,6 +707,7 @@ class Backend extends Component {
                             currentState={this.props.state}
                             addRoom={this.props.addRoom}
                             lastMessage={this.props.lastMessage}
+                            joinRoom={this.props.joinRoom}
                         />
                         <ConsoleScreen 
                             currentState={this.props.state}

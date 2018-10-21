@@ -15,7 +15,7 @@ export class RoomScreen extends Component {
         /*setting the state in constructor means there is no 'memory' of the last position (i.e. room) the user was in if they navigate to a different screen (i.e. settings)and will default to these. May be worth keeping track of last position in the main screen.*/
         this.state = {
             lastMessage: '',
-            activeRoom: "BlockNet",
+            activeRoom: 0,
             creatingRoom: false
         };
 
@@ -28,9 +28,9 @@ export class RoomScreen extends Component {
     
     NOTE: this may need to be moved further up to the backend when incorporating frontend with backend.
     */
-    activateRoom(roomName) {
-        this.setState({ activeRoom: roomName });
-        this.props.setRoom(roomName);
+    activateRoom(roomID) {
+        this.setState({ activeRoom: roomID });
+        this.props.setRoom(roomID);
         this.setState({ creatingRoom: false });
     }
 
@@ -65,6 +65,7 @@ export class RoomScreen extends Component {
                         onRoomButtonClick={this.activateRoom}
                         onAddRoomButtonClick={this.activateCreateRoom}
                         rooms={this.props.rooms}
+                        roomList={this.props.roomList}
                         activeRoom={this.state.activeRoom} 
                         creatingRoom={this.state.creatingRoom}
                     />
@@ -72,7 +73,9 @@ export class RoomScreen extends Component {
                         activateRoom={this.activateRoom}
                         addRoom={this.props.addRoom}
                         rooms={this.props.rooms}
+                        roomList={this.props.roomList}
                         manageRooms={this.props.manageRooms}
+                        joinRoom={this.props.joinRoom}
                     />
                 </div>
         } else {
@@ -82,6 +85,7 @@ export class RoomScreen extends Component {
                         onRoomButtonClick={this.activateRoom}
                         onAddRoomButtonClick={this.activateCreateRoom}
                         rooms={this.props.rooms}
+                        roomList={this.props.roomList}
                         activeRoom={this.state.activeRoom} 
                         creatingRoom={this.state.creatingRoom}
                     />
@@ -112,10 +116,18 @@ export class RoomNav extends Component {
 
     /*Converts array of room names passed down as prop from backend into corresponding buttons in room nav menu*/
     roomList() {
-        let roomButtons = (this.props.rooms).map((room) =>
+        var list_rooms = [];
+        var iter = this.props.rooms.keys();
+        var res = iter.next();
+        while (!res.done) {
+            list_rooms.push(res.value);
+            res = iter.next();
+        }
+        let roomButtons = (list_rooms).map((roomID) =>
             <RoomButton
-                key={room} //this makes the assumption that no rooms will have the identical name
-                roomName={room}
+                key={roomID}
+                roomID={roomID}
+                roomName={this.props.rooms.get(roomID)}
                 onRoomButtonClick={this.activateRoom}
                 activeRoom={this.props.activeRoom}
                 creatingRoom={this.props.creatingRoom}
@@ -126,8 +138,8 @@ export class RoomNav extends Component {
         );
     }
 
-    activateRoom(roomName) {
-        this.props.onRoomButtonClick(roomName);
+    activateRoom(roomID) {
+        this.props.onRoomButtonClick(roomID);
     }
 
     activateCreateRoom() {
@@ -158,17 +170,17 @@ export class RoomButton extends Component {
         this.handleClick = this.handleClick.bind(this);
     }
     handleClick() {
-        this.props.onRoomButtonClick(this.props.roomName);
+        this.props.onRoomButtonClick(this.props.roomID);
     }
     render() {
         let selectedStatus = "unselected-button";
-        if ((this.props.activeRoom === this.props.roomName) && (!this.props.creatingRoom)) {
+        if ((this.props.activeRoom === this.props.roomID) && (!this.props.creatingRoom)) {
             selectedStatus = "selected-button";
         }
         let classes = `${selectedStatus}`
         return (
             <div className={classes} onClick={(e) => this.handleClick(e)}>
-                {this.props.roomName}
+                {this.props.roomName} [#{this.props.roomID}]
             </div>
         );
     }

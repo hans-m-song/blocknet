@@ -6,19 +6,23 @@ import React, { Component } from 'react'
 export class ManageRoomsScreen extends Component {
     render() {
         return (
-            <div className="create-room-screen">
-                <CreateRoomForm
-                    addRoom={this.props.addRoom}
-                    activateRoom={this.props.activateRoom}
+            <div>
+                <div className="create-room-screen">
+                    <CreateRoomForm
+                        addRoom={this.props.addRoom}
+                        activateRoom={this.props.activateRoom}
+                    />
+                    <JoinRoomForm
+                        joinRoom={this.props.joinRoom}
+                    />
+                    <ManageRooms 
+                        rooms={this.props.rooms}
+                        roomList={this.props.roomList}
+                        manageRooms={this.props.manageRooms}
+                    />
+                    <ManageWhitelist 
                 />
-                <JoinRoom 
-                />
-                <ManageRooms 
-                    rooms={this.props.rooms}
-                    manageRooms={this.props.manageRooms}
-                />
-                <ManageWhitelist 
-                />
+                </div>
             </div>
         );
     }
@@ -27,6 +31,7 @@ export class ManageRoomsScreen extends Component {
 export class CreateRoomForm extends Component {
     constructor(props) {
         super(props);
+        this.state = { is_private: false };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
     }
@@ -35,13 +40,13 @@ export class CreateRoomForm extends Component {
     handleSubmit(event) {
         event.preventDefault();
         this.props.addRoom(this.state);
-        this.props.activateRoom(this.state.roomName);
+        //this.props.activateRoom(this.state.roomID);
     }
 
     /*Maps the inner state of the the form to the state of the overall component to establish the component as the "one source of truth"*/
     handleInputChange(event) {
         const target = event.target;
-        const value = target.value;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
 
         this.setState({
@@ -82,10 +87,10 @@ export class CreateRoomForm extends Component {
                         <br/>
                     </div>
                     <div className="new-room-privacy input-div">
-                        <label>Privacy:</label><br/>
+                        <label>Private?</label><br/>
                         <input 
-                            type="text" 
-                            name="privacy"
+                            type="checkbox" 
+                            name="is_private"
                             onChange={this.handleInputChange}
                             />
                         <br/>
@@ -114,7 +119,7 @@ export class ManageRooms extends Component {
     }
 
     generateRoomOptions() {
-        let roomOptions = (this.props.rooms).map((room) => 
+        let roomOptions = (this.props.roomList).map((room) => 
             <option value="">{room}</option>
         );
         return roomOptions;
@@ -182,20 +187,52 @@ export class roomOption extends Component {
     }
 }
 
-export class JoinRoom extends Component {
+export class JoinRoomForm extends Component {
+    constructor(props) {
+        super(props);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+    }
+
+    /*Pass the form data up*/
+    handleSubmit(event) {
+        event.preventDefault();
+        this.props.joinRoom(this.state);
+        //this.props.activateRoom(this.state.roomID);
+    }
+
+    /*Maps the inner state of the the form to the state of the overall component to establish the component as the "one source of truth"*/
+    handleInputChange(event) {
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+
+        this.setState({
+            [name]: value
+        });
+    }
     render() {
         return (
             <div className="form-container">
                 <h1>Join Room</h1>
                 <form onSubmit={this.handleSubmit}>
                     <div className="join-room input-div">
-                        <label>Room name:</label><br/>
+                        <label>Room ID:</label><br/>
                         <input 
-                            type="text" 
-                            name="roomName"
+                            type="number" 
+                            name="roomID"
                             onChange={this.handleInputChange}
                         />
                         <br/>
+                    </div>
+                    <div className="join-room-submit input-div">
+                        <br />
+                        <input
+                            type="submit"
+                            value="Submit"
+                            name="submit"
+                        />
+                        <br />
                     </div>
                 </form>
             </div>
