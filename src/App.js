@@ -484,7 +484,7 @@ class Backend extends Component {
                         this.setRoom(parseInt(event.returnValues.roomID));
                         this.sendMessage("Created the Room.");
                 } else {
-                    console.err(error);
+                    console.error(error);
                 }
                 }.bind(this));
             await contract.methods.newRoom(roomName, is_private, dailyTokens, tokensPerUpdate, updateRate, tokensPerMessage)
