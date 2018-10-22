@@ -8,8 +8,9 @@ export class ConsoleScreen extends Component {
     constructor(props) {
         super(props);
         this.currentState = this.props.currentState;
+        //console.log(this.currentState);
         this.activateSection = this.activateSection.bind(this);
-        this.state = {activeSection: "Log", consoleHeight : "80%" ,mousedrag:"0"};
+        this.state = {activeSection: "Log", consoleHeight : "50%" ,mousedrag:"0"};
         
 
     }
@@ -132,6 +133,9 @@ class ConsoleNavButton extends Component {
 class ConsoleContent extends Component {
     constructor(props) {
         super(props);
+        this.currentState = this.props.currentState;
+        //console.log(this.currentState);
+
     }
 
     render() {
@@ -168,20 +172,22 @@ class ConsoleContent extends Component {
 export class Properties extends Component {
     constructor(props) {
         super(props);
-        this.state = this.props.currentState;
+        this.currentState = this.props.currentState;
+        console.log(this.currentState);
     }
 
    render() {
     return (
         <div className="properties console-content-section">
             <div className="properties-content">
-            <p>account address: </p>
-                <p>local ipfs hash: </p>
-                <p>claimableTokens: </p>
-                <p>latestBlockNo: </p>
-                <p>tokensPerMessage: </p>
-                <p>dailyTokensNo: </p>
-                <p>blocksPerClaim: </p>
+                <p>Account Address : {this.currentState.accounts[0]}</p>
+                <p>Local Ipfs Hash : {this.currentState.ipfsHash}</p>
+                <p>Latest Block No : {this.currentState.latestBlockNo}</p>      
+                <p>Blocks / Claim   : {this.currentState.blocksPerClaim}</p>      
+                <p>Claimable Tokens: {this.currentState.claimableTokens}</p>
+                <p>Tokens / Message: {this.currentState.tokensPerMessage}</p>
+                <p>Daily Tokens No : {this.currentState.dailyTokensNo}</p>
+                <p>Hash Contents     : {this.currentState.lastestMessage}</p>
             </div>
         </div>
     );
