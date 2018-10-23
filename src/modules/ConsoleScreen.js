@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Chart from 'chart.js'
+import getTime from './../utils/getTime'
 
 /**
  * Console
@@ -8,24 +9,48 @@ export class ConsoleScreen extends Component {
     constructor(props) {
         super(props);
         this.currentState = this.props.currentState;
+        //console.log(this.currentState);
         this.activateSection = this.activateSection.bind(this);
-        this.state = {activeSection: "Log"};
+        this.state = {activeSection: "Log", consoleHeight : "50%" ,mousedrag:"0"};
+        
+
     }
 
     activateSection(section) {
         this.setState({ activeSection: section});
     }
 
+    mouseMove(e){
+        if(this.state.mousedrag == "1") {
+            var newHeight = 20 + window.innerHeight - e.pageY;
+            this.setState({consoleHeight: newHeight}); 
+        }
+    }
+
+    mouseDown(e) {
+        this.setState({mousedrag: "1"});
+    }
+
+    mouseUp(e){
+        this.setState({mousedrag: "0"});
+    }
+
     render() {
         if (this.props.consoleActive) {
             return (
                 //<div className={classes}>
-                <div className="console console-active">
+                <div className="console console-active" 
+                        style = {{height: this.state.consoleHeight}}>
                     <ConsoleNav 
+                        onMouseMove={(e) => this.mouseMove(e)}
+                        onMouseDown={(e) => this.mouseDown(e)}
+                        onMouseUp={(e) => this.mouseUp(e)}
                         activeSection={this.state.activeSection}
                         activateSection={this.activateSection}
+                        consoleHeight={this.consoleHeight}
                     />
                     <ConsoleContent 
+                        swarmAddr={() => this.props.swarmAddr()}
                         currentState={this.currentState}
                         activateSection={this.activateSection}
                         activeSection={this.state.activeSection}
@@ -50,10 +75,15 @@ export class ConsoleNav extends Component {
     activateSection(sectionName) {
         this.props.activateSection(sectionName);
     }
+
+    
     render() {
 
         return (
-            <div className="console-nav">
+            <div className="console-nav"  
+                        onMouseMove={(e) => this.props.onMouseMove(e)}   
+                        onMouseDown={(e) => this.props.onMouseDown(e)}
+                        onMouseUp={(e) => this.props.onMouseUp(e)}>
                 <ConsoleNavButton 
                     sectionName="Log" 
                     activateSection={this.props.activateSection}
@@ -72,6 +102,8 @@ export class ConsoleNav extends Component {
             </div>
         )
     }
+    
+    
 }
 
 class ConsoleNavButton extends Component {
@@ -103,6 +135,9 @@ class ConsoleNavButton extends Component {
 class ConsoleContent extends Component {
     constructor(props) {
         super(props);
+        this.currentState = this.props.currentState;
+        //console.log(this.currentState);
+
     }
 
     render() {
@@ -117,13 +152,15 @@ class ConsoleContent extends Component {
             case "Properties":
                 return(
                     <Properties
+                    swarmAddr={() => this.props.swarmAddr()}
                     currentState={this.currentState}
                 />
                 );
 
             case "Network":
                 return (
-                    <MessageGraph />
+                    <MessageGraph 
+                    currentState={this.currentState}/>
                 );
             default:
                 return(
@@ -139,20 +176,23 @@ class ConsoleContent extends Component {
 export class Properties extends Component {
     constructor(props) {
         super(props);
-        this.state = this.props.currentState;
+        this.currentState = this.props.currentState;
+        console.log(this.currentState);
     }
 
    render() {
     return (
         <div className="properties console-content-section">
             <div className="properties-content">
-            <p>account address: </p>
-                <p>local ipfs hash: </p>
-                <p>claimableTokens: </p>
-                <p>latestBlockNo: </p>
-                <p>tokensPerMessage: </p>
-                <p>dailyTokensNo: </p>
-                <p>blocksPerClaim: </p>
+                <p>Account Address : {this.currentState.accounts[0]}</p>
+                <p>Local Ipfs Hash : {this.currentState.ipfsHash}</p>
+                <p>Latest Block No : {this.currentState.latestBlockNo}</p>      
+                <p>Blocks / Claim   : {this.currentState.blocksPerClaim}</p>      
+                <p>Claimable Tokens: {this.currentState.claimableTokens}</p>
+                <p>Tokens / Message: {this.currentState.tokensPerMessage}</p>
+                <p>Daily Tokens No : {this.currentState.dailyTokensNo}</p>
+                <p>Hash Contents     : {this.currentState.lastestMessage}</p>
+                <p>Swarm Address    : {() => this.props.swarmAddr()}</p>
             </div>
         </div>
     );
@@ -162,13 +202,18 @@ export class Properties extends Component {
 export class MessageGraph extends Component {
     constructor(props) {
         super(props);
+        this.currentState = this.props.currentState;
         Chart.defaults.global.responsive = true;
         Chart.defaults.global.scaleStartValue = 0;
+
+        
+
+
         this.state = {
             LineChart: require("react-chartjs").Line,
             data: {
-                labels: ["2am", "4am", "6am", "8am", "10am",
-                    "12pm", "2pm"],
+                labels: ["6hrs ago", "5hrs ago", "4hrs ago", "3hrs ago", "2hrs ago", "1h ago",
+                    "0hrs ago"],
                 datasets: [
                     {
                         label: "Messages",
@@ -178,8 +223,8 @@ export class MessageGraph extends Component {
                         pointStrokeColor: "#fff",
                         pointHighlightFill: "#fff",
                         pointHighlightStroke: "rgba(220,220,220,1)",
-                        //Create random data to fill graph
-                        data: this.rand(100, 300, 7),
+                        //Data goes below
+                        data: [0,0,0,0,0,0,0],
                     },
                 ]
             },
@@ -192,7 +237,7 @@ export class MessageGraph extends Component {
                 scaleGridLineWidth: 1,
             }
         }
-
+        this.updateNetworkData()
     }
 
     //Placeholder to create random data
@@ -204,11 +249,55 @@ export class MessageGraph extends Component {
         return rtn;
     }
 
+    updateNetworkData() {
+        var currentDate = getTime().substr(7);
+        var intermediate = getTime().split(",");
+        intermediate.pop();
+        var currentTime = intermediate.pop();
+        intermediate = currentTime.split(":");
+        intermediate.pop();
+        var currentHour = intermediate.pop();
+        var i;
+        var dataValues = [0,0,0,0,0,0,0];
+        for(i=0; i<this.currentState.messageHistory.length; i++) {
+            var messageDate = this.currentState.messageHistory[i].date.substr(7);
+            var intermediate2 = this.currentState.messageHistory[i].date.split(",");
+            intermediate2.pop();
+            var messageTime = intermediate2.pop();
+            intermediate2 = messageTime.split(":");
+            intermediate2.pop();
+            var messageHour = intermediate2.pop();
+            if(messageDate.localeCompare(currentDate) == 0) {
+                   if((currentHour - messageHour) <= 6){
+                        dataValues[currentHour - messageHour] += 1;
+                   }
+            }
+        }
+        //console.log(this.state.data.datasets)
+        this.state.data =  {
+                labels: ["6hrs ago", "5hrs ago", "4hrs ago", "3hrs ago", "2hrs ago", "1h ago",
+                    "0hrs ago"],
+                datasets: [
+                    {
+                        label: "Messages",
+                        fillColor: "rgba(220,220,220,0.2)",
+                        strokeColor: "rgba(220,220,220,1)",
+                        pointColor: "rgba(220,220,220,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(220,220,220,1)",
+                        //Data goes below
+                        data: [dataValues[6], dataValues[5], dataValues[4], dataValues[3], dataValues[2], dataValues[1], dataValues[0]],
+                    },
+                ]
+            } 
+    }
+
     render() {
         return (
             <div className = "graphbox console-content-section">
                 <div className="graph-title">
-                    <h2> #No. of Messages sent in last 12 Hours </h2>
+                    <h2> #No. of Messages sent in last 6 hours in this room</h2>
                 </div>
                 <this.state.LineChart
                     className="linegraph"

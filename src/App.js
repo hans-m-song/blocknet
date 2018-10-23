@@ -646,6 +646,7 @@ class Backend extends Component {
                     joinRoom={this.joinRoom}
                     backendLog={this.state.backendLog}
                     lastMessage={this.state.lastMessage}
+                    swarmAddr={this.refreshPeerList()}
                 />
             </div>
             );
@@ -710,6 +711,7 @@ class Backend extends Component {
                             joinRoom={this.props.joinRoom}
                         />
                         <ConsoleScreen 
+                            swarmAddr={() => this.props.swarmAddr()}
                             currentState={this.props.state}
                             consoleActive={this.state.consoleActive}
                             backendLog={this.props.backendLog}
