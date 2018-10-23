@@ -10,10 +10,12 @@ class Invite extends Component{
             }
     }
     handleClick(event){
+        /*
         event.preventDefault();
         this.setState({
             visible:!this.state.visible
         })
+        */
     }
 
     render() {

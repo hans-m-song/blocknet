@@ -262,7 +262,6 @@ content-page {
 }
 
 /*Left panel holds links to different sections of the site*/
-
 .left-panel {
     display: flex;
     flex: 0;
@@ -271,8 +270,9 @@ content-page {
     padding: 0px;
 }
 
-.sections {
-    
+/*hides the left panel contents while we only have rooms section*/
+.sections * {
+    display: none;
 }
 
 /*Styling of left panel section links*/

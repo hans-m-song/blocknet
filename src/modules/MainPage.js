@@ -5,6 +5,7 @@ import { SettingsScreen } from './SettingsScreen'
 import { ConsoleScreen } from './ConsoleScreen'
 import InactiveLogo from '../console_inactive.png'
 import ActiveLogo from '../console_active.png'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
 /********** Main Screen and Panels ************/
@@ -52,7 +53,7 @@ export class ConsoleHeaderButton extends Component {
     }
 
     render() {
-        let classes;
+/*        let classes;
         let logo;
         if (this.props.active) {
             classes = `console-header-button-active`;
@@ -65,6 +66,20 @@ export class ConsoleHeaderButton extends Component {
         return (
             <div className={classes} onClick={(e) => this.consoleClick(e)}>
                 <img src={logo} height="45" width="45" />
+            </div>
+        );
+*/
+
+        let selectedStatus = "";
+
+        if (this.props.active) {
+            selectedStatus = "selected-add-room-button";
+        }
+        let classes = `${selectedStatus}`
+
+        return (
+            <div className={classes + " " + "room-menu-button"} onClick={(e) => this.consoleClick(e)}>
+                <FontAwesomeIcon className="terminal-icon" icon="terminal" />
             </div>
         );
     }

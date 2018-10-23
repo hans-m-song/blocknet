@@ -20,8 +20,10 @@ import {
 import { LoadingScreen } from './modules/LoadingScreen'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
+import { faTerminal } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faPencilAlt)
+library.add(faTerminal)
 
 /* Unused components
 LeftPanel,
