@@ -71,15 +71,15 @@ export class LoginScreen extends Component {
                         selectedOption={this.state.selectedLogin}
                     />
                 </div>
+                <div className="loginStatus">
+                        <p><span>.</span>{this.state.loginStatus}</p>
+                </div>
                 <div className="login-input-container">
                     <LoginUserInput 
                         selectedOption={this.state.selectedLogin}
                         handleLogin={this.props.handleLogin}
                         setLoginStatus={this.setLoginStatus}
                     />
-                </div>
-                <div className="loginStatus">
-                    <p>{this.state.loginStatus}</p>
                 </div>
             </div>
         );

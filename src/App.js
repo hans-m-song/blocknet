@@ -19,9 +19,9 @@ import {
     WaitingAnimation } from './modules/ConsoleScreen'
 import { LoadingScreen } from './modules/LoadingScreen'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faPlus)
+library.add(faPencilAlt)
 
 /* Unused components
 LeftPanel,
@@ -91,15 +91,16 @@ class Backend extends Component {
         this.handleLogin = this.handleLogin.bind(this);
         this.manageRooms = this.manageRooms.bind(this);
         this.rooms = new Map([[0, "Block Net"], [1, "Programming"], [2, "Gaming"], [3, "Random"]]);
-        this.roomList = this.roomMapToArray();
+        this.roomList = this.roomMapToArray(); 
         console.log(this.roomList);
-    }
+    }   
 
     roomMapToArray() {
         let roomList = [];
         this.rooms.forEach(function(value, key, map) {
-            roomList.push(`${value}`);
+            roomList.push(`${key}`);
         })
+        console.log(roomList[0]);
         return roomList;
     }
 
@@ -482,6 +483,8 @@ class Backend extends Component {
                         this.rooms.set(parseInt(event.returnValues.roomID), roomName);
                         console.log(this.rooms);
                         this.setRoom(parseInt(event.returnValues.roomID));
+                        //this.roomList = this.roomMapToArray();
+                        this.roomList.push(parseInt(event.returnValues.roomID));
                         this.sendMessage("Created the Room.");
                 } else {
                     console.error(error);
@@ -489,6 +492,7 @@ class Backend extends Component {
                 }.bind(this));
             await contract.methods.newRoom(roomName, is_private, dailyTokens, tokensPerUpdate, updateRate, tokensPerMessage)
                 .send({ gas: '2352262', from })
+             
             console.log("New Room ", roomName, " successfully created.")
         } catch (err) {
             console.error(err)

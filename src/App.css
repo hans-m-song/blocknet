@@ -197,6 +197,14 @@ button {
     padding: 5px;
 }
 
+.loginStatus p {
+    color: red;
+}
+
+.loginStatus span {
+    color: #14130a;
+}
+
 /******* HEADER *********/
 .header {
     padding-left: 10px;
@@ -317,7 +325,8 @@ content-page {
     flex-grow: 0;
     /*89.63 is the max width before x-overflow*/
     flex-basis: 80%;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     border: 1px none;
     margin: 0px 5px 5px 5px;
     position: relative;
@@ -633,15 +642,21 @@ content-page {
 }
 
 /************Create Room Screen**************/
+.room-mgmt-screen {
+    width : 100%;
+}
+
 .create-room-screen {
     display: flex;
     flex-direction: row;
+
 }
 
 .form-container {
     flex-basis : 25%;
     flex-shrink: 0;
     flex-grow : 0;
+    width: 80%;
 }
 
 .form-container div {
@@ -657,17 +672,25 @@ content-page {
     margin-left: 10px;
 }
 
+.manage-rooms select {
+    width : 80%;
+}
+
 .manage-rooms-container {
     display : flex;
 }
 
 .manage-rooms-button-container {
-    display: flex;
-    flex-direction: column;
+
 }
 
 .manage-rooms-button {
     padding: 5px;
+}
+
+.remove-rooms-container {
+    display: flex;
+    flex-direction: column;
 }
 
 

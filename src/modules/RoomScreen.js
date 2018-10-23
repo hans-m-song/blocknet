@@ -206,7 +206,7 @@ export class AddRoomButton extends Component {
 
         return (
             <div className={classes + " " + "room-menu-button"} onClick={(e) => this.handleClick(e)}>
-                <FontAwesomeIcon className="plus-icon" icon="plus" />
+                <FontAwesomeIcon className="plus-icon" icon="pencil-alt" />
             </div>
         );
     }

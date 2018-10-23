@@ -6,7 +6,7 @@ import React, { Component } from 'react'
 export class ManageRoomsScreen extends Component {
     render() {
         return (
-            <div>
+            <div className="room-mgmt-screen">
                 <div className="create-room-screen">
                     <CreateRoomForm
                         addRoom={this.props.addRoom}
@@ -101,6 +101,7 @@ export class CreateRoomForm extends Component {
                             type="submit" 
                             value="Submit" 
                             name="submit"
+                            className="black-submit"
                         />
                         <br/>
                     </div>
@@ -125,6 +126,14 @@ export class ManageRooms extends Component {
         return roomOptions;
     }
 
+    handleSubmit(event) {
+        event.preventDefault();
+        this.props.addRoom(this.state);
+        //this.props.activateRoom(this.state.roomID);
+    }
+
+    /*Old version with re-arrange functionality*/
+    /*
     render() {
         return (
             <div className="form-container">
@@ -140,6 +149,30 @@ export class ManageRooms extends Component {
                         <div className="manage-rooms-button">^</div>
                         <div className="manage-rooms-button">v</div>
                         <div className="manage-rooms-button">X</div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+    */
+
+    render() {
+        return (
+            <div className="form-container">
+                <h1>Remove Rooms</h1>
+                <label>Room list:</label>
+                <div className="remove-rooms-container">
+                    <div className="manage-rooms input-div">
+                        <select multiple size="10">
+                            {this.generateRoomOptions()}
+                        </select>
+                    </div>
+                    <div className="manage-rooms-button-container">
+                        <input 
+                            type="submit" 
+                            className="manage-rooms-button black-submit"
+                            value="Remove">
+                        </input>
                     </div>
                 </div>
             </div>
@@ -231,6 +264,7 @@ export class JoinRoomForm extends Component {
                             type="submit"
                             value="Submit"
                             name="submit"
+                            className="black-submit"
                         />
                         <br />
                     </div>
