@@ -130,6 +130,7 @@
 		<button type="button" class="navbar-toggle navbar-toggle-dark collapsed glyphicon glyphicon-menu-hamburger" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></button>
 
         <nav class="nav header-nav collapse navbar-collapse" id="navbar-collapse">
+			<a href="build/index.html"><button class="btn btn-primary">Try it out</button></a>
             <a class="nav-item btn" href="#blocknet">About Block Net</a>
             <a class="nav-item btn" href="#demo">Demonstration</a>
             <a class="nav-item btn" href="#blockchain">The Blockchain</a>
@@ -196,7 +197,8 @@
 					<span class="sr-only">Next</span>
 				</a>
 			</div>
-        </div>
+		</div>
+
         <div id="demo" class="mvp-video section">
             <h2>Video Demonstration</h2>
 				<div class="video-frame">
