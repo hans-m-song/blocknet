@@ -166,9 +166,7 @@
         </div>
 
         <div class="row">
-            <div class="col-md-6">
-                <div class="chart-container">
-                    <table id="formTable" width = "400" height = "400" float: left>
+               <table id="formTable">
                       <tr>
                         <th>Time</th>
                         <th>Name</th>
@@ -179,8 +177,6 @@
                         <th>Features</th>
                       </tr>
                     </table>
-                </div>
-            </div>
         </div>
 
     <script type="text/javascript" src="js/charts.js"></script>

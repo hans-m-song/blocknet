@@ -142,7 +142,7 @@
     <!--Another idea is to have a '...' dialogue box that suggests someones about to send a message, is a button and creates new box and centres on it, kinda like how messaging in video games works-->
 	<div class="container-fluid content">
     <div class="centre">
-		<div class="padding"></div>
+		<div class="padding" style="padding:40px"></div>
         <div id="blocknet" class="carousel-container section">
             <h2>What is Block Net?</h2>
 			<div id="myCarousel" class="carousel slide" data-ride="carousel">

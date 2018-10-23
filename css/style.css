@@ -221,3 +221,31 @@ form > .form-groups {
   height: 200px;
   width: 200px;
 }
+
+#formTable {
+border-collapse: collapse;
+background-color: #202020;
+width: 100%;
+margin-top: 10px;
+}
+
+#formTable td, th {
+border-bottom: 2px solid #535353;
+text-align: center;
+}
+
+#formTable tr:nth-child(even) {
+background-color: #151515;
+}
+
+#formTable tr:hover {
+background-color: #404040;
+}
+
+#formTable td {
+padding: 5px;
+}
+
+#formTable th {
+padding: 10px;
+}
