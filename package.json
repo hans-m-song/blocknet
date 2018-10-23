@@ -44,7 +44,6 @@
   "standard": {
     "parser": "babel-eslint"
   },
-  "devDependencies": {},
   "browserslist": [
     ">0.2%",
     "not dead",
