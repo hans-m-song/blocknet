@@ -116,18 +116,11 @@ export class RoomNav extends Component {
 
     /*Converts array of room names passed down as prop from backend into corresponding buttons in room nav menu*/
     roomList() {
-        var list_rooms = [];
-        var iter = this.props.rooms.keys();
-        var res = iter.next();
-        while (!res.done) {
-            list_rooms.push(res.value);
-            res = iter.next();
-        }
-        let roomButtons = (list_rooms).map((roomID) =>
+        let roomButtons = (this.props.rooms).map((room) =>
             <RoomButton
-                key={roomID}
-                roomID={roomID}
-                roomName={this.props.rooms.get(roomID)}
+                key={room.id}
+                roomID={room.id}
+                roomName={room.name}
                 onRoomButtonClick={this.activateRoom}
                 activeRoom={this.props.activeRoom}
                 creatingRoom={this.props.creatingRoom}

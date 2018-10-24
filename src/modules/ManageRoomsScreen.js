@@ -17,7 +17,7 @@ export class ManageRoomsScreen extends Component {
                     />
                     <ManageRooms 
                         rooms={this.props.rooms}
-                        roomList={this.props.roomList}
+                        //roomList={this.props.roomList}
                         manageRooms={this.props.manageRooms}
                     />
                     <ManageWhitelist 
@@ -120,8 +120,8 @@ export class ManageRooms extends Component {
     }
 
     generateRoomOptions() {
-        let roomOptions = (this.props.roomList).map((room) => 
-            <option value="">{room}</option>
+        let roomOptions = (this.props.rooms).map((room) => 
+            <option value="{room.id}">{room.name}</option>
         );
         return roomOptions;
     }
