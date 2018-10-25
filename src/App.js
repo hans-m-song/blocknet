@@ -16,14 +16,21 @@ import {
 } from './modules/MainPage'
 import { 
     ConsoleScreen,
-    WaitingAnimation } from './modules/ConsoleScreen'
+    WaitingAnimation 
+} from './modules/ConsoleScreen'
 import { LoadingScreen } from './modules/LoadingScreen'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
-import { faTerminal } from '@fortawesome/free-solid-svg-icons'
+import { 
+    faPencilAlt,
+    faTerminal,
+    faChevronUp,
+    faChevronDown
+} from '@fortawesome/free-solid-svg-icons'
 
 library.add(faPencilAlt)
 library.add(faTerminal)
+library.add(faChevronUp)
+library.add(faChevronDown)
 
 /* Unused components
 LeftPanel,
@@ -92,6 +99,7 @@ class Backend extends Component {
         //this.rooms = ["BlockNet", "Programming", "Gaming", "Random"];   //might be better to make each an object and store its unique id with it
         this.handleLogin = this.handleLogin.bind(this);
         this.manageRooms = this.manageRooms.bind(this);
+        this.manageWhitelist = this.manageWhitelist.bind(this);
         //this.rooms = new Map([[0, "Block Net"], [1, "Programming"], [2, "Gaming"], [3, "Random"]]);
         //this.roomList = this.roomMapToArray(); 
         this.roomList = [];
@@ -163,7 +171,7 @@ class Backend extends Component {
      * 
      */
     deleteRoom(index) {
-        if ((index > -1) && (index < this.roomList.length-1)) {
+        if ((index > -1) && (index < this.roomList.length)) {
             console.log("index: " + index + "|| length: " + this.roomList.length);
             //this.rooms.splice(index, ((this.rooms.length)-(index)), this.rooms.slice(index+1, this.rooms.length));
             this.roomList.splice(index, 1);
@@ -547,13 +555,19 @@ class Backend extends Component {
         this.setState({ currentRoom }) 
         this.state.loadingRoom.status = true
         this.state.loadingRoom.index = this.updateLog("Room set to " + this.roomList[room] + ". Loading messages", 0, true)
+    }
 
-        //this.updateLog("Room set to [" + room + "] | Room hash: [" + this.state.latestHash + "]")
-        /*Would be good to display an expandable list of the messages comprising the message history on load 
-            seems to require:
-                -getting the message list here to print when first loading room, and;
-                -nice formatting to allow for expanding (because message history could be quite long)
-        */
+    manageWhitelist(room, user, index) {
+        if (user === -1 && index == -1) {
+            //get whitelist
+            return this.getWhitelist(room);
+        } else if (index == -1) {
+            //add to whitelist
+            this.addToWhitelist(room, user);
+        } else {
+            //remove from whitelist
+            this.removeFromWhitelist(room, user, index);
+        }
     }
 
     getPrivacy = async (room) => {
@@ -573,11 +587,12 @@ class Backend extends Component {
         return false;
     }
 
-    getWhiteList = async (room) => {
+
+    getWhitelist = async (room) => {
         const { contract, accounts, selectedAccountIndex } = this.state
         const from = accounts[selectedAccountIndex]
         try {
-            var whitelist = await contract.methods.getWhiteList(room).call({ from: from });
+            var whitelist = await contract.methods.getWhitelist(room).call({ from: from });
             if (whitelist[1]) {
                 console.log(whitelist[0]);
                 return whitelist[0];
@@ -714,6 +729,7 @@ class Backend extends Component {
                     rooms={this.roomList}
                     roomList={this.roomList}
                     manageRooms={this.manageRooms}
+                    manageWhitelist={this.manageWhitelist}
                     claimTokens={this.claimTokens}
                     state={this.state}
                     sendMessage={this.sendMessage}
@@ -752,7 +768,6 @@ class Backend extends Component {
         }
 
         onTildePress(e) {
-            console.log("key pressed >" + e.keyCode);
             if (e.keyCode === 192) {
                 e.preventDefault();
                 this.switchConsole();
@@ -781,6 +796,7 @@ class Backend extends Component {
                             rooms={this.props.rooms}
                             roomList={this.props.roomList}
                             manageRooms={this.props.manageRooms}
+                            manageWhitelist={this.props.manageWhitelist}
                             sendMessage={this.props.sendMessage}
                             messageHistory={this.props.state.messageHistory}
                             setRoom={this.props.setRoom}

@@ -75,6 +75,7 @@ export class RoomScreen extends Component {
                         rooms={this.props.rooms}
                         roomList={this.props.roomList}
                         manageRooms={this.props.manageRooms}
+                        manageWhitelist={this.props.manageWhitelist}
                         joinRoom={this.props.joinRoom}
                     />
                 </div>
@@ -230,9 +231,9 @@ export class MessageContainer extends Component {
 
     //Helper method for render to render every value in the messages list
     renderMessages() {
-        return this.props.messageHistory.map(message => {
+        return this.props.messageHistory.map((message, index) => {
             return <Message
-                key={message.date}
+                key={message.date + " " + index}
                 user={message.user.toString()}
                 date={message.date.toString()}
                 message={message.message.toString()}
@@ -253,7 +254,6 @@ export class MessageContainer extends Component {
                 />
                 <div>
                     <img className="sending-message" src="https://drive.google.com/uc?id=1V5tY3mtS2cQh6Zr-z9NdpAXDTUBAyCAt"/>
-                    
                     <p className="icon-caption">Sending message...</p>
                 </div>
             </div>

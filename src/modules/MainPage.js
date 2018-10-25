@@ -3,8 +3,6 @@ import { RoomScreen } from './RoomScreen'
 import { PrivateMessagesScreen } from './PrivateMessagesScreen'
 import { SettingsScreen } from './SettingsScreen'
 import { ConsoleScreen } from './ConsoleScreen'
-import InactiveLogo from '../console_inactive.png'
-import ActiveLogo from '../console_active.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
@@ -146,6 +144,7 @@ export class MainPage extends Component {
                         rooms={this.props.rooms}
                         roomList={this.props.roomList}
                         manageRooms={this.props.manageRooms}
+                        manageWhitelist={this.props.manageWhitelist}
                         section={this.state.activeSection}
                         sendMessage={this.sendMessage}
                         setRoom={this.props.setRoom}
@@ -252,6 +251,7 @@ export class Content extends Component {
                         rooms={this.props.rooms}
                         roomList={this.props.roomList}
                         manageRooms={this.props.manageRooms}
+                        manageWhitelist={this.props.manageWhitelist}
                         sendMessage={this.sendMessage}
                         messageHistory={this.props.messageHistory}
                         setRoom={this.props.setRoom}

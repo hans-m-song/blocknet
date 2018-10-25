@@ -4,6 +4,10 @@
     font-size: 1em;
 }
 
+input:focus {
+    outline: 1px solid white;
+}
+
 html * {
     background-color: #14130a;
     color: white;
@@ -12,6 +16,10 @@ html * {
 
 div {
     outline: none;
+}
+
+input {
+    border : white 1px solid;
 }
 
 .cursor-invert:hover {
@@ -62,6 +70,20 @@ div::-webkit-scrollbar-track {
 div::-webkit-scrollbar-track {
 
 }
+
+select::-webkit-scrollbar {
+    width: 10px;
+    height: 5px;
+}
+   
+select::-webkit-scrollbar-thumb {
+    background: white;
+}
+  
+select::-webkit-scrollbar-track {
+    background: #14130a;
+}
+
 
 /************     Text selection colour        **********/
 
@@ -645,6 +667,29 @@ content-page {
     width : 100%;
 }
 
+.manage-rooms {
+    border: 1px solid white;
+    max-width: 80%;
+    margin-bottom : 10px;
+    height: 207px;
+    overflow: auto;
+}
+
+.manage-rooms div {
+    width : 190px;
+}
+
+
+.selected-option {
+    background: white;
+    color: #14130a;
+}
+
+.manage-rooms div {
+    padding : 5px;
+    margin: 1px;
+}
+
 .create-room-screen {
     display: flex;
     flex-direction: row;
@@ -656,6 +701,10 @@ content-page {
     flex-shrink: 0;
     flex-grow : 0;
     width: 80%;
+}
+
+.form-container h1 span {
+    color: #14130a;
 }
 
 .form-container div {
@@ -671,7 +720,7 @@ content-page {
     margin-left: 10px;
 }
 
-.manage-rooms select {
+.form-container select {
     width : 80%;
 }
 
@@ -680,7 +729,11 @@ content-page {
 }
 
 .manage-rooms-button-container {
+    display: flex;
+}
 
+.manage-rooms-button-container input {
+    margin-right: 10px;
 }
 
 .manage-rooms-button {
@@ -692,6 +745,42 @@ content-page {
     flex-direction: column;
 }
 
+.whitelist-container {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 5px;
+}
+
+.whitelist-container select {
+    margin-bottom: 5px;
+}
+
+.submit-icon {
+    border: 1px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+}
+
+.submit-icon:active .move-icon {
+    background-color: white;
+}
+
+.submit-icon:active .move-icon path {
+    color: #14130a;
+}
+
+.move-icon {
+    width: 20px;
+}
+
+.submit-icon div {
+    padding-bottom :0px;
+}
 
 /*useful for colouring entire message container*/
 .message-container * {
