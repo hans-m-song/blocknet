@@ -260,7 +260,6 @@ export class MessageContainer extends Component {
                 />
                 <div>
                     <img className="sending-message" src="https://drive.google.com/uc?id=1V5tY3mtS2cQh6Zr-z9NdpAXDTUBAyCAt"/>
-                    
                     <p className="icon-caption">Sending message...</p>
                 </div>
             </div>

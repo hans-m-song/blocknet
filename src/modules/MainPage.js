@@ -3,8 +3,6 @@ import { RoomScreen } from './RoomScreen'
 import { PrivateMessagesScreen } from './PrivateMessagesScreen'
 import { SettingsScreen } from './SettingsScreen'
 import { ConsoleScreen } from './ConsoleScreen'
-import InactiveLogo from '../console_inactive.png'
-import ActiveLogo from '../console_active.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 

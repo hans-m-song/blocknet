@@ -16,14 +16,21 @@ import {
 } from './modules/MainPage'
 import { 
     ConsoleScreen,
-    WaitingAnimation } from './modules/ConsoleScreen'
+    WaitingAnimation 
+} from './modules/ConsoleScreen'
 import { LoadingScreen } from './modules/LoadingScreen'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
-import { faTerminal } from '@fortawesome/free-solid-svg-icons'
+import { 
+    faPencilAlt,
+    faTerminal,
+    faChevronUp,
+    faChevronDown
+} from '@fortawesome/free-solid-svg-icons'
 
 library.add(faPencilAlt)
 library.add(faTerminal)
+library.add(faChevronUp)
+library.add(faChevronDown)
 
 /* Unused components
 LeftPanel,
@@ -679,7 +686,6 @@ class Backend extends Component {
         }
 
         onTildePress(e) {
-            console.log("key pressed >" + e.keyCode);
             if (e.keyCode === 192) {
                 e.preventDefault();
                 this.switchConsole();

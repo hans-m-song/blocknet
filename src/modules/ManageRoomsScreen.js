@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 /**
  * Add room screen. GUI for creating and specifying rooms.
@@ -115,13 +116,24 @@ export class ManageRooms extends Component {
     constructor(props) {
         super(props);
         this.generateRoomOptions = this.generateRoomOptions.bind(this);
-        console.log("calling arrange rooms next:")
-        //this.props.manageRooms("delete", 0);
+        console.log("calling arrange rooms next:");
+        this.state = { selectedRoom: "Block Net"}
     }
 
+    handleClick(event) {
+        this
+    }
+
+    //room.id
     generateRoomOptions() {
-        let roomOptions = (this.props.roomList).map((room) => 
-            <option value="">{room}</option>
+        let roomOptions = (this.props.roomList).map((room, index) => 
+            <option 
+                value={room} 
+                onClick={(e) => this.handleClick(e)}
+                key={index}
+            >
+                {room}
+            </option>
         );
         return roomOptions;
     }
@@ -159,11 +171,11 @@ export class ManageRooms extends Component {
     render() {
         return (
             <div className="form-container">
-                <h1>Remove Rooms</h1>
+                <h1>Manage Rooms</h1>
                 <label>Room list:</label>
                 <div className="remove-rooms-container">
                     <div className="manage-rooms input-div">
-                        <select multiple size="10">
+                        <select size="10">
                             {this.generateRoomOptions()}
                         </select>
                     </div>
@@ -173,6 +185,14 @@ export class ManageRooms extends Component {
                             className="manage-rooms-button black-submit"
                             value="Remove">
                         </input>
+                        <ManageRoomButton 
+                            action="moveUp"
+                            manageRooms={this.props.manageRooms}
+                        />
+                        <ManageRoomButton 
+                            action="moveDown"
+                            manageRooms={this.props.manageRooms}
+                        />
                     </div>
                 </div>
             </div>
@@ -181,7 +201,26 @@ export class ManageRooms extends Component {
 }
 
 export class ManageRoomButton extends Component {
-    
+    constructor(props) {
+        super(props);
+        if (this.props.action === "moveUp") {
+            this.icon = "chevron-up"
+        } else if (this.props.action === "moveDown") {
+            this.icon = "chevron-down"
+        }
+    }
+
+    handleClick(event) {
+        this.props.manageRooms(this.props.action, 0);
+    }
+
+    render() {
+        return (
+            <div className="submit-icon black-submit" onClick={(e) => this.handleClick(e)}> 
+                <FontAwesomeIcon className="move-icon" icon={this.icon} />
+            </div>
+        );
+    }
 }
 
 export class ManageWhitelist extends Component {
@@ -196,17 +235,24 @@ export class ManageWhitelist extends Component {
     render() {
         return (
             <div className="form-container">
-                <h1>`RoomName` Whitelist:</h1>
+                <div>
+                <h1><span>.</span></h1>
                 <form onSubmit={this.handleSubmit}>
-                    <div className="remove-room input-div">
-                        <label>Whitelist:
+                    <div className="whitelist-container input-div">
+                        <div>Whitelist:
                             <br/>
                             <select multiple size="10">
                                 {this.generateWhitelist()}
                             </select>
-                        </label>
+                                <input 
+                                type="submit" 
+                                className="manage-rooms-button black-submit"
+                                value="Remove">
+                            </input>
+                        </div>
                     </div>
                 </form>
+                </div>
             </div>
         );
     }
@@ -252,7 +298,7 @@ export class JoinRoomForm extends Component {
                     <div className="join-room input-div">
                         <label>Room ID:</label><br/>
                         <input 
-                            type="number" 
+                            type="text" 
                             name="roomID"
                             onChange={this.handleInputChange}
                         />
