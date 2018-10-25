@@ -556,6 +556,23 @@ class Backend extends Component {
         */
     }
 
+    getPrivacy = async (room) => {
+        const { contract, accounts, selectedAccountIndex } = this.state
+        const from = accounts[selectedAccountIndex]
+        try {
+            var privacy = await contract.methods.checkPrivacy(room).call({ from: from });
+            if (privacy[1]) {
+                console.log("Privacy of room: " + room + " is: " + privacy[0]);
+                return privacy[0];
+            } else {
+                console.log("Room doesn't exist.");
+            }
+        } catch (err) {
+            console.error(err);
+        }
+        return false;
+    }
+
     getWhiteList = async (room) => {
         const { contract, accounts, selectedAccountIndex } = this.state
         const from = accounts[selectedAccountIndex]

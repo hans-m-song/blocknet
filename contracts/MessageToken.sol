@@ -298,6 +298,13 @@ contract MessageToken is BaseToken {
 		}
 		return (ret, false);
 	}
+	
+	function checkPrivacy(uint256 room) public view returns (bool privacy, bool success) {
+	    if(rooms[room].exists) {
+    	    return (rooms[room].is_private, true);
+	    }
+	    return (false, false);
+	}
     
     function checkPermission(uint256 room, address test_user) private view returns (bool permission) {
         if(rooms[room].is_private) {
