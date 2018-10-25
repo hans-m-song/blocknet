@@ -233,7 +233,7 @@ class Backend extends Component {
             console.log("mode: " + mode + " || mnemonic: " + mnemonic);
             const web3 = await getWeb3(mode, mnemonic)
             console.log("web3 loaded")
-            const accounts = await web3.eth.getAccounts()
+            const accounts = await web3.eth.getAccounts()    
             this.setState({ loggedIn: true });
             console.log("using address", contractAddress)
             this.updateLog("w{Web3||https://github.com/ethereum/web3.js}w Loaded | using w{contract||https://en.wikipedia.org/wiki/Smart_contract}w address: " + contractAddress)
