@@ -75,6 +75,7 @@ export class RoomScreen extends Component {
                         rooms={this.props.rooms}
                         roomList={this.props.roomList}
                         manageRooms={this.props.manageRooms}
+                        manageWhitelist={this.props.manageWhitelist}
                         joinRoom={this.props.joinRoom}
                     />
                 </div>
@@ -116,18 +117,11 @@ export class RoomNav extends Component {
 
     /*Converts array of room names passed down as prop from backend into corresponding buttons in room nav menu*/
     roomList() {
-        var list_rooms = [];
-        var iter = this.props.rooms.keys();
-        var res = iter.next();
-        while (!res.done) {
-            list_rooms.push(res.value);
-            res = iter.next();
-        }
-        let roomButtons = (list_rooms).map((roomID) =>
+        let roomButtons = (this.props.rooms).map((room) =>
             <RoomButton
-                key={roomID}
-                roomID={roomID}
-                roomName={this.props.rooms.get(roomID)}
+                key={room.id}
+                roomID={room.id}
+                roomName={room.name}
                 onRoomButtonClick={this.activateRoom}
                 activeRoom={this.props.activeRoom}
                 creatingRoom={this.props.creatingRoom}
@@ -237,9 +231,9 @@ export class MessageContainer extends Component {
 
     //Helper method for render to render every value in the messages list
     renderMessages() {
-        return this.props.messageHistory.map(message => {
+        return this.props.messageHistory.map((message, index) => {
             return <Message
-                key={message.date}
+                key={message.date + " " + index}
                 user={message.user.toString()}
                 date={message.date.toString()}
                 message={message.message.toString()}

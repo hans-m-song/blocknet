@@ -34,6 +34,7 @@ contract MessageToken is BaseToken {
         string name;
         bool is_private;
         mapping (address => bool) permission_list;
+        address[] whitelist;
         uint256 dailyTokens;
         uint256 tokensPerUpdate;
         uint256 updateRate;
@@ -224,10 +225,14 @@ contract MessageToken is BaseToken {
      * retrieves the hash 
      * returns: the stored IPNS hash 
      */
-    function getHash(uint256 room) public view returns (string _hash) {
-        if(rooms[room].exists && checkPermission(room, msg.sender)) {
-            return rooms[room].hash;
-        }
+    function getHash(uint256 room) public view returns (string _hash, bool success) {
+	    if(rooms[room].exists) {
+	        if(checkPermission(room, msg.sender)) {
+                return (rooms[room].hash, true);
+	        }
+	        return ("Not Permitted", false);
+	    }
+	    return ("Room Doesn't Exist", false);
     }
     
 	event RoomMade(
@@ -241,6 +246,7 @@ contract MessageToken is BaseToken {
         rooms[newid].name = roomName;
         rooms[newid].is_private = new_is_private;
         rooms[newid].permission_list[msg.sender] = true;
+        rooms[newid].whitelist.push(msg.sender);
         rooms[newid].dailyTokens = newDailyTokens;
         rooms[newid].tokensPerUpdate = newTokensPerUpdate;
         rooms[newid].updateRate = newUpdateRate;
@@ -251,22 +257,46 @@ contract MessageToken is BaseToken {
 		emit RoomMade(newid, msg.sender);
     }
 
-	function getRoomName(uint256 room) public view returns (string roomName) {
+	function getRoomName(uint256 room) public view returns (string roomName, bool success) {
 	    if(rooms[room].exists) {
 	        if(checkPermission(room, msg.sender)) {
-        	    return rooms[room].name;
+        	    return (rooms[room].name, true);
 	        }
-	        return "Not Permitted";
+	        return ("Not Permitted", false);
 	    }
-	    return "Room Doesn't Exist";
+	    return ("Room Doesn't Exist", false);
 	}
 	
-	function setUserPermission(uint256 room, address test_user, bool permission) public {
+	function addToWhitelist(uint256 room, address test_user) public {
 		if(rooms[room].exists) {
 			if(checkPermission(room, msg.sender)) {
-				rooms[room].permission_list[test_user] = permission;
+			    rooms[room].whitelist.push(test_user);
+			    rooms[room].permission_list[test_user] = true;
 			}
 		}
+	}
+	
+	function removeFromWhitelist(uint256 room, address test_user, uint256 index) public {
+		if(rooms[room].exists) {
+			if(checkPermission(room, msg.sender)) {
+	            rooms[room].whitelist[index] = rooms[room].whitelist[rooms[room].whitelist.length - 1];
+			    delete rooms[room].whitelist[rooms[room].whitelist.length - 1];
+			    rooms[room].whitelist.length--;
+			    rooms[room].permission_list[test_user] = false;
+			}
+		}
+	}
+	
+	function getWhitelist(uint256 room) public view returns (address[] whitelist, bool success) {
+	    address[] memory ret;
+		if(rooms[room].exists) {
+			if(checkPermission(room, msg.sender)) {
+			    ret = rooms[room].whitelist;
+        	    return (ret, true);
+			}
+			return (ret, false);
+		}
+		return (ret, false);
 	}
     
     function checkPermission(uint256 room, address test_user) private view returns (bool permission) {

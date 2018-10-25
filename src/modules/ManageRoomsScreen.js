@@ -5,7 +5,40 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
  * Add room screen. GUI for creating and specifying rooms.
  */
 export class ManageRoomsScreen extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { selectedRoomIndex: 0};
+        this.incrementIndex = this.incrementIndex.bind(this);
+        this.decrementIndex = this.decrementIndex.bind(this);
+        this.handleRoomOptionClick = this.handleRoomOptionClick.bind(this);
+        this.getWhitelist = this.getWhitelist.bind(this);
+        this.getWhitelist();
+    }
+
+    handleRoomOptionClick(index) {
+        this.setState({selectedRoomIndex: index})
+    }
+
+    incrementIndex() {
+        if (this.state.selectedRoomIndex < this.props.rooms.length-1) {
+            this.setState({ selectedRoomIndex: this.state.selectedRoomIndex+1});
+        } 
+    }
+
+    decrementIndex() {
+        if (this.state.selectedRoomIndex > 0) {
+            this.setState({ selectedRoomIndex: this.state.selectedRoomIndex-1});
+        }
+    }
+
+    getWhitelist() {
+        this.props.manageWhitelist(this.props.rooms[this.state.selectedRoomIndex].id, -1, -1);
+    }
+
     render() {
+        //check if selected room is private; i.e. has a whitelist to manage
+        
+
         return (
             <div className="room-mgmt-screen">
                 <div className="create-room-screen">
@@ -18,11 +51,18 @@ export class ManageRoomsScreen extends Component {
                     />
                     <ManageRooms 
                         rooms={this.props.rooms}
-                        roomList={this.props.roomList}
+                        //roomList={this.props.roomList}
                         manageRooms={this.props.manageRooms}
+                        incrementIndex={this.incrementIndex}
+                        decrementIndex={this.decrementIndex}
+                        selectedRoomIndex={this.state.selectedRoomIndex}
+                        handleRoomOptionClick={this.handleRoomOptionClick}
                     />
                     <ManageWhitelist 
-                />
+                        manageWhitelist={this.props.manageWhitelist}
+                        rooms={this.props.rooms}
+                        selectedRoomIndex={this.state.selectedRoomIndex}
+                    />
                 </div>
             </div>
         );
@@ -116,24 +156,23 @@ export class ManageRooms extends Component {
     constructor(props) {
         super(props);
         this.generateRoomOptions = this.generateRoomOptions.bind(this);
-        console.log("calling arrange rooms next:");
-        this.state = { selectedRoom: "Block Net"}
+
+        //this.state = { selectedRoom: this.props.rooms[0].id}
+        //this.state = { selectedRoomIndex: 0}
     }
 
-    handleClick(event) {
-        this
-    }
-
-    //room.id
     generateRoomOptions() {
-        let roomOptions = (this.props.roomList).map((room, index) => 
-            <option 
-                value={room} 
-                onClick={(e) => this.handleClick(e)}
-                key={index}
-            >
-                {room}
-            </option>
+        var i = 0;
+        let roomOptions = (this.props.rooms).map((room, index) => 
+            //console.log("room otpion index: " + index)}
+            //<option value="{room.id}" key="{room.id}" onClick={(e) => this.handleRoomOptionClick(e)}>{room.name}</option>
+            <RoomOption 
+                id={room.id} 
+                name={room.name} 
+                index={index} 
+                handleRoomOptionClick={this.props.handleRoomOptionClick}
+                selectedRoomIndex={this.props.selectedRoomIndex}
+            />
         );
         return roomOptions;
     }
@@ -144,58 +183,57 @@ export class ManageRooms extends Component {
         //this.props.activateRoom(this.state.roomID);
     }
 
-    /*Old version with re-arrange functionality*/
-    /*
-    render() {
-        return (
-            <div className="form-container">
-                <h1>Manage Rooms</h1>
-                <label>Room list:</label>
-                <div className="manage-rooms-container">
-                    <div className="manage-rooms input-div">
-                        <select multiple size="10">
-                            {this.generateRoomOptions()}
-                        </select>
-                    </div>
-                    <div className="manage-rooms-button-container">
-                        <div className="manage-rooms-button">^</div>
-                        <div className="manage-rooms-button">v</div>
-                        <div className="manage-rooms-button">X</div>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-    */
-
     render() {
         return (
             <div className="form-container">
                 <h1>Manage Rooms</h1>
                 <label>Room list:</label>
                 <div className="remove-rooms-container">
-                    <div className="manage-rooms input-div">
-                        <select size="10">
-                            {this.generateRoomOptions()}
-                        </select>
+                    <div className="manage-rooms input-div border-div">
+                        {this.generateRoomOptions()}
                     </div>
                     <div className="manage-rooms-button-container">
-                        <input 
-                            type="submit" 
-                            className="manage-rooms-button black-submit"
-                            value="Remove">
-                        </input>
+                        <ManageRoomButton
+                            action="delete"
+                            manageRooms={this.props.manageRooms}
+                            selectedRoomIndex={this.props.selectedRoomIndex}
+                            changeIndex={this.props.decrementIndex}
+                            rooms={this.props.rooms}
+                        />
                         <ManageRoomButton 
                             action="moveUp"
                             manageRooms={this.props.manageRooms}
+                            selectedRoomIndex={this.props.selectedRoomIndex}
+                            changeIndex={this.props.decrementIndex}
+                            rooms={this.props.rooms}
                         />
                         <ManageRoomButton 
                             action="moveDown"
                             manageRooms={this.props.manageRooms}
+                            selectedRoomIndex={this.props.selectedRoomIndex}
+                            changeIndex={this.props.incrementIndex}
+                            rooms={this.props.rooms}
                         />
                     </div>
                 </div>
             </div>
+        );
+    }
+}
+
+export class RoomOption extends Component {
+    handleClick(event) {
+        this.props.handleRoomOptionClick(this.props.index)
+    }
+
+    render() {
+        let selectedStatus = "unselected-option text-unselectable";
+        if (this.props.selectedRoomIndex === this.props.index) {
+            selectedStatus = "selected-option text-unselectable";
+        }
+        let classes = `${selectedStatus}`
+        return (
+            <div className={classes} value="{this.props.id}" key="{this.props.id}" onClick={(e) => this.handleClick(e)}>{this.props.name}</div>
         );
     }
 }
@@ -211,25 +249,58 @@ export class ManageRoomButton extends Component {
     }
 
     handleClick(event) {
-        this.props.manageRooms(this.props.action, 0);
+        console.log(this.props.action + " room index:" + this.props.index);
+        this.props.manageRooms(this.props.action, this.props.selectedRoomIndex);
+        if (this.props.action === "moveUp" || this.props.action === "moveDown") {
+            this.props.changeIndex();
+        }
+        if (this.props.action === "delete") {
+            console.log("index:" + this.props.index + " | roomlength-2" + this.props.rooms.length);
+            if (this.props.index === this.props.rooms.length-2) {
+                this.props.changeIndex();
+            }
+        }
     }
 
     render() {
+        const isRemove = (this.props.action === "delete");
         return (
             <div className="submit-icon black-submit" onClick={(e) => this.handleClick(e)}> 
+                { isRemove ? (
+                    <div className="text-unselectable">Remove</div>
+                ) : (
                 <FontAwesomeIcon className="move-icon" icon={this.icon} />
+                )}
             </div>
         );
     }
 }
 
 export class ManageWhitelist extends Component {
+    /*
     generateWhitelist() {
         let userList = ["user 1", "user 2", "user 3", "user 4"];
         let whiteList = userList.map((user) => 
-            <option value="">{user}</option>
+            <div className="text-unselectable" value="">{user}</div>
         );
         return whiteList;
+    }
+    */
+
+    generateWhitelist() {
+        /*
+        let userList = this.props.manageWhitelist(this.props.rooms[0].id, -1, -1);
+        //let userList = this.props.manageWhitelist(4, -1, -1);
+        
+        userList.then((list) => {
+            console.log("USER LIST > " + userList + "list -> " + list);
+            console.log("is array : " + list.constructor === Array)
+            let whiteList = list.map((user) => 
+                <div className="text-unselectable" value="">{user}</div>
+                );
+            return whiteList;
+        })        
+        */
     }
 
     render() {
@@ -241,14 +312,18 @@ export class ManageWhitelist extends Component {
                     <div className="whitelist-container input-div">
                         <div>Whitelist:
                             <br/>
-                            <select multiple size="10">
+                            <div className="manage-rooms input-div border-div">
                                 {this.generateWhitelist()}
-                            </select>
-                                <input 
+                            </div>
+                            <input 
                                 type="submit" 
                                 className="manage-rooms-button black-submit"
                                 value="Remove">
                             </input>
+                            <div className="add-to-whitelist-field">
+                                <input type="text"></input>
+                                <input type="submit" value="Add"></input>
+                            </div>
                         </div>
                     </div>
                 </form>

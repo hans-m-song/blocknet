@@ -667,6 +667,23 @@ content-page {
     width : 100%;
 }
 
+.manage-rooms {
+    border: 1px solid white;
+    width: 80%;
+    margin-bottom : 10px;
+    height: 207px;
+}
+
+.selected-option {
+    background: white;
+    color: #14130a;
+}
+
+.manage-rooms div {
+    padding : 5px;
+    margin: 1px;
+}
+
 .create-room-screen {
     display: flex;
     flex-direction: row;
@@ -734,12 +751,13 @@ content-page {
 
 .submit-icon {
     border: 1px solid white;
-    width : 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-right: 10px;
-    width: 30px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
 }
 
 .submit-icon:active .move-icon {
@@ -752,6 +770,10 @@ content-page {
 
 .move-icon {
     width: 20px;
+}
+
+.submit-icon div {
+    padding-bottom :0px;
 }
 
 /*useful for colouring entire message container*/

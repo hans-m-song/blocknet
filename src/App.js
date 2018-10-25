@@ -99,9 +99,10 @@ class Backend extends Component {
         //this.rooms = ["BlockNet", "Programming", "Gaming", "Random"];   //might be better to make each an object and store its unique id with it
         this.handleLogin = this.handleLogin.bind(this);
         this.manageRooms = this.manageRooms.bind(this);
-        this.rooms = new Map([[0, "Block Net"], [1, "Programming"], [2, "Gaming"], [3, "Random"]]);
-        this.roomList = this.roomMapToArray(); 
-        console.log(this.roomList);
+        this.manageWhitelist = this.manageWhitelist.bind(this);
+        //this.rooms = new Map([[0, "Block Net"], [1, "Programming"], [2, "Gaming"], [3, "Random"]]);
+        //this.roomList = this.roomMapToArray(); 
+        this.roomList = [];
     }   
 
     roomMapToArray() {
@@ -170,10 +171,10 @@ class Backend extends Component {
      * 
      */
     deleteRoom(index) {
-        if ((index > -1) && (index < this.rooms.length-1)) {
-            console.log("index: " + index + "|| length: " + this.rooms.length);
+        if ((index > -1) && (index < this.roomList.length)) {
+            console.log("index: " + index + "|| length: " + this.roomList.length);
             //this.rooms.splice(index, ((this.rooms.length)-(index)), this.rooms.slice(index+1, this.rooms.length));
-            this.rooms.splice(index, 1);
+            this.roomList.splice(index, 1);
         }
     }
 /*
@@ -253,6 +254,8 @@ class Backend extends Component {
                 this.setState({ web3Online: true })
                 this.updateLog("Successfully connected to client's w{MetaMask||https://github.com/MetaMask/metamask-extension}w w{wallet||https://en.wikipedia.org/wiki/Cryptocurrency_wallet}w")
             }
+            await this.populateRoomList();
+            console.log(this.roomList);
         } catch (error) {
             alert('Failed to initialize connection, check console for specifics')
             this.updateLog("Failed to initialize connection")
@@ -327,18 +330,27 @@ class Backend extends Component {
      * in the file at that location to var hashContents
      */
     readHash = async () => {
-        const { contract } = this.state
+        const { accounts, contract, selectedAccountIndex } = this.state
+        const from = accounts[selectedAccountIndex]
+        var messageHistory = [];
         // Read the latest message (hash)
-        var latestHash = await contract.methods.getHash(this.state.currentRoom).call()
-        this.setState({ latestHash: latestHash })
-        //console.log('attempting to read file at: ', latestHash)
-        var messageHistory = []
-        try {
-            const fileBuffer = await ipfs.files.cat(latestHash)
-            var messageHistory = JSON.parse(fileBuffer)
-            //console.log('read file contents:\n', messageHistory)
-        } catch (err) {
-            console.error(err)
+        var latestHash = await contract.methods.getHash(this.state.currentRoom).call({ from: from })
+        if (latestHash[1]) {
+            if (latestHash[0] === undefined || latestHash[0] === '' || latestHash[0] === null) {
+                console.log("Invalid Hash");
+            } else {
+                this.setState({ latestHash: latestHash[0] })
+                //console.log('attempting to read file at: ', latestHash)
+                try {
+                    const fileBuffer = await ipfs.files.cat(latestHash[0])
+                    var messageHistory = JSON.parse(fileBuffer)
+                    //console.log('read file contents:\n', messageHistory)
+                } catch (err) {
+                    console.error(err)
+                }
+            }
+        } else {
+            console.log("Unable to retrieve hash: ", latestHash[0]);
         }
         this.setState({ messageHistory })
     }
@@ -437,7 +449,7 @@ class Backend extends Component {
         var message = {user: from, date: getTime(), message: msg}
         this.setState({ lastMessage: message })
         console.log('attempting to send from:', from, '\nmessage:', message)
-        this.updateLog("Attempting to send message: [" + message.message + "] from address: [" + from + "]");
+        this.updateLog("Attempting to send message: [" + message.message + "] from address: [" + from + "] to room: [" + this.state.currentRoom + "]");
         try {
             if (this.state.ipfsHash) {
                 var tempHistory = messageHistory.slice(0)
@@ -485,43 +497,50 @@ class Backend extends Component {
         const { accounts, contract, selectedAccountIndex } = this.state
         const from = accounts[selectedAccountIndex]
         try {
-            contract.events.RoomMade({
+            contract.once("RoomMade", {
                 filter: { creator: from }
             }, function (error, event) {
-                    if (!error) {
-                        this.rooms.set(parseInt(event.returnValues.roomID), roomName);
-                        console.log(this.rooms);
-                        this.setRoom(parseInt(event.returnValues.roomID));
+                if (!error) {
+                    var tempid = parseInt(event.returnValues.roomID);
+                    if (!isNaN(tempid)) {
+                        this.roomList.push({ id: tempid, name: roomName });
+                        console.log(this.roomList);
+                        //this.setRoom(this.roomList.length - 1);
                         //this.roomList = this.roomMapToArray();
-                        this.roomList.push(parseInt(event.returnValues.roomID));
-                        this.sendMessage("Created the Room.");
+                        //this.sendMessage("Created Room " + tempid);
+                    }
                 } else {
                     console.error(error);
                 }
-                }.bind(this));
+            }.bind(this));
             await contract.methods.newRoom(roomName, is_private, dailyTokens, tokensPerUpdate, updateRate, tokensPerMessage)
                 .send({ gas: '2352262', from })
-             
             console.log("New Room ", roomName, " successfully created.")
         } catch (err) {
             console.error(err)
         }
     }
 
+    populateRoomList = async (data) => {
+        await this.joinRoom({ roomID: 0 });
+        await this.joinRoom({ roomID: 1 });
+        await this.joinRoom({ roomID: 2 });
+    }
+
     joinRoom = async (data) => {
         var roomID = parseInt(data.roomID);
-        const { contract } = this.state;
-        const { accounts, selectedAccountIndex } = this.state
+        const { contract, accounts, selectedAccountIndex } = this.state
         const from = accounts[selectedAccountIndex]
         try {
             var roomName = await contract.methods.getRoomName(roomID).call({ from: from });
-            if (roomName === undefined || roomName === '' || roomName === null) {
-                throw "Can't access room";
+            if (roomName[1]) {
+                console.log("Joining room ", roomID, " : ", roomName[0])
+                this.roomList.push({ id: roomID, name: roomName[0] });
+                console.log(this.roomList);
+                //this.setRoom(this.roomList.length - 1);
+            } else {
+                console.log("Unable to Join Room: ", roomName[0]);
             }
-            console.log("Joining room ", roomID, " : ", roomName)
-            this.rooms.set(roomID, roomName);
-            console.log(this.rooms);
-            this.setRoom(roomID);
         } catch (err) {
             console.error(err);
         }
@@ -535,14 +554,58 @@ class Backend extends Component {
         var currentRoom = room
         this.setState({ currentRoom }) 
         this.state.loadingRoom.status = true
-        this.state.loadingRoom.index = this.updateLog("Room set to " + this.rooms.get(room) + ". Loading messages", 0, true)
+        this.state.loadingRoom.index = this.updateLog("Room set to " + this.roomList[room] + ". Loading messages", 0, true)
+    }
 
-        //this.updateLog("Room set to [" + room + "] | Room hash: [" + this.state.latestHash + "]")
-        /*Would be good to display an expandable list of the messages comprising the message history on load 
-            seems to require:
-                -getting the message list here to print when first loading room, and;
-                -nice formatting to allow for expanding (because message history could be quite long)
-        */
+    manageWhitelist(room, user, index) {
+        if (user === -1 && index == -1) {
+            //get whitelist
+            return this.getWhitelist(room);
+        } else if (index == -1) {
+            //add to whitelist
+            this.addToWhitelist(room, user);
+        } else {
+            //remove from whitelist
+            this.removeFromWhitelist(room, user, index);
+        }
+    }
+
+    getWhitelist = async (room) => {
+        const { contract, accounts, selectedAccountIndex } = this.state
+        const from = accounts[selectedAccountIndex]
+        try {
+            var whitelist = await contract.methods.getWhitelist(room).call({ from: from });
+            if (whitelist[1]) {
+                console.log(whitelist[0]);
+                return whitelist[0];
+            } else {
+                console.log("Unable to Retrieve Whitelist");
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    addToWhitelist = async (room, user) => {
+        const { contract, accounts, selectedAccountIndex } = this.state
+        const from = accounts[selectedAccountIndex]
+        try {
+            await contract.methods.addToWhitelist(room, user)
+                .send({ gas: '2352262', from })
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    removeFromWhitelist = async (room, user, index) => {
+        const { contract, accounts, selectedAccountIndex } = this.state
+        const from = accounts[selectedAccountIndex]
+        try {
+            await contract.methods.removeFromWhitelist(room, user, index)
+                .send({ gas: '2352262', from })
+        } catch (err) {
+            console.error(err);
+        }
     }
 
     render() {
@@ -645,9 +708,10 @@ class Backend extends Component {
         return (
             <div className="front-app">
                 <Frontend
-                    rooms={this.rooms}
+                    rooms={this.roomList}
                     roomList={this.roomList}
                     manageRooms={this.manageRooms}
+                    manageWhitelist={this.manageWhitelist}
                     claimTokens={this.claimTokens}
                     state={this.state}
                     sendMessage={this.sendMessage}
@@ -672,8 +736,8 @@ class Backend extends Component {
             //console.log(data);
             //this.rooms.push(data);
             this.createRoom(data.roomName, data.is_private/*, data.messageCost*/);
-            this.roomList = this.roomMapToArray();
-            console.log(this.rooms);
+            //this.roomList = this.roomMapToArray();
+            //console.log(this.roomList);
     }
 
     }
@@ -714,6 +778,7 @@ class Backend extends Component {
                             rooms={this.props.rooms}
                             roomList={this.props.roomList}
                             manageRooms={this.props.manageRooms}
+                            manageWhitelist={this.props.manageWhitelist}
                             sendMessage={this.props.sendMessage}
                             messageHistory={this.props.state.messageHistory}
                             setRoom={this.props.setRoom}

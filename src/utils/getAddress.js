@@ -9,7 +9,9 @@
 //const _contractAddress = '0xd3ae65a5c99d540af1b18bfe68f63580f65249fc'
 //const _contractAddress = '0x4c4f5ac6522f3b6ad99c5f16c220aa667e51c95d'
 //const _contractAddress = '0xda0521D809017a088Fb2aA0B2fB7276E232425D7'
-const _contractAddress = '0xae7e385ecf1768e7c53fdb0683a047b0482cf9c8'
+//const _contractAddress = '0xae7e385ecf1768e7c53fdb0683a047b0482cf9c8'
+const _contractAddress = '0x69dd423d5a63ac748bfa6f2eecfed58ea98b3109'
+
 
 /*
 * Exports the contract address
