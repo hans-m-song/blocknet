@@ -317,10 +317,47 @@ export class ManageRoomButton extends Component {
 }
 
 export class ManageWhitelist extends Component {
-   constructor(props) {
-       super(props);
-   }
+    constructor(props) {
+        super(props);
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleAddClick = this.handleAddClick.bind(this);
+        this.handleRemoveClick = this.handleRemoveClick.bind(this);
+    }
+
+    handleInputChange(event) {
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+
+        this.setState({
+            [name]: value
+        });
+    }
     
+    handleAddClick() {
+        this.props.manageWhitelist(this.props.selectedRoomIndex, this.state.addHash, -1);
+        this.props.manageWhitelist(this.props.selectedRoomIndex, -1, -1);
+        this.setState({ addHash: "" });
+    }
+
+    handleRemoveClick() {
+        var foundIndex = -1;
+        var result = this.props.manageWhitelist(this.props.selectedRoomIndex, -1, -1);
+        result.then((list) => {
+            for (let i=0; i<list.length; i++) {
+                console.log("args: " + this.props.selectedRoomIndex + " || " +  this.state.removeHash + " || " + foundIndex)
+                if (list[i] === this.state.removeHash) {
+                    foundIndex = i;
+                }
+            }
+            if (foundIndex > -1) {
+                console.log("args: " + this.props.selectedRoomIndex + " || " +  this.state.removeHash + " || " + foundIndex)
+                this.props.manageWhitelist(this.props.selectedRoomIndex, this.state.removeHash, foundIndex);
+            }
+            this.setState({ removeHash: "" });
+        }); 
+    }
+
     //{this.generateWhitelist()}
     render() {
         return (
@@ -333,16 +370,14 @@ export class ManageWhitelist extends Component {
                             <div className="manage-rooms input-div border-div">
                                 {this.props.whiteList}
                             </div>
-                            <div 
-                                type="submit" 
-                                className="manage-rooms-button black-submit"
-                            >
-                                Remove Selected
+                            <div className="add-to-whitelist-field">
+                                <input type="text" onChange={this.handleInputChange} name="addHash"></input>
+                                <input className="black-submit" type="submit" value="Add" onClick={this.handleAddClick}></input>
                             </div>
                             <div className="add-to-whitelist-field">
-                                <input type="text"></input>
-                                <input type="submit" value="Add"></input>
-                            </div>
+                                <input type="text" onChange={this.handleInputChange} name="removeHash"></input>
+                                <input className="black-submit" type="submit" value="Remove" onClick={this.handleRemoveClick}></input>
+                            </div>  
                         </div>
                     </div>
                 </div>
@@ -350,6 +385,15 @@ export class ManageWhitelist extends Component {
         );
     }
 }
+
+/*
+<div 
+type="submit" 
+className="manage-rooms-button black-submit"
+>
+Remove
+</div>
+*/
 
 export class UserOption extends Component {
     constructor(props) {
@@ -397,6 +441,7 @@ export class JoinRoomForm extends Component {
             [name]: value
         });
     }
+
     render() {
         return (
             <div className="form-container">
